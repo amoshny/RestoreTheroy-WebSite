@@ -247,6 +247,18 @@ h1, h2, h3, h4 {
     color: var(--accent);
 }
 
+/* Vehicle Pricing Note */
+.vehicle-sizing {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: 25px;
+    padding: 0 15px;
+}
+.vehicle-sizing strong {
+    color: var(--text-main);
+}
+
 .addons {
     margin-top: 40px;
     text-align: center;
@@ -314,8 +326,12 @@ h1, h2, h3, h4 {
     letter-spacing: 2px;
 }
 
+/* Responsive Reviews Grid (10 Reviews) */
 .reviews-grid {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    text-align: left;
 }
 
 .review-card {
@@ -346,6 +362,30 @@ h1, h2, h3, h4 {
 
 .owner-placeholder {
     height: 400px;
+}
+
+/* Stats Row (About Section) */
+.stats-row {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+.stat {
+    background-color: var(--bg-card);
+    padding: 20px 10px;
+    border-radius: 8px;
+    text-align: center;
+    flex: 1;
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+.stat-num {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 5px;
 }
 
 /* --- Split Info (Why Choose & Area) --- */
@@ -404,107 +444,6 @@ h1, h2, h3, h4 {
     margin: 0 auto 20px;
 }
 
-/* --- FAQ --- */
-.faq-item {
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: var(--bg-card);
-    padding: 20px;
-    border-radius: 8px;
-    text-align: left;
-}
-
-.faq-item p {
-    color: var(--text-muted);
-    margin-top: 10px;
-}
-
-/* --- Footer --- */
-.footer {
-    background-color: var(--bg-main);
-    padding: 60px 0 40px;
-    border-top: 1px solid var(--border);
-    color: var(--text-muted);
-}
-
-.footer-links {
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.footer-links a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.copyright {
-    font-size: 0.85rem;
-    margin-top: 30px;
-}
-
-/* =========================================
-   Desktop Media Queries (Tablet & Up)
-   ========================================= */
-@media (min-width: 768px) {
-    .hero h1 { font-size: 3.5rem; }
-    
-    .services-grid { grid-template-columns: repeat(3, 1fr); }
-    .gallery-grid { grid-template-columns: repeat(3, 1fr); }
-    .reviews-grid { grid-template-columns: repeat(3, 1fr); }
-    .about-grid { grid-template-columns: 1fr 1fr; }
-    .split-grid { grid-template-columns: 1fr 1fr; gap: 60px; }
-    .steps-grid { grid-template-columns: repeat(3, 1fr); }
-    
-    .cta-group { flex-direction: row; }
-}
-
-/* --- Vehicle Pricing Note --- */
-.vehicle-sizing {
-    text-align: center;
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    margin-top: 25px;
-    padding: 0 15px;
-}
-.vehicle-sizing strong {
-    color: var(--text-main);
-}
-
-/* --- Stats Row (About Section) --- */
-.stats-row {
-    display: flex;
-    gap: 15px;
-    margin-top: 30px;
-}
-.stat {
-    background-color: var(--bg-card);
-    padding: 20px 10px;
-    border-radius: 8px;
-    text-align: center;
-    flex: 1;
-    border: 1px solid var(--border);
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-.stat-num {
-    display: block;
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 5px;
-}
-
-/* --- Responsive Reviews Grid (10 Reviews) --- */
-.reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    text-align: left;
-}
-
 /* --- Expandable FAQ Accordion --- */
 .faq-list {
     max-width: 800px;
@@ -548,4 +487,45 @@ h1, h2, h3, h4 {
     border-top: 1px solid var(--border);
     margin-top: 10px;
     padding-top: 15px;
+}
+
+/* --- Footer --- */
+.footer {
+    background-color: var(--bg-main);
+    padding: 60px 0 40px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+}
+
+.footer-links {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.copyright {
+    font-size: 0.85rem;
+    margin-top: 30px;
+}
+
+/* =========================================
+   Desktop Media Queries (Tablet & Up)
+   ========================================= */
+@media (min-width: 768px) {
+    .hero h1 { font-size: 3.5rem; }
+    
+    .services-grid { grid-template-columns: repeat(3, 1fr); }
+    .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+    .about-grid { grid-template-columns: 1fr 1fr; }
+    .split-grid { grid-template-columns: 1fr 1fr; gap: 60px; }
+    .steps-grid { grid-template-columns: repeat(3, 1fr); }
+    
+    .cta-group { flex-direction: row; }
 }
