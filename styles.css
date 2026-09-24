@@ -167,13 +167,6 @@ h1, h2, h3, h4 {
     width: 100%;
     max-width: 900px;
 }
-.hero-img {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-}
 
 /* --- Sections Common --- */
 .section-title {
@@ -245,13 +238,21 @@ h1, h2, h3, h4 {
     gap: 30px;
 }
 .gallery-item { text-align: center; }
-.gallery-img {
+.hero-img, .gallery-img {
     width: 100%;
-    height: 400px; /* Фото будут высокими */
-    object-fit: cover; /* Обрезает края, сохраняя идеальные пропорции без сплющивания */
+    height: 350px; /* Оптимальная высота для мобильного */
+    object-fit: cover; /* Ключевое свойство: запрещает фото сплющиваться */
+    object-position: center; /* Держит фокус в центре кадра */
     border-radius: 8px;
-    margin-bottom: 15px;
     border: 1px solid var(--border);
+    display: block; /* Убирает баг с пустым пространством под фото */
+}
+
+/* На экранах планшетов и ПК делаем фото крупнее */
+@media (min-width: 768px) {
+    .hero-img, .gallery-img {
+        height: 450px; 
+    }
 }
 .gallery-label {
     font-size: 0.9rem;
