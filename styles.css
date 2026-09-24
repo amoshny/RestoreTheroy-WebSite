@@ -240,15 +240,15 @@ h1, h2, h3, h4 {
 .gallery-item { text-align: center; }
 .hero-img, .gallery-img {
     width: 100%;
-    height: 350px; /* Оптимальная высота для мобильного */
-    object-fit: cover; /* Ключевое свойство: запрещает фото сплющиваться */
-    object-position: center; /* Держит фокус в центре кадра */
+    height: 350px; 
+    object-fit: contain; /* Картинка будет помещаться целиком, без обрезки краев */
+    background-color: var(--bg-card); /* Заполняет пустое пространство под формат кадра */
+    object-position: center; 
     border-radius: 8px;
     border: 1px solid var(--border);
-    display: block; /* Убирает баг с пустым пространством под фото */
+    display: block; 
 }
 
-/* На экранах планшетов и ПК делаем фото крупнее */
 @media (min-width: 768px) {
     .hero-img, .gallery-img {
         height: 450px; 
