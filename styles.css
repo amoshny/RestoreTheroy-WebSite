@@ -1,3 +1,4 @@
+
 /* --- Variables & Reset --- */
 :root {
     --bg-main: #111111;
@@ -5,7 +6,7 @@
     --bg-card: #222222;
     --text-main: #ffffff;
     --text-muted: #a0a0a0;
-    --accent: #4CAF50; /* Premium, slightly bright lime/green */
+    --accent: #4CAF50;
     --accent-hover: #43A047;
     --border: #333333;
 }
@@ -124,7 +125,7 @@ h1, h2, h3, h4 {
 }
 
 .logo-restore {
-    letter-spacing: 0.15em; /* Spaced out "RESTORE" */
+    letter-spacing: 0.15em;
 }
 
 .nav-btn {
@@ -321,12 +322,12 @@ h1, h2, h3, h4 {
 }
 
 .stars {
-    color: #fbbc04; /* Google Star Yellow */
+    color: #fbbc04;
     font-size: 1.2rem;
     letter-spacing: 2px;
 }
 
-/* Responsive Reviews Grid (10 Reviews) */
+/* Responsive Reviews Grid */
 .reviews-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -388,7 +389,7 @@ h1, h2, h3, h4 {
     margin-bottom: 5px;
 }
 
-/* --- Split Info (Why Choose & Area) --- */
+/* --- Split Info --- */
 .split-grid {
     grid-template-columns: 1fr;
 }
@@ -459,18 +460,16 @@ h1, h2, h3, h4 {
     font-weight: 600;
     font-size: 1.1rem;
     cursor: pointer;
-    list-style: none; /* Hides default arrow */
+    list-style: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
     color: var(--text-main);
 }
-/* Hide webkit default arrow */
 .faq-item summary::-webkit-details-marker {
     display: none;
 }
-/* Custom Plus/Minus Icon */
 .faq-item summary::after {
     content: '+';
     font-size: 1.5rem;
@@ -516,16 +515,14 @@ h1, h2, h3, h4 {
 }
 
 /* =========================================
-   Desktop Media Queries (Tablet & Up)
+   Desktop Media Queries
    ========================================= */
 @media (min-width: 768px) {
     .hero h1 { font-size: 3.5rem; }
-    
     .services-grid { grid-template-columns: repeat(3, 1fr); }
     .gallery-grid { grid-template-columns: repeat(3, 1fr); }
     .about-grid { grid-template-columns: 1fr 1fr; }
     .split-grid { grid-template-columns: 1fr 1fr; gap: 60px; }
     .steps-grid { grid-template-columns: repeat(3, 1fr); }
-    
     .cta-group { flex-direction: row; }
 }
