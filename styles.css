@@ -180,6 +180,15 @@ h1, h2, h3, h4 {
     margin-bottom: 20px;
 }
 .hero h1 { font-size: 2.5rem; max-width: 800px; }
+.hero-title-main,
+.hero-title-location {
+    display: block;
+}
+.hero-title-location {
+    margin-top: 0.08em;
+    font-size: 0.8em;
+    line-height: 1.1;
+}
 .hero-sub {
     font-size: 1.1rem;
     color: var(--text-muted);
