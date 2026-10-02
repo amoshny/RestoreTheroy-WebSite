@@ -529,6 +529,11 @@ h1, h2, h3, h4 {
         gap: 12px;
     }
 
+    /* Keep three detailed testimonials visible on mobile; the link below opens the full Google review list. */
+    .reviews-grid .review-card:nth-child(n + 4) {
+        display: none;
+    }
+
     .review-card {
         padding: 17px;
     }
