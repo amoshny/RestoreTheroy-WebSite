@@ -587,8 +587,8 @@ h1, h2, h3, h4 {
 .portfolio-slide { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always; }
 .result-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
 .result-panel { min-width: 0; background: var(--bg-card); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
-.result-photo { position: relative; overflow: hidden; background: var(--bg-card); }
-.result-photo img { position: absolute; max-width: none; display: block; }
+.result-photo { aspect-ratio: 4 / 5; overflow: hidden; background: var(--bg-card); }
+.result-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .result-caption { padding: 18px 2px 8px; }
 .result-caption h3 { margin-bottom: 5px; font-size: 1.2rem; }
 .result-caption p { color: #c2c2c2; font-size: .95rem; }
@@ -596,7 +596,7 @@ h1, h2, h3, h4 {
 .portfolio-controls[hidden] { display: none; }
 .portfolio-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); color: #fff; font-size: 1.3rem; cursor: pointer; }
 .portfolio-arrow:disabled { opacity: .35; cursor: default; }
-.portfolio-dots { display: flex; gap: 2px; }
+.portfolio-dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; }
 .portfolio-dot { width: 44px; height: 44px; border: 0; background: transparent; cursor: pointer; display: grid; place-items: center; }
 .portfolio-dot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #777; }
 .portfolio-dot[aria-current="true"]::after { background: var(--accent); }
@@ -618,9 +618,6 @@ h1, h2, h3, h4 {
     .portfolio-track { scroll-behavior: auto; }
 }
 
-/* Full original photos share a consistent frame; composite crops are set per image. */
-.result-photo-full { aspect-ratio: 4 / 5; }
-.result-photo-full img { position: static; width: 100%; height: 100%; object-fit: contain; }
 @media (max-width: 480px) {
     .portfolio-controls { gap: 4px; }
     .portfolio-dot { width: 32px; }
