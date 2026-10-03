@@ -578,7 +578,7 @@ h1, h2, h3, h4 {
 }
 
 /* Automotive portfolio: native scrolling supports touch and works without JS. */
-.portfolio { max-width: 960px; margin: 0 auto; }
+.portfolio { width: 90%; max-width: 720px; margin: 0 auto; }
 .portfolio-track {
     display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
     scrollbar-width: thin; scrollbar-color: var(--accent) var(--bg-card);
