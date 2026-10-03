@@ -171,14 +171,6 @@ h1, h2, h3, h4 {
     align-items: center;
     text-align: center;
 }
-.trust-line {
-    font-size: 0.9rem;
-    color: var(--accent);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 20px;
-}
 .hero h1 { font-size: 2.5rem; max-width: 800px; }
 .hero-title-main,
 .hero-title-location {
@@ -260,50 +252,14 @@ h1, h2, h3, h4 {
 }
 .addons p { color: var(--text-muted); font-size: 0.95rem; }
 
-/* Surface Tags */
-.surface-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-}
-.tag {
-    background-color: var(--bg-main);
-    border: 1px solid var(--border);
-    padding: 10px 20px;
-    border-radius: 30px;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-
-/* --- 4-Photo Gallery --- */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: 1fr; /* 1 колонка на мобильном */
-    gap: 30px;
-}
-.gallery-item { text-align: center; }
-.hero-img, .gallery-img {
+.hero-img {
     width: 100%;
-    height: 350px; 
-    object-fit: contain; /* Картинка будет помещаться целиком, без обрезки краев */
-    background-color: var(--bg-card); /* Заполняет пустое пространство под формат кадра */
-    object-position: center; 
+    height: 350px;
+    object-fit: contain;
+    background: var(--bg-card);
     border-radius: 8px;
     border: 1px solid var(--border);
-    display: block; 
-}
-
-@media (min-width: 769px) {
-    .hero-img, .gallery-img {
-        height: 450px; 
-    }
-}
-.gallery-label {
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: var(--accent);
+    display: block;
 }
 
 /* --- Reviews --- */
@@ -353,7 +309,7 @@ h1, h2, h3, h4 {
     top: 3px;
 }
 .check-list strong { color: var(--text-main); }
-.service-areas { color: var(--text-muted); line-height: 1.8; }
+
 
 /* --- How it Works --- */
 .steps-grid { grid-template-columns: 1fr; }
@@ -429,10 +385,9 @@ h1, h2, h3, h4 {
    ========================================= */
 @media (min-width: 769px) {
     .hero h1 { font-size: 3.5rem; }
+    .hero-img { height: 450px; }
     
     .services-grid { grid-template-columns: repeat(3, 1fr); }
-    .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
-    .gallery-img { height: 450px; } /* Чуть крупнее на ПК */
     
     .about-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
     .split-grid { grid-template-columns: 1fr 1fr; gap: 60px; }
@@ -463,13 +418,7 @@ h1, h2, h3, h4 {
         padding: 38px 5% 48px;
     }
 
-    .trust-line {
-        margin-bottom: 14px;
-        font-size: 0.76rem;
-        line-height: 1.45;
-        letter-spacing: 0.7px;
-    }
-
+    
     .hero h1 {
         font-size: clamp(2rem, 7vw, 2.35rem);
         line-height: 1.12;
@@ -554,15 +503,7 @@ h1, h2, h3, h4 {
         font-size: 1.2rem;
     }
 
-    .gallery-grid {
-        gap: 14px;
-    }
 
-    .gallery-img {
-        height: auto;
-        max-height: 290px;
-        object-fit: contain;
-    }
 
     .hero-img {
         height: auto;
@@ -595,18 +536,10 @@ h1, h2, h3, h4 {
         line-height: 1.5;
     }
 
-    .surface-tags {
-        gap: 9px;
-    }
 
-    .tag {
-        padding: 8px 14px;
-        font-size: 0.84rem;
-    }
 
     .about-text p,
-    .check-list li,
-    .service-areas {
+    .check-list li {
         font-size: 0.94rem;
         line-height: 1.52;
     }
@@ -643,4 +576,48 @@ h1, h2, h3, h4 {
     .section[id] {
         scroll-margin-top: 68px;
     }
+}
+
+/* Automotive portfolio: native scrolling supports touch and works without JS. */
+.portfolio { max-width: 960px; margin: 0 auto; }
+.portfolio-track {
+    display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
+    scrollbar-width: thin; scrollbar-color: var(--accent) var(--bg-card);
+    border-radius: 12px;
+}
+.portfolio-slide { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always; }
+.result-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.result-panel { min-width: 0; background: var(--bg-card); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+.result-photo { position: relative; overflow: hidden; background: var(--bg-card); }
+.result-photo img { position: absolute; max-width: none; display: block; }
+.result-panel figcaption { padding: 9px 12px; font-weight: 600; font-size: .85rem; }
+.result-panel:last-child figcaption { color: var(--accent); }
+.result-caption { padding: 18px 2px 8px; }
+.result-caption h3 { margin-bottom: 5px; font-size: 1.2rem; }
+.result-caption p { color: #c2c2c2; font-size: .95rem; }
+.portfolio-controls { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 16px; }
+.portfolio-controls[hidden] { display: none; }
+.portfolio-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); color: #fff; font-size: 1.3rem; cursor: pointer; }
+.portfolio-arrow:disabled { opacity: .35; cursor: default; }
+.portfolio-dots { display: flex; gap: 2px; }
+.portfolio-dot { width: 44px; height: 44px; border: 0; background: transparent; cursor: pointer; display: grid; place-items: center; }
+.portfolio-dot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #777; }
+.portfolio-dot[aria-current="true"]::after { background: var(--accent); }
+.portfolio-track:focus-visible, .portfolio-controls button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.service-area-layout { display: grid; gap: 22px; }
+.service-map { overflow: hidden; border-radius: 12px; background: var(--bg-card); border: 1px solid var(--border); box-shadow: 0 8px 24px rgb(0 0 0 / .18); }
+.service-map iframe { display: block; width: 100%; height: 280px; border: 0; }
+.service-area-details h3 { font-size: 1.05rem; margin-bottom: 10px; }
+.service-area-list { padding-left: 20px; color: #c2c2c2; display: grid; gap: 7px; }
+.service-area-list li::marker { color: var(--accent); }
+@media (max-width: 768px) {
+    .result-pair { gap: 6px; }
+    .result-panel figcaption { padding: 7px 10px; font-size: .8rem; }
+    .result-caption h3 { font-size: 1.08rem; }
+    .result-caption p { font-size: .88rem; }
+    .service-map iframe { height: 250px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .portfolio-track { scroll-behavior: auto; }
 }
