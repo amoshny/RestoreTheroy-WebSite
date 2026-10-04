@@ -71,3 +71,37 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     update();
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("service-area-map");
+    if (!container || !window.L) return;
+    const areas = [
+        { name: "Point Loma", location: [32.728, -117.235] },
+        { name: "Pacific Beach", location: [32.800, -117.240] },
+        { name: "La Jolla", location: [32.847, -117.274] },
+        { name: "UTC", location: [32.868, -117.211] },
+        { name: "Del Mar", location: [32.959, -117.265] },
+        { name: "Solana Beach", location: [32.991, -117.271] }
+    ];
+    container.replaceChildren();
+    const map = L.map(container, { scrollWheelZoom: false, zoomSnap: 0.25 });
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    areas.forEach(area => {
+        L.circleMarker(area.location, {
+            radius: 10, color: "#fff", weight: 3,
+            fillColor: "#15803d", fillOpacity: 1
+        }).addTo(map).bindTooltip(area.name, {
+            permanent: true, direction: area.name === "UTC" ? "right" : "left",
+            offset: [area.name === "UTC" ? 12 : -12, 0],
+            className: "service-area-label"
+        });
+    });
+    const fit = () => map.fitBounds(areas.map(area => area.location), {
+        paddingTopLeft: [105, 35], paddingBottomRight: [65, 35], maxZoom: 12
+    });
+    fit();
+    map.on("resize", fit);
+});
