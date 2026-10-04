@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -85,7 +86,7 @@
                     <ul class="service-list">
                         <li><strong>Includes Essential Detail</strong></li>
                         <li>Carpet & upholstery extraction</li>
-                        <li>Heavy stain, grime & pet hair removal</li>
+                        <li>Stain, grime & pet hair removal*</li>
                         <li>Chemical paint decontamination</li>
                         <li>Upgraded paint sealant</li>
                     </ul>
@@ -97,7 +98,7 @@
                     <h3>Full Detail + Polish</h3>
                     <p class="price">Starting at $299</p>
                     <ul class="service-list">
-                        <li><strong>Includes Deep Clean &amp; Protect</strong></li>
+                        <li><strong>Includes Deep Clean &amp; Protect*</strong></li>
                         <li>Clay bar paint treatment</li>
                         <li>One-step machine polish</li>
                         <li>Removes light swirls & scratches</li>
@@ -122,6 +123,8 @@
                 
             </div>
 
+            <p class="condition-note">* Excessive buildup quoted separately.</p>
+
             <!-- Vehicle Size Pricing -->
             <p class="vehicle-sizing">
                 <em>* Base pricing is for standard Sedans. Mid-size SUVs: <strong>+$25</strong>. Large SUVs and Minivans: <strong>+$50</strong>. RVs: <strong>x2</strong>.</em>
@@ -130,6 +133,7 @@
             <!-- Add-ons / Extras (Minimalist List) -->
             <div class="addons" style="margin-top: 50px; text-align: left; background-color: var(--bg-card); padding: 30px; border-radius: 8px; border: 1px solid var(--border);">
                 <h3 class="text-center" style="margin-bottom: 25px;">Extras & Add-ons</h3>
+                <p class="addon-note">Extra treatment beyond package coverage.</p>
                 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
                     
@@ -139,7 +143,7 @@
                     </div>
                     
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding-bottom: 10px;">
-                        <span>Heavy Pet Hair Removal</span>
+                        <span>Excessive Pet Hair Removal</span>
                         <span style="color: var(--accent); font-weight: bold;">$30+</span>
                     </div>
                     
@@ -154,7 +158,7 @@
                     </div>
                     
                     <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding-bottom: 10px;">
-                        <span>Heavy Stain Extraction</span>
+                        <span>Extra Stain Treatment</span>
                         <span style="color: var(--accent); font-weight: bold;">$40+</span>
                     </div>
                     
@@ -231,7 +235,7 @@
                 <div class="card review-card">
                     <p class="stars">★★★★★</p>
                     <p class="review-text">"Thank you so much, Ace! He detailed my Toyota Camry before I sold it, and the car really needed the work. [...] Ace gave me a great deal and did an amazing job. He was friendly, communicative, and genuinely easy to work with."</p>
-                    <p class="review-author">— Kami</p>
+                    <p class="review-author">— Kemi</p>
                 </div>
                 <div class="card review-card">
                     <p class="stars">★★★★★</p>
@@ -243,17 +247,8 @@
                     <p class="review-text">"I use my Camry as a work car, so it was pretty dirty and even had some paint stains. Ace gave it a full detail and did an amazing job. The car looked completely refreshed when he finished. I was honestly impressed."</p>
                     <p class="review-author">— Max</p>
                 </div>
-                <div class="card review-card">
-                    <p class="stars">★★★★★</p>
-                    <p class="review-text">"Superior! I was impressed and the car looks brand new (it was an old crack) 😆"</p>
-                    <p class="review-author">— Kate</p>
-                </div>
-                <div class="card review-card">
-                    <p class="stars">★★★★★</p>
-                    <p class="review-text">"Thanks Ace! You did a great job my lexus looks brand new. I was surprised how hard working that guy is! Definitely recommend!!!"</p>
-                    <p class="review-author">— Vitali</p>
-                </div>
             </div>
+            
             
             <div class="center-btn mt-4">
                 <a href="https://maps.google.com/?cid=2290692483774642586" rel="noopener noreferrer" class="btn btn-secondary" style="color:var(--text-main); border-color:var(--text-main);">Read More Google Reviews</a>
@@ -307,10 +302,13 @@
                 <p class="mb-2"><strong>Mobile Service — I travel directly to your location.</strong></p>
                 <div class="service-area-layout">
                     <div class="service-map">
-                        <iframe title="Map of the San Diego coastal service region" src="https://maps.google.com/maps?q=La%20Jolla%2C%20San%20Diego%2C%20CA&amp;z=10&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+                        <div id="service-area-map" aria-label="Service area map: Point Loma, Pacific Beach, La Jolla, Del Mar, Solana Beach and University City (UTC)">
+                            <p class="map-fallback">Serving Point Loma, Pacific Beach, La Jolla, Del Mar, Solana Beach and UTC.</p>
+                        </div>
                     </div>
                     <div class="service-area-details">
                         <h3>Active Service Areas</h3>
+                        <p class="map-note">Green markers show the neighborhoods we serve.</p>
                         <ul class="service-area-list">
                             <li>Point Loma</li><li>Pacific Beach</li><li>La Jolla</li><li>Del Mar</li><li>Solana Beach</li><li>University City (UTC)</li>
                         </ul>
@@ -390,6 +388,7 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script defer src="script.js"></script>
 </body>
 </html>
