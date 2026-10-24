@@ -4,6 +4,24 @@ window.restoreGalleryData = {
     "label": "Exterior",
     "photos": [
       {
+        "id": "tesla-white-coastal",
+        "label": "Tesla · White",
+        "source": "Restore Theory Best Photos/4EEECB28-19FA-4ED5-AA34-7040AD020403.PNG",
+        "preview": "images/results/categories/tesla-white-coastal-preview.webp",
+        "large": "images/results/categories/tesla-white-coastal-large.webp",
+        "width": 1086,
+        "height": 1448,
+        "position": "50% 50%",
+        "previewWidth": 960,
+        "previewHeight": 1200,
+        "previewCrop": [
+          0,
+          90,
+          1086,
+          1448
+        ]
+      },
+      {
         "id": "camry-exterior",
         "label": "Toyota Camry",
         "source": "Restore Theory Best Photos/72971506-6D6E-4DD0-B09E-686A5A8EBB0D.PNG",
@@ -20,6 +38,24 @@ window.restoreGalleryData = {
         ],
         "previewWidth": 959,
         "previewHeight": 1199
+      },
+      {
+        "id": "cadillac-driveway",
+        "label": "Cadillac",
+        "source": "Restore Theory Best Photos/36D17A55-3A84-4CE1-812E-2EB017E3C793.PNG",
+        "preview": "images/results/categories/cadillac-driveway-preview.webp",
+        "large": "images/results/categories/cadillac-driveway-large.webp",
+        "width": 1086,
+        "height": 1448,
+        "position": "50% 50%",
+        "previewWidth": 960,
+        "previewHeight": 1200,
+        "previewCrop": [
+          0,
+          90,
+          1086,
+          1448
+        ]
       },
       {
         "id": "kia-exterior",
@@ -52,6 +88,60 @@ window.restoreGalleryData = {
         "previewHeight": 1402
       },
       {
+        "id": "tesla-black-sunlight",
+        "label": "Tesla · Black",
+        "source": "Restore Theory Best Photos/7FA99A73-794A-4072-8799-36921256B3DD.PNG",
+        "preview": "images/results/categories/tesla-black-sunlight-preview.webp",
+        "large": "images/results/categories/tesla-black-sunlight-large.webp",
+        "width": 1086,
+        "height": 1448,
+        "position": "50% 50%",
+        "previewWidth": 960,
+        "previewHeight": 1200,
+        "previewCrop": [
+          0,
+          90,
+          1086,
+          1448
+        ]
+      },
+      {
+        "id": "gmc-paint-detail",
+        "label": "GMC · Paint detail",
+        "source": "Restore Theory Best Photos/55319EF4-2424-47B1-B3E3-AFC3FFB84936.PNG",
+        "preview": "images/results/categories/gmc-paint-detail-preview.webp",
+        "large": "images/results/categories/gmc-paint-detail-large.webp",
+        "width": 1086,
+        "height": 1448,
+        "position": "50% 50%",
+        "previewWidth": 960,
+        "previewHeight": 1200,
+        "previewCrop": [
+          0,
+          90,
+          1086,
+          1448
+        ]
+      },
+      {
+        "id": "ford-front-detail",
+        "label": "Ford · Front detail",
+        "source": "Restore Theory Best Photos/50CE420E-0FFF-4519-9699-69321FB5955C.PNG",
+        "preview": "images/results/categories/ford-front-detail-preview.webp",
+        "large": "images/results/categories/ford-front-detail-large.webp",
+        "width": 1122,
+        "height": 1402,
+        "position": "50% 50%",
+        "previewWidth": 960,
+        "previewHeight": 1200,
+        "previewCrop": [
+          0,
+          0,
+          1122,
+          1402
+        ]
+      },
+      {
         "id": "tesla-gray",
         "label": "Tesla",
         "source": "Restore Theory Best Photos/IMG_6481.PNG",
@@ -62,6 +152,24 @@ window.restoreGalleryData = {
         "position": "50% 50%",
         "previewWidth": 1121,
         "previewHeight": 1402
+      },
+      {
+        "id": "tesla-white-side",
+        "label": "Tesla · Side detail",
+        "source": "Restore Theory Best Photos/36DD5E09-4522-45B3-9331-D5C975FA9862.PNG",
+        "preview": "images/results/categories/tesla-white-side-preview.webp",
+        "large": "images/results/categories/tesla-white-side-large.webp",
+        "width": 1122,
+        "height": 1402,
+        "position": "50% 50%",
+        "previewWidth": 960,
+        "previewHeight": 1200,
+        "previewCrop": [
+          0,
+          0,
+          1122,
+          1402
+        ]
       }
     ]
   },
