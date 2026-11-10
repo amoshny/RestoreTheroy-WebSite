@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('service-area-map');
     if (!container) return;
     const status = document.getElementById('map-status');
-    // Approximate representative points only; numbers match the visible list.
+    // Approximate representative points only; the full neighborhood list is visible beside the map.
     const areas = [
         { name: 'Black Mountain Ranch', location: [33.015, -117.160] },
         { name: 'Carmel Valley', location: [32.953, -117.231] },
@@ -73,16 +73,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         tiles.addTo(map);
-        areas.forEach((area, index) => L.marker(area.location, {
+        areas.forEach(area => L.marker(area.location, {
             icon: L.divIcon({
                 className: 'rt-service-marker',
-                html: '<span>' + (index + 1) + '</span>',
+                html: '<span aria-hidden="true"></span>',
                 iconSize: [25, 25], iconAnchor: [12.5, 12.5]
             }),
-            title: (index + 1) + '. ' + area.name,
-            alt: (index + 1) + '. ' + area.name,
+            title: area.name,
+            alt: area.name,
             interactive: true, keyboard: true, autoPanOnFocus: false
-        }).addTo(map).bindPopup(area.name, { autoPan: true, autoPanPadding: [20, 20], closeButton: true }));
+        }).addTo(map)
+            .bindTooltip(area.name, { direction: 'top', offset: [0, -7] })
+            .bindPopup(area.name, { autoPan: true, autoPanPadding: [20, 20], closeButton: true })
+            .on('popupopen', event => event.target.closeTooltip()));
         const fit = () => map.fitBounds(areas.map(area => area.location), {
             padding: [32, 32], maxZoom: 12, animate: false
         });
@@ -130,4 +133,25 @@ document.addEventListener('DOMContentLoaded', () => {
             if (next) { event.preventDefault(); select(next); next.focus(); }
         });
     });
+});
+
+// Show estimates with the existing vehicle-size adjustments; base prices stay in the HTML.
+document.addEventListener('DOMContentLoaded', () => {
+    const size = document.getElementById('rt-vehicle-size');
+    if (!size) return;
+    const prices = document.querySelectorAll('#auto-detailing [data-base-price]');
+    const status = document.getElementById('rt-vehicle-estimate');
+    const update = () => {
+        const option = size.selectedOptions[0];
+        if (!option) return;
+        const { extra, factor } = option.dataset;
+        for (const price of prices) {
+            price.textContent = '$' + (Number(price.dataset.basePrice) * Number(factor) + Number(extra));
+        }
+        status.textContent = 'Showing starting prices for: ' + option.textContent.split(' (')[0] + '.';
+    };
+    size.disabled = false;
+    size.addEventListener('change', update);
+    window.addEventListener('pageshow', update);
+    update();
 });

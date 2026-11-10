@@ -489,3 +489,126 @@ body.rt-viewer-open .rt-mobile-call-dock, body:has(.rt-lightbox[open]) .rt-mobil
 .rt-service-marker {cursor: pointer;}
 .rt-service-marker:focus-visible {outline: 3px solid #101b11; outline-offset: 3px;}
 #service-area-map .leaflet-popup-content {font-family: Inter, sans-serif; font-size: 14px; color: #18351d; margin: 12px 30px 12px 14px;}
+
+/* Genuine saved reviews provide an honest fallback until the owner's widget is connected. */
+.rt-reviews [hidden], .rt-offer-dialog [hidden] {display: none !important;}
+.rt-reviews .container {position: relative;}
+.rt-reviews-status {color: #b9c8b6; font-size: 13px; line-height: 1.6; margin: -6px 0 20px;}
+.rt-saved-review-header {display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 15px;}
+.rt-saved-review-header strong {font-size: 17px; color: #edf2ea;}
+.rt-saved-review-header span {color: #b8c9b4; font-size: 12px;}
+.rt-reviews .rt-reviews-enhanced .review-text {display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; overflow: hidden; flex: none;}
+.rt-reviews .rt-review-expanded .review-text {display: block; overflow: visible;}
+.rt-review-read-more {min-height: 44px; align-self: flex-start; margin-top: auto; border: 0; border-bottom: 1px solid #547c59; padding: 4px 0; background: none; color: #b2e8bb; font: 600 14px/1.6 Inter,sans-serif; cursor: pointer;}
+.rt-saved-reviews-controls {display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px; color: #c6d8c0; font-size: 14px;}
+.rt-saved-reviews-controls button {width: 44px; height: 44px; border-radius: 50%; border: 1px solid #5c8863; color: #a6eab0; background: #19271c; font-size: 23px; cursor: pointer;}
+.rt-saved-reviews-controls button:disabled {opacity: .35; cursor: default;}
+.rt-reviews button:focus-visible, .rt-saved-reviews-track:focus-visible {outline: 2px solid #93e29d; outline-offset: 4px;}
+.rt-trustindex-slot {min-width: 0; color-scheme: dark; --rt-review-card: #18201a; --rt-review-accent: #7bd688;}
+.rt-trustindex-slot[data-state="loading"] {position: absolute; left: 0; width: 100%; visibility: hidden; pointer-events: none;}
+/* Final widget layout, photos, dates and dark theme are configured in the owner's Trustindex account. */
+
+/* First-detail offer: one accessible native dialog, with the callback form in the same modal. */
+.rt-offer-launcher {position: fixed; bottom: 20px; left: 20px; z-index: 105; padding: 12px 18px; border: 1px solid #75bb80; border-radius: 999px; background: #172a1c; color: #b4f0be; font: 600 13px/1.4 Inter,sans-serif; cursor: pointer; box-shadow: 0 5px 20px #0004;}
+.rt-offer-dialog {width: min(540px,calc(100vw - 32px)); max-width: none; max-height: min(720px,85dvh); margin: auto; padding: 0; border: 1px solid #4c7052; border-radius: 14px; background: #131d16; color: #edf3e9; overflow-y: auto; overscroll-behavior: contain; box-shadow: 0 25px 100px #0008; color-scheme: dark;}
+.rt-offer-dialog::backdrop {background: #040906c9; backdrop-filter: blur(5px);}
+.rt-offer-top {position: sticky; top: 0; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 24px; background: #131d16; border-bottom: 1px solid #314436;}
+.rt-offer-top > span {color: #b5d2b7; font-size: 11px; font-weight: 600; letter-spacing: .13em;}
+.rt-offer-close {display: flex; align-items: center; gap: 12px; min-height: 44px; min-width: 80px; justify-content: center; padding: 6px 10px; border: 1px solid #53715a; border-radius: 5px; background: #1c2b20; color: #e9f3e7; font: inherit; font-size: 13px; cursor: pointer;}
+.rt-offer-close span {font-size: 25px; line-height: 1;}
+.rt-offer-body {padding: 30px;}
+.rt-offer-dialog h2 {font-size: clamp(28px,5vw,40px); letter-spacing: -.035em; line-height: 1.12; margin: 8px 0 18px; max-width: 390px;}
+.rt-offer-copy {font-size: 17px; line-height: 1.65; color: #c9d8c5; margin-bottom: 24px;}
+.rt-offer-call {width: 100%; justify-content: space-between; font-size: 15px; padding: 17px 20px;}
+.rt-offer-secondary {width: 100%; margin-top: 12px; padding: 13px 18px; min-height: 44px; border: 1px solid #54765a; border-radius: 5px; background: transparent; color: #c8e6cd; font: 600 14px/1.5 Inter,sans-serif; cursor: pointer;}
+.rt-offer-terms {border-top: 1px solid #314436; padding-top: 18px; margin-top: 24px; color: #b7c8b1; font-size: 12px; line-height: 1.65;}
+.rt-offer-back {padding: 5px 0; border: 0; background: none; color: #b7eac0; font: 13px/1.6 Inter,sans-serif; cursor: pointer; margin-bottom: 12px;}
+.rt-offer-dialog #rt-callback-title {font-size: 29px;}
+.rt-callback-availability {font-size: 14px; line-height: 1.7; color: #c6d5c0; margin-bottom: 18px;}
+#rt-callback-form {display: grid; gap: 8px;}
+#rt-callback-form label {font-size: 14px; color: #e3eedf;}
+#rt-callback-form label span {font-size: 12px; color: #b4c6ae; margin-left: 5px;}
+#rt-callback-form input {min-width: 0; width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid #597960; border-radius: 5px; background: #0d1510; color: #fff; font: 16px/1.4 Inter,sans-serif; margin-bottom: 7px;}
+#rt-callback-use {color: #b3c7ad; font-size: 12px; line-height: 1.6; margin: 3px 0 8px;}
+#rt-callback-submit {justify-content: center; min-height: 46px; border: 0; cursor: pointer; font-family: inherit; font-size: 14px;}
+#rt-callback-submit:disabled {background: #344c3a; color: #c1d1bd; cursor: not-allowed;}
+#rt-callback-status {font-size: 13px; line-height: 1.7; color: #d2e8ca;}
+#rt-callback-status:empty {display: none;}
+.rt-callback-call {display: inline-block; margin-top: 17px; padding: 6px 0; color: #a9eab4; font-size: 14px; font-weight: 600;}
+.rt-offer-dialog button:focus-visible, .rt-offer-dialog input:focus-visible, .rt-offer-dialog a:focus-visible, [data-open-offer]:focus-visible {outline: 2px solid #a0efac; outline-offset: 3px;}
+body.rt-offer-open {overflow: hidden;}
+body:has(dialog[open]) .rt-mobile-call-dock, body:has(dialog[open]) .rt-offer-launcher, body:has(.rt-mobile-menu[open]) .rt-offer-launcher {display: none;}
+@media (max-width: 700px) {
+    .rt-saved-reviews-track.rt-reviews-enhanced {display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; padding: 3px; margin: -3px; align-items: flex-start;}
+    .rt-saved-reviews-track::-webkit-scrollbar {display: none;}
+    .rt-saved-reviews-track .review-card {flex: 0 0 100%; scroll-snap-align: start; min-width: 0;}
+    .rt-offer-launcher {display: none;}
+    .rt-mobile-call-dock {display: grid; grid-template-columns: auto minmax(0,1fr); gap: 9px; align-items: center;}
+    .rt-mobile-call-dock > button {min-height: 44px; padding: 10px 12px; color: #c1edc8; border: 1px solid #62846a; border-radius: 5px; background: #1a2a1f; font: 600 12px/1.5 Inter,sans-serif; cursor: pointer;}
+    .rt-mobile-call-dock a {flex-direction: column; justify-content: center; gap: 0; width: 100%; padding: 6px 10px;}
+    .rt-mobile-call-dock a span {font-size: 11px;}
+    .rt-mobile-call-dock a strong {font-size: 13px;}
+    .rt-offer-top {padding: 10px 16px;}
+    .rt-offer-body {padding: 24px 20px;}
+    .rt-offer-dialog {border-radius: 11px;}
+    .rt-offer-dialog h2 {font-size: 32px;}
+    .rt-offer-copy {font-size: 16px;}
+    .rt-offer-dialog .rt-primary {font-size: 14px; gap: 10px; padding: 15px 16px;}
+}
+
+/* Clear service-first hero and a shorter path to an estimate. */
+.rt-icon-defs {position: absolute; overflow: hidden; pointer-events: none;}
+.rt-contact-icon {width: 1.1em; height: 1.1em; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; vertical-align: -.16em;}
+.rt-hero-layout {grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(24px,4.2vw,58px);}
+.rt-hero h1 {font-size: clamp(38px,4.5vw,66px); line-height: 1.04; max-width: 12ch; margin-bottom: 16px;}
+.rt-hero h1 em {display: block;}
+.rt-hero-description {max-width: 40ch; font-size: clamp(15px,1.3vw,18px); line-height: 1.55; color: #c7d4c3;}
+.rt-hero-actions {display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px;}
+.rt-hero-text {justify-content: center; gap: 9px; min-height: 48px; padding: 13px 16px;}
+.rt-quote-secondary {display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 13px; border: 1px solid #52735a; border-radius: 5px; color: #e2efdf; text-decoration: none; font-size: 14px; font-weight: 600;}
+.rt-quote-secondary:hover {background: #263b2b; border-color: #8bd296;}
+.rt-text-help {font-size: 13px; line-height: 1.55; color: #c3d1bf;}
+.rt-hero .rt-text-help {margin-top: 10px;}
+.rt-view-prices {display: inline-flex; gap: 8px; align-items: center; min-height: 44px; margin-top: 8px; color: #afe6b7; font-size: 15px; font-weight: 600; text-underline-offset: 4px;}
+.rt-hero-note {margin-top: 3px;}
+.rt-hero .rt-rating {margin-top: 14px;}
+.rt-hero-visual::after {display: none;}
+.rt-hero-visual {width: 100%; max-width: 540px; justify-self: end;}
+.rt-hero-photo {aspect-ratio: 1 / 1; object-fit: cover; object-position: center 84%;}
+.rt-hero-proof {max-width: 1280px; display: flex; align-items: center; gap: 16px; margin: 24px auto 0; padding: 12px 0; border-top: 1px solid #303b30; border-bottom: 1px solid #303b30; color: #e1eadf; font-size: 14px;}
+.rt-proof-photos {display: flex; gap: 6px; flex: 0 0 auto;}
+.rt-proof-photos figure {position: relative; margin: 0;}
+.rt-proof-photos img {display: block; width: 60px; height: 54px; object-fit: cover; border-radius: 4px;}
+.rt-proof-photos figcaption {position: absolute; bottom: 2px; left: 2px; padding: 1px 4px; border-radius: 2px; font-size: 10px; color: #fff; background: #111b;}
+.rt-hero-proof a {display: block; width: fit-content; color: #afe6b7; font-size: 13px; text-underline-offset: 3px;}
+
+.rt-vehicle-pricing {display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; margin: 12px 0 10px;}
+.rt-vehicle-pricing label {font-size: 15px; font-weight: 600;}
+.rt-vehicle-pricing select {max-width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid #52735a; border-radius: 5px; color: #edf4ea; background: #1b291e; font: inherit; font-size: 16px; color-scheme: dark;}
+.rt-vehicle-pricing select:focus-visible {outline: 2px solid #93e29d; outline-offset: 3px;}
+#rt-vehicle-estimate, .rt-vehicle-pricing noscript {color: #c3d1bf; font-size: 13px;}
+#package-text-help {margin-bottom: 16px;}
+.rt-package-price strong {font-weight: inherit;}
+.rt-package-for {min-height: 0; margin-bottom: 12px;}
+.rt-package-for strong {display: block; color: #b4e9ba; margin-bottom: 5px;}
+.rt-package-highlights {min-height: 0;}
+.rt-package-actions {display: flex; gap: 7px; align-items: stretch;}
+.rt-package-actions .rt-primary {justify-content: center; flex: 1 1 auto; gap: 7px; min-height: 44px; padding: 9px 10px; font-size: 13px; line-height: 1.3;}
+.rt-package-actions .rt-quote-secondary {flex: 0 0 auto; padding: 8px; font-size: 13px;}
+.rt-reviews .rt-reviews-enhanced .review-text {display: block; overflow: visible; -webkit-line-clamp: unset; margin: 12px 0 14px;}
+.rt-reviews .review-card {padding-block: 20px;}
+.rt-neighborhoods {counter-reset: none;}
+.rt-neighborhoods li {padding-left: 15px; counter-increment: none;}
+.rt-neighborhoods li::before {content: ''; width: 5px; height: 5px; border-radius: 50%; top: .65em; background: #8ee09a;}
+.rt-area-call {display: inline-flex; align-items: center; gap: 9px; min-height: 44px;}
+.rt-service-marker {background: transparent; border: 0; box-shadow: none;}
+.rt-service-marker > span {width: 15px; height: 15px; border: 2px solid #fff; border-radius: 50%; background: #164d32; box-shadow: 0 1px 5px #0006;}
+#service-area-map .leaflet-tooltip {background: #18291d; color: #f2f7ee; border-color: #52735a;}
+
+@media (max-width: 760px) {
+    .rt-hero-layout {grid-template-columns: minmax(0,1fr); gap: 18px;}
+    .rt-hero h1 {font-size: clamp(36px,8.3vw,54px); max-width: 16ch;}
+    .rt-hero .rt-eyebrow {margin-bottom: 14px;}
+    .rt-hero-proof {margin-top: 16px;}
+    .rt-hero-visual {justify-self: center;}
+}

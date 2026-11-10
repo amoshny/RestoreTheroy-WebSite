@@ -13,9 +13,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=service-first-20261109">
 </head>
 <body>
+    <svg class="rt-icon-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="0" height="0">
+        <symbol id="rt-icon-phone" viewBox="0 0 24 24"><path d="M7 3H4.5A1.5 1.5 0 0 0 3 4.5 16.5 16.5 0 0 0 19.5 21a1.5 1.5 0 0 0 1.5-1.5V17l-4.5-2-2 2a12 12 0 0 1-7.5-7.5l2-2L7 3Z"/></symbol>
+        <symbol id="rt-icon-message" viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 3v-3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="M7 9h10M7 13h7"/></symbol>
+    </svg>
 
     <!-- Navigation -->
     <nav class="navbar rt-nav" aria-label="Main navigation">
@@ -35,26 +39,110 @@
         <div class="rt-hero-layout">
             <div class="rt-hero-copy">
                 <p class="rt-eyebrow"><span></span> Locally owned. Personally detailed.</p>
-                <h1>Your car<br>beautifully<br><em>RESTORED</em></h1>
-                <p class="rt-hero-label">Mobile Auto Detailing in San Diego.</p>
-                <p class="rt-hero-description">Interior deep cleaning, exterior detailing and polishing. Personal care from the owner, right in your driveway.</p>
+                <h1>Mobile Auto Detailing <em>in San Diego</em></h1>
+                <p class="rt-hero-description">Interior cleaning, exterior detailing and polishing — at your home or workplace.</p>
                 <div class="rt-hero-actions">
-                    <a href="tel:8588882707" class="rt-primary">CALL FOR QUOTE <span aria-hidden="true">↗</span></a>
-                    <a href="sms:8588882707" class="rt-call">Text now <span aria-hidden="true">↗</span></a>
+                    <a href="sms:8588882707" class="rt-primary rt-hero-text" aria-describedby="hero-text-help"><svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-message"></use></svg>Text Photos for a Quote</a>
+                    <a href="tel:8588882707" class="rt-quote-secondary"><svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-phone"></use></svg>Call for a Quote</a>
                 </div>
+                <p class="rt-text-help" id="hero-text-help">Send your vehicle model, ZIP code and a few photos.</p>
+                <a class="rt-view-prices" href="#auto-detailing">View Packages &amp; Prices <span aria-hidden="true">↓</span></a>
                 <p class="rt-hero-note">I bring my own water &amp; power.</p>
                 <a class="rt-rating" href="https://maps.app.goo.gl/gPfNN3g5akdJsh1k9" target="_blank" rel="noopener noreferrer" aria-label="5.0 Google rating, 50+ five-star reviews. See Restore Theory on Google Maps">
                     <span class="rt-google" aria-hidden="true">G</span><span><strong>5.0 <span class="rt-rating-stars" aria-hidden="true">★★★★★</span></strong><small>50+ Five-Star Reviews <span aria-hidden="true">↗</span></small></span>
                 </a>
             </div>
             <div class="rt-hero-visual">
-                <img class="rt-hero-photo" src="images/hero/lexus-sunset.webp" alt="Freshly detailed gray Lexus in a San Diego driveway at sunset — Restore Theory's own work" width="1448" height="1086" fetchpriority="high" decoding="async">
-                <div class="rt-photo-top"><span>REAL CARS. REAL CARE.</span></div>
+                <img class="rt-hero-photo" src="images/hero/mobile-detail-tesla.webp" alt="Restore Theory’s white Tesla with mobile detailing equipment in the open trunk and the Restore Theory sign in front" width="1086" height="1448" fetchpriority="high" decoding="async">
                 <div class="rt-owner"><img src="images/hero/owner.webp" width="54" height="54" alt="Restore Theory owner beside the branded Tesla"><div><strong>My work. Your driveway.</strong><span>You book with me. I do the detail.</span></div></div>
             </div>
         </div>
-        <div class="rt-benefits"><span><b aria-hidden="true">↗</b> We come to you</span><span><b aria-hidden="true">✓</b> Clear, upfront quotes</span><a href="#auto-detailing">Explore services <span aria-hidden="true">↓</span></a></div>
+        <div class="rt-hero-proof">
+            <div class="rt-proof-photos" aria-label="Range Rover exterior, before and after">
+                <figure><img src="images/portfolio/normalized/range-rover-before.jpg" alt="Range Rover exterior before detailing" width="64" height="64" loading="lazy"><figcaption>Before</figcaption></figure>
+                <figure><img src="images/portfolio/normalized/range-rover-after.jpg" alt="Range Rover exterior after detailing" width="64" height="64" loading="lazy"><figcaption>After</figcaption></figure>
+            </div>
+            <div><strong>Range Rover exterior detail</strong><a href="#gallery">See more results <span aria-hidden="true">↓</span></a></div>
+        </div>
     </header>
+
+    <!-- Services: existing packages only; no standalone Exterior package is offered. -->
+    <section class="section rt-services" id="auto-detailing" aria-labelledby="services-title">
+        <div class="container">
+            <div class="rt-services-heading"><div><p class="rt-section-kicker">SERVICES &amp; PRICING</p><h2 id="services-title">Choose your level of care.</h2></div><p>Compare starting prices for your vehicle.</p></div>
+            <div class="rt-service-tabs" role="tablist" aria-label="Detailing packages">
+                <button type="button" role="tab" id="full-detail-tab" aria-selected="true" aria-controls="full-detail-panel">Full Detail</button>
+                <button type="button" role="tab" id="interior-detail-tab" aria-selected="false" aria-controls="interior-detail-panel" tabindex="-1">Interior</button>
+            </div>
+            <div class="rt-vehicle-pricing">
+                <label for="rt-vehicle-size">Vehicle size</label>
+                <select id="rt-vehicle-size" aria-describedby="rt-vehicle-estimate" disabled>
+                    <option value="sedan" data-extra="0" data-factor="1">Standard sedan</option>
+                    <option value="mid-suv" data-extra="25" data-factor="1">Mid-size SUV (+$25)</option>
+                    <option value="large-suv" data-extra="50" data-factor="1">Large SUV or minivan (+$50)</option>
+                    <option value="rv" data-extra="0" data-factor="2">RV (2× base price)</option>
+                </select>
+                <p id="rt-vehicle-estimate" role="status">Starting prices for a standard sedan.</p>
+                <noscript><p>Mid-size SUVs add $25, large SUVs and minivans add $50, and RVs are 2× the base price.</p></noscript>
+            </div>
+            <p class="rt-text-help" id="package-text-help">For a quote by text, send your vehicle model, ZIP code and a few photos.</p>
+            <div id="full-detail-panel" role="tabpanel" aria-labelledby="full-detail-tab" class="rt-package-grid">
+<article class="rt-package" data-package="1">
+                    <h3>Essential Detail</h3><p class="rt-package-price"><span>From</span> <strong data-base-price="179">$179</strong></p><div class="rt-package-for"><strong>Regular upkeep</strong><p>For an interior refresh and hand wash. No deep extraction.</p></div>
+                    <ul class="rt-package-highlights"><li>Vacuum and wipe down interior surfaces</li><li>Hand wash and spray wax</li></ul>
+                    <details class="rt-package-details"><summary>View full service details</summary><div><p>Full included service:</p><ul><li>Thorough vacuum (seats, carpets, trunk)</li><li>Wipe down of all plastics </li><li>Cleaning armrests, storage pockets, jambs</li><li>Interior glass & mirrors</li><li>UV protection applied to surfaces</li><li>Foam cannon exterior hand wash</li><li>Wheels, tires, and wheel wells cleaned</li><li>Tire shine applied</li><li>Basic spray wax protection</li></ul></div></details>
+                    <div class="rt-package-actions">
+                        <a class="rt-primary" href="sms:8588882707" aria-describedby="package-text-help"><svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-message"></use></svg>Text Photos for a Quote</a>
+                        <a class="rt-quote-secondary" href="tel:8588882707" aria-label="Call for a Quote"><svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-phone"></use></svg>Call</a>
+                    </div>
+                </article><article class="rt-package" data-package="2">
+                    <h3>Deep Clean & Protect</h3><p class="rt-package-price"><span>From</span> <strong data-base-price="229">$229</strong></p><div class="rt-package-for"><strong>Family cars &amp; daily drivers</strong><p>For a deeper clean of carpets and upholstery after everyday messes.</p></div>
+                    <ul class="rt-package-highlights"><li>Carpet and upholstery extraction</li><li>Exterior wash and upgraded sealant</li></ul>
+                    <details class="rt-package-details"><summary>View full service details</summary><div><p>Full included service:</p><ul><li>Thorough vacuum (seats, carpets, trunk)</li><li>Wipe down of all plastics </li><li>Cleaning armrests, storage pockets, jambs</li><li>Interior glass & mirrors</li><li>UV protection applied to surfaces</li><li>Foam cannon exterior hand wash</li><li>Wheels, tires, and wheel wells cleaned</li><li>Tire shine applied</li><li>Basic spray wax protection</li><li>Carpet & upholstery extraction</li><li>Standard stain, grime &amp; pet hair removal</li><li>Chemical paint decontamination</li><li>Upgraded paint sealant</li></ul></div></details>
+                    <div class="rt-package-actions">
+                        <a class="rt-primary" href="sms:8588882707" aria-describedby="package-text-help"><svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-message"></use></svg>Text Photos for a Quote</a>
+                        <a class="rt-quote-secondary" href="tel:8588882707" aria-label="Call for a Quote"><svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-phone"></use></svg>Call</a>
+                    </div>
+                </article><article class="rt-package" data-package="3">
+                    <h3>Full Detail + Polish</h3><p class="rt-package-price"><span>From</span> <strong data-base-price="289">$289</strong></p><div class="rt-package-for"><strong>Deep clean + paint polish</strong><p>For a full interior reset and more gloss on the outside.</p></div>
+                    <ul class="rt-package-highlights"><li>Deep interior extraction</li><li>One-step machine polish</li></ul>
+                    <details class="rt-package-details"><summary>View full service details</summary><div><p>Full included service:</p><ul><li>Thorough vacuum (seats, carpets, trunk)</li><li>Wipe down of all plastics </li><li>Cleaning armrests, storage pockets, jambs</li><li>Interior glass & mirrors</li><li>UV protection applied to surfaces</li><li>Foam cannon exterior hand wash</li><li>Wheels, tires, and wheel wells cleaned</li><li>Tire shine applied</li><li>Basic spray wax protection</li><li>Carpet & upholstery extraction</li><li>Standard stain, grime &amp; pet hair removal</li><li>Chemical paint decontamination</li><li>Upgraded paint sealant</li><li>Clay bar paint treatment</li><li>One-step machine polish</li><li>Removes light swirls & scratches</li><li>Restores deep gloss to paint</li></ul></div></details>
+                    <div class="rt-package-actions">
+                        <a class="rt-primary" href="sms:8588882707" aria-describedby="package-text-help"><svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-message"></use></svg>Text Photos for a Quote</a>
+                        <a class="rt-quote-secondary" href="tel:8588882707" aria-label="Call for a Quote"><svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-phone"></use></svg>Call</a>
+                    </div>
+                </article>
+            </div>
+            <div id="interior-detail-panel" role="tabpanel" aria-labelledby="interior-detail-tab" class="rt-package-grid rt-interior-packages" hidden>
+<article class="rt-package" data-package="0">
+                    <h3>Interior Only Detail</h3><p class="rt-package-price"><span>From</span> <strong data-base-price="139">$139</strong></p><div class="rt-package-for"><strong>Cabin only</strong><p>For a fresh, clean cabin without an exterior detail.</p></div>
+                    <ul class="rt-package-highlights"><li>Vacuum seats, carpets and trunk</li><li>Clean interior surfaces and glass</li></ul>
+                    <details class="rt-package-details"><summary>View full service details</summary><div><p>Full included service:</p><ul><li>Thorough vacuum (seats, carpets, trunk)</li><li>Wipe down of all plastics </li><li>Cleaning armrests, storage pockets, jambs</li><li>Interior glass & mirrors</li><li>UV protection applied to surfaces</li></ul></div></details>
+                    <div class="rt-package-actions">
+                        <a class="rt-primary" href="sms:8588882707" aria-describedby="package-text-help"><svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-message"></use></svg>Text Photos for a Quote</a>
+                        <a class="rt-quote-secondary" href="tel:8588882707" aria-label="Call for a Quote"><svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-phone"></use></svg>Call</a>
+                    </div>
+                </article>
+            </div>
+            <aside class="rt-service-pricing-note" aria-label="Quote and condition pricing">
+                <p><strong>How I confirm your quote:</strong> Prices above include the selected size adjustment. I confirm the final quote before work starts. Deep Clean and Full Detail + Polish include standard stain and pet hair removal. Heavy buildup or extra treatment may cost more, with any additional charge agreed in advance.</p>
+            </aside>
+            <article class="rt-maintenance" data-package="4">
+                <div class="rt-maintenance-main"><p class="rt-maintenance-label">FOR RETURNING CLIENTS ONLY</p><h3>Monthly Maintenance</h3><p>For returning clients keeping up with regular care.</p></div>
+                <div class="rt-maintenance-content"><ul class="rt-maintenance-highlights"><li>Maintenance hand wash</li><li>Light interior vacuum & wipe down</li><li>Exterior glass & tire shine</li><li>Helps keep your vehicle clean and maintained.</li></ul>
+                    <details class="rt-package-details"><summary>View full service details</summary><div><ul><li><strong>For returning clients only</strong></li><li>Maintenance hand wash</li><li>Light interior vacuum & wipe down</li><li>Exterior glass & tire shine</li><li>Helps keep your vehicle clean and maintained.</li></ul></div></details></div>
+                <div class="rt-maintenance-action"><p class="rt-package-price"><span>From</span> <strong data-base-price="129">$129</strong></p><a class="rt-primary" href="tel:8588882707">Call for a Quote <svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-phone"></use></svg></a></div>
+            </article>
+            <div class="rt-service-addons"><div><h3>Extras &amp; Add-ons</h3><p>Extra treatment beyond package coverage.</p></div><dl>
+                <div><dt>Headlight Restoration</dt><dd>$50</dd></div>
+                <div><dt>Excessive Pet Hair Removal</dt><dd>$30+</dd></div>
+                <div><dt>Odor Treatment (Ozone)</dt><dd>$50</dd></div>
+                <div><dt>Engine Bay Detailing</dt><dd>$40</dd></div>
+                <div><dt>Extra Stain Treatment</dt><dd>$40+</dd></div>
+                <div><dt>Leather Conditioning</dt><dd>$30</dd></div>
+            </dl></div>
+        </div>
+    </section>
 
     <!-- Compact manual galleries. Photo order and sources live in gallery-data.js. -->
     <section class="section rt-results" id="gallery">
@@ -71,7 +159,7 @@
                 <div id="comparison-panel" role="tabpanel" aria-labelledby="comparison-tab" data-category="comparison" hidden></div>
             </div>
             <noscript><p class="rt-gallery-fallback">Enable JavaScript to browse the photo galleries.</p></noscript>
-            <div class="rt-results-cta"><p>Ready for your own reset?</p><a class="rt-primary" href="tel:8588882707">Call for a Quote <span aria-hidden="true">↗</span></a></div>
+            <div class="rt-results-cta"><p>Ready for a fresh start?</p><a class="rt-primary" href="tel:8588882707">Call for a Quote <svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-phone"></use></svg></a></div>
         </div>
     </section>
     <dialog class="rt-lightbox" aria-label="Results photo viewer">
@@ -80,85 +168,36 @@
         <div class="rt-lightbox-bottom"><button type="button" class="rt-lightbox-prev" aria-label="Previous photo">← <span>Previous</span></button><p id="rt-lightbox-caption"></p><button type="button" class="rt-lightbox-next" aria-label="Next photo"><span>Next</span> →</button></div>
     </dialog>
 
-    <!-- Reviews: original customer wording, placed before service packages. -->
+    <!-- Trustindex integration slot; genuine saved reviews remain the fallback. -->
     <section class="section rt-reviews" id="reviews" aria-labelledby="reviews-title">
         <div class="container">
-            <div class="rt-reviews-heading"><div><p class="rt-section-kicker">WORDS FROM OUR CUSTOMERS</p><h2 id="reviews-title">Trusted by San Diego drivers.</h2></div><div class="rt-review-rating"><strong>5.0 <span class="stars" aria-label="5 out of 5 stars">★★★★★</span></strong><span>50+ Five-Star Reviews</span><a class="rt-rating-source" href="https://maps.app.goo.gl/gPfNN3g5akdJsh1k9" target="_blank" rel="noopener noreferrer">Google Reviews <span aria-hidden="true">↗</span></a></div></div>
-            <div class="reviews-grid">
-                <article class="card review-card">
-                    <p class="stars" aria-label="5 out of 5 stars">★★★★★</p>
-                    <p class="review-text">"Thank you so much, Ace! He detailed my Toyota Camry before I sold it, and the car really needed the work. [...] Ace gave me a great deal and did an amazing job. He was friendly, communicative, and genuinely easy to work with."</p>
-                    <p class="review-author">— Kemi</p>
-                </article>
-                <article class="card review-card">
-                    <p class="stars" aria-label="5 out of 5 stars">★★★★★</p>
-                    <p class="review-text">"Restore theory did my Tesla model 3 today. I was impressed, have never used mobile detailing myself before, would highly recommend specifically them. Great guy to talk to and rely on!"</p>
-                    <p class="review-author">— Greg</p>
-                </article>
-                <article class="card review-card">
-                    <p class="stars" aria-label="5 out of 5 stars">★★★★★</p>
-                    <p class="review-text">"I use my Camry as a work car, so it was pretty dirty and even had some paint stains. Ace gave it a full detail and did an amazing job. The car looked completely refreshed when he finished. I was honestly impressed."</p>
-                    <p class="review-author">— Max</p>
-                </article>
+            <div class="rt-reviews-heading"><div><p class="rt-section-kicker">WORDS FROM OUR CUSTOMERS</p><h2 id="reviews-title">Trusted by San Diego drivers.</h2></div><div class="rt-review-rating" id="rt-saved-review-rating"><strong>5.0 <span class="stars" aria-label="5 out of 5 stars">★★★★★</span></strong><span>3 featured reviews</span><a class="rt-rating-source" href="https://maps.app.goo.gl/gPfNN3g5akdJsh1k9" target="_blank" rel="noopener noreferrer">Google Reviews <span aria-hidden="true">↗</span></a></div></div>
+            <div class="rt-trustindex-slot" id="rt-trustindex" aria-label="Google reviews from Trustindex" hidden></div>
+            <div id="rt-reviews-fallback">
+                <p class="rt-reviews-status">Selected Google reviews.</p>
+                <div class="reviews-grid rt-saved-reviews-track" id="rt-saved-reviews-track" tabindex="0" role="region" aria-label="Customer reviews. Use the arrow keys or swipe.">
+                    <article class="card review-card" aria-label="Review by Kemi">
+                        <header class="rt-saved-review-header"><strong>Kemi</strong><span>Google review</span></header>
+                        <p class="stars" aria-label="5 out of 5 stars">★★★★★</p>
+                        <p class="review-text" id="rt-review-text-1"><span class="rt-review-excerpt">“Ace gave me a great deal and did an amazing job.”</span><span class="rt-review-original" hidden>"Thank you so much, Ace! He detailed my Toyota Camry before I sold it, and the car really needed the work. [...] Ace gave me a great deal and did an amazing job. He was friendly, communicative, and genuinely easy to work with."</span></p>
+                        <button type="button" class="rt-review-read-more" aria-expanded="false" aria-controls="rt-review-text-1" hidden>Read more</button>
+                    </article>
+                    <article class="card review-card" aria-label="Review by Greg">
+                        <header class="rt-saved-review-header"><strong>Greg</strong><span>Google review</span></header>
+                        <p class="stars" aria-label="5 out of 5 stars">★★★★★</p>
+                        <p class="review-text" id="rt-review-text-2"><span class="rt-review-excerpt">“Restore theory did my Tesla model 3 today. I was impressed, have never used mobile detailing myself before, would highly recommend specifically them.”</span><span class="rt-review-original" hidden>"Restore theory did my Tesla model 3 today. I was impressed, have never used mobile detailing myself before, would highly recommend specifically them. Great guy to talk to and rely on!"</span></p>
+                        <button type="button" class="rt-review-read-more" aria-expanded="false" aria-controls="rt-review-text-2" hidden>Read more</button>
+                    </article>
+                    <article class="card review-card" aria-label="Review by Max">
+                        <header class="rt-saved-review-header"><strong>Max</strong><span>Google review</span></header>
+                        <p class="stars" aria-label="5 out of 5 stars">★★★★★</p>
+                        <p class="review-text" id="rt-review-text-3"><span class="rt-review-excerpt">“The car looked completely refreshed when he finished.”</span><span class="rt-review-original" hidden>"I use my Camry as a work car, so it was pretty dirty and even had some paint stains. Ace gave it a full detail and did an amazing job. The car looked completely refreshed when he finished. I was honestly impressed."</span></p>
+                        <button type="button" class="rt-review-read-more" aria-expanded="false" aria-controls="rt-review-text-3" hidden>Read more</button>
+                    </article>
+                </div>
+                <div class="rt-saved-reviews-controls" hidden><button type="button" data-review-direction="-1" aria-label="Previous review" aria-controls="rt-saved-reviews-track">←</button><span id="rt-saved-review-count" aria-live="polite">1 / 3</span><button type="button" data-review-direction="1" aria-label="Next review" aria-controls="rt-saved-reviews-track">→</button></div>
             </div>
             <a class="rt-google-reviews-link" href="https://maps.app.goo.gl/gPfNN3g5akdJsh1k9" target="_blank" rel="noopener noreferrer">Read reviews on Google <span aria-hidden="true">↗</span></a>
-        </div>
-    </section>
-
-    <!-- Services: existing packages only; no standalone Exterior package is offered. -->
-    <section class="section rt-services" id="auto-detailing" aria-labelledby="services-title">
-        <div class="container">
-            <div class="rt-services-heading"><div><p class="rt-section-kicker">SERVICES &amp; PRICING</p><h2 id="services-title">Choose your level of care.</h2></div><p>Clear starting prices. <br>Personal service, from the first call.</p></div>
-            <div class="rt-service-tabs" role="tablist" aria-label="Detailing packages">
-                <button type="button" role="tab" id="full-detail-tab" aria-selected="true" aria-controls="full-detail-panel">Full Detail</button>
-                <button type="button" role="tab" id="interior-detail-tab" aria-selected="false" aria-controls="interior-detail-panel" tabindex="-1">Interior</button>
-            </div>
-            <p class="rt-starting-price-note">Starting prices for standard sedans. Final quote depends on vehicle size and condition.</p>
-            <div id="full-detail-panel" role="tabpanel" aria-labelledby="full-detail-tab" class="rt-package-grid">
-<article class="rt-package" data-package="1">
-                    <h3>Essential Detail</h3><p class="rt-package-price"><span>From</span> $179</p><p class="rt-package-for">For an interior refresh, hand wash and everyday paint protection.</p>
-                    <ul class="rt-package-highlights"><li>Interior vacuum, surface cleaning &amp; UV protection</li><li>Foam cannon exterior hand wash</li><li>Wheels, tires, and wheel wells cleaned</li><li>Tire shine applied</li><li>Basic spray wax protection</li></ul>
-                    <details class="rt-package-details"><summary>View full service details</summary><div><p>Full included service:</p><ul><li>Thorough vacuum (seats, carpets, trunk)</li><li>Wipe down of all plastics </li><li>Cleaning armrests, storage pockets, jambs</li><li>Interior glass & mirrors</li><li>UV protection applied to surfaces</li><li>Foam cannon exterior hand wash</li><li>Wheels, tires, and wheel wells cleaned</li><li>Tire shine applied</li><li>Basic spray wax protection</li></ul></div></details>
-                    <a class="rt-primary rt-package-call" href="tel:8588882707">Call for a Quote <span aria-hidden="true">↗</span></a>
-                </article><article class="rt-package" data-package="2">
-                    <h3>Deep Clean & Protect</h3><p class="rt-package-price"><span>From</span> $229</p><p class="rt-package-for">For deeper interior cleaning and upgraded paint protection.</p>
-                    <ul class="rt-package-highlights"><li>Interior cleaning &amp; exterior hand wash</li><li>Carpet & upholstery extraction</li><li>Stain, grime & pet hair removal*</li><li>Chemical paint decontamination</li><li>Upgraded paint sealant</li></ul>
-                    <details class="rt-package-details"><summary>View full service details</summary><div><p>Full included service:</p><ul><li>Thorough vacuum (seats, carpets, trunk)</li><li>Wipe down of all plastics </li><li>Cleaning armrests, storage pockets, jambs</li><li>Interior glass & mirrors</li><li>UV protection applied to surfaces</li><li>Foam cannon exterior hand wash</li><li>Wheels, tires, and wheel wells cleaned</li><li>Tire shine applied</li><li>Basic spray wax protection</li><li>Carpet & upholstery extraction</li><li>Stain, grime & pet hair removal*</li><li>Chemical paint decontamination</li><li>Upgraded paint sealant</li></ul></div></details>
-                    <a class="rt-primary rt-package-call" href="tel:8588882707">Call for a Quote <span aria-hidden="true">↗</span></a>
-                </article><article class="rt-package" data-package="3">
-                    <h3>Full Detail + Polish</h3><p class="rt-package-price"><span>From</span> $289</p><p class="rt-package-for">For a full reset with one-step polishing to restore gloss.</p>
-                    <ul class="rt-package-highlights"><li>Full interior &amp; exterior detail with extraction*</li><li>Clay bar paint treatment</li><li>One-step machine polish</li><li>Removes light swirls & scratches</li><li>Restores deep gloss to paint</li></ul>
-                    <details class="rt-package-details"><summary>View full service details</summary><div><p>Full included service:</p><ul><li>Thorough vacuum (seats, carpets, trunk)</li><li>Wipe down of all plastics </li><li>Cleaning armrests, storage pockets, jambs</li><li>Interior glass & mirrors</li><li>UV protection applied to surfaces</li><li>Foam cannon exterior hand wash</li><li>Wheels, tires, and wheel wells cleaned</li><li>Tire shine applied</li><li>Basic spray wax protection</li><li>Carpet & upholstery extraction</li><li>Stain, grime & pet hair removal*</li><li>Chemical paint decontamination</li><li>Upgraded paint sealant</li><li>Clay bar paint treatment</li><li>One-step machine polish</li><li>Removes light swirls & scratches</li><li>Restores deep gloss to paint</li></ul></div></details>
-                    <a class="rt-primary rt-package-call" href="tel:8588882707">Call for a Quote <span aria-hidden="true">↗</span></a>
-                </article>
-            </div>
-            <div id="interior-detail-panel" role="tabpanel" aria-labelledby="interior-detail-tab" class="rt-package-grid rt-interior-packages" hidden>
-<article class="rt-package" data-package="0">
-                    <h3>Interior Only Detail</h3><p class="rt-package-price"><span>From</span> $139</p><p class="rt-package-for">For a fresh, clean cabin without an exterior detail.</p>
-                    <ul class="rt-package-highlights"><li>Thorough vacuum (seats, carpets, trunk)</li><li>Wipe down of all plastics </li><li>Cleaning armrests, storage pockets, jambs</li><li>Interior glass & mirrors</li><li>UV protection applied to surfaces</li></ul>
-                    <details class="rt-package-details"><summary>View full service details</summary><div><p>Full included service:</p><ul><li>Thorough vacuum (seats, carpets, trunk)</li><li>Wipe down of all plastics </li><li>Cleaning armrests, storage pockets, jambs</li><li>Interior glass & mirrors</li><li>UV protection applied to surfaces</li></ul></div></details>
-                    <a class="rt-primary rt-package-call" href="tel:8588882707">Call for a Quote <span aria-hidden="true">↗</span></a>
-                </article>
-            </div>
-            <aside class="rt-service-pricing-note" aria-label="Vehicle size and condition pricing">
-                <p>Starting prices are for standard sedans. Mid-size SUVs: <strong>+$25</strong>. Large SUVs and minivans: <strong>+$50</strong>. RVs: <strong>2× the base price</strong>.</p>
-                <p>Heavy buildup or excessive pet hair may require an additional charge, agreed before work begins. See Extras &amp; Add-ons below.</p>
-                <p>* Stain, grime and pet hair removal is included in Deep Clean &amp; Protect and Full Detail + Polish. Excessive buildup is quoted separately.</p>
-            </aside>
-            <article class="rt-maintenance" data-package="4">
-                <div class="rt-maintenance-main"><p class="rt-maintenance-label">FOR RETURNING CLIENTS ONLY</p><h3>Monthly Maintenance</h3><p>For returning clients keeping up with regular care.</p></div>
-                <div class="rt-maintenance-content"><ul class="rt-maintenance-highlights"><li>Maintenance hand wash</li><li>Light interior vacuum & wipe down</li><li>Exterior glass & tire shine</li><li>Helps keep your vehicle clean and maintained.</li></ul>
-                    <details class="rt-package-details"><summary>View full service details</summary><div><ul><li><strong>For returning clients only</strong></li><li>Maintenance hand wash</li><li>Light interior vacuum & wipe down</li><li>Exterior glass & tire shine</li><li>Helps keep your vehicle clean and maintained.</li></ul></div></details></div>
-                <div class="rt-maintenance-action"><p class="rt-package-price"><span>From</span> $129</p><a class="rt-primary" href="tel:8588882707">Call for a Quote <span aria-hidden="true">↗</span></a></div>
-            </article>
-            <div class="rt-service-addons"><div><h3>Extras &amp; Add-ons</h3><p>Extra treatment beyond package coverage.</p></div><dl>
-                <div><dt>Headlight Restoration</dt><dd>$50</dd></div>
-                <div><dt>Excessive Pet Hair Removal</dt><dd>$30+</dd></div>
-                <div><dt>Odor Treatment (Ozone)</dt><dd>$50</dd></div>
-                <div><dt>Engine Bay Detailing</dt><dd>$40</dd></div>
-                <div><dt>Extra Stain Treatment</dt><dd>$40+</dd></div>
-                <div><dt>Leather Conditioning</dt><dd>$30</dd></div>
-            </dl></div>
         </div>
     </section>
 
@@ -167,8 +206,8 @@
         <div class="container">
             <p class="rt-section-kicker">HOW IT WORKS</p><h2 id="how-title" class="sr-only">How it works</h2>
             <ol class="rt-how-steps">
-                <li><span class="rt-how-number" aria-hidden="true">01</span><div><h3>Call about your car</h3><p>We’ll discuss your vehicle, its condition and the work you need.</p></div></li>
-                <li><span class="rt-how-number" aria-hidden="true">02</span><div><h3>Confirm your appointment</h3><p>We’ll agree on the service, a quote and a convenient time. Final pricing may require an in-person inspection.</p></div></li>
+                <li><span class="rt-how-number" aria-hidden="true">01</span><div><h3>Tell me about your car</h3><p>Call or text me with your vehicle model and what needs attention.</p></div></li>
+                <li><span class="rt-how-number" aria-hidden="true">02</span><div><h3>Confirm your appointment</h3><p>I’ll confirm the price and appointment with you. I may need to see the vehicle first.</p></div></li>
                 <li><span class="rt-how-number" aria-hidden="true">03</span><div><h3>I come to you</h3><p>I bring my own water, power and equipment and get to work at your home, apartment or workplace, subject to parking rules.</p></div></li>
             </ol>
         </div>
@@ -179,9 +218,9 @@
         <div class="container rt-about-layout">
             <div class="rt-about-photo"><img src="images/about/ace-tesla.webp" alt="Ace, owner of Restore Theory, beside the branded white Restore Theory Tesla" width="1122" height="1402" loading="lazy" decoding="async"></div>
             <div class="rt-about-copy"><p class="rt-section-kicker">PERSONAL SERVICE. OWNER TO DRIVER.</p><h2 id="about-title">Meet Ace, the owner behind the detail.</h2>
-                <p>You speak directly with me, and I personally detail your car. We’ll agree on the work your vehicle needs, with clear communication about the service and price.</p>
+                <p>You speak directly with me, and I personally detail your car. I’ll explain what your vehicle needs and confirm the price with you.</p>
                 <p>I bring patience and careful attention to every detail—the same discipline I’ve learned as a competitive athlete.</p>
-                <a class="rt-primary" href="tel:8588882707">Call for a Quote <span aria-hidden="true">↗</span></a>
+                <a class="rt-primary" href="tel:8588882707">Call for a Quote <svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-phone"></use></svg></a>
             </div>
         </div>
     </section>
@@ -191,11 +230,10 @@
         <div class="container rt-areas-layout">
             <div class="rt-areas-copy"><p class="rt-section-kicker">SERVICE AREAS</p><h2 id="areas-title">Your neighborhood.<br>My next detail.</h2>
                 <p>Mobile detailing at your home, apartment or workplace throughout the areas listed below.</p>
-                <ol class="rt-neighborhoods"><li>Black Mountain Ranch</li><li>Carmel Valley</li><li>Del Mar</li><li>La Jolla</li><li>Mira Mesa</li><li>Miramar</li><li>Pacific Beach</li><li>Point Loma</li><li>Poway</li><li>Rancho Bernardo</li><li>Rancho Peñasquitos</li><li>Serra Mesa</li><li>Solana Beach</li><li>Sorrento Valley</li><li>Torrey Highlands</li></ol>
-                <p class="rt-service-zip"><span aria-hidden="true">16</span> Clairemont</p>
-                <a class="rt-area-call" href="tel:8588882707">Call to arrange your detail <span aria-hidden="true">↗</span></a>
+                <ul class="rt-neighborhoods"><li>Black Mountain Ranch</li><li>Carmel Valley</li><li>Del Mar</li><li>La Jolla</li><li>Mira Mesa</li><li>Miramar</li><li>Pacific Beach</li><li>Point Loma</li><li>Poway</li><li>Rancho Bernardo</li><li>Rancho Peñasquitos</li><li>Serra Mesa</li><li>Solana Beach</li><li>Sorrento Valley</li><li>Torrey Highlands</li><li>Clairemont</li></ul>
+                <a class="rt-area-call" href="sms:8588882707"><svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-message"></use></svg><span>Not sure if I cover your area? <strong>Text your ZIP code.</strong></span></a>
             </div>
-            <div class="rt-coverage-map"><div id="service-area-map" role="region" aria-label="Map showing 16 approximate service locations, numbered to match the neighborhood list including Clairemont. Markers show area names, not a business address or coverage boundaries."><p class="rt-map-fallback">San Diego mobile service coverage. Neighborhoods are listed beside the map.</p></div><p class="rt-map-note" id="map-status" role="status">Explore the neighborhoods I serve.</p></div>
+            <div class="rt-coverage-map"><div id="service-area-map" role="region" aria-label="Map of service neighborhoods. Select a marker to see the neighborhood name."><p class="rt-map-fallback">San Diego mobile service coverage. Neighborhoods are listed beside the map.</p></div><p class="rt-map-note" id="map-status" role="status">Explore the neighborhoods I serve.</p></div>
         </div>
     </section>
 
@@ -215,7 +253,7 @@
     </section>
 
     <section class="section rt-final-call" id="contact" aria-labelledby="contact-title">
-        <div class="container rt-final-call-layout"><div><p class="rt-section-kicker">LET’S TALK ABOUT YOUR CAR</p><h2 id="contact-title">Ready to give your car a fresh start?</h2><p>Call to discuss your vehicle, get a quote and arrange your detail.</p></div><div class="rt-final-call-action"><a class="rt-primary" href="tel:8588882707">Call for a Quote <span aria-hidden="true">↗</span></a><a class="rt-final-phone" href="tel:8588882707">(858) 888-2707</a></div></div>
+        <div class="container rt-final-call-layout"><div><p class="rt-section-kicker">LET’S TALK ABOUT YOUR CAR</p><h2 id="contact-title">Ready to give your car a fresh start?</h2><p>Call or text me about your vehicle to get a quote and arrange your detail.</p></div><div class="rt-final-call-action"><a class="rt-primary" href="tel:8588882707">Call for a Quote <svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-phone"></use></svg></a><a class="rt-final-phone" href="tel:8588882707">(858) 888-2707</a></div></div>
     </section>
 
     <footer class="rt-footer">
@@ -225,11 +263,42 @@
             </div><div class="rt-footer-bottom"><p>&copy; <span id="year">2026</span> Restore Theory. All rights reserved.</p><p><a href="/terms/">Terms of Service</a> · <a href="/privacy/">Privacy Policy</a></p><a href="#home">Back to top ↑</a></div></div>
     </footer>
 
-    <div class="rt-mobile-call-dock" aria-label="Quick phone contact"><a href="tel:8588882707"><strong>Call Now</strong><span>(858) 888-2707</span></a></div>
+    <button type="button" class="rt-offer-launcher" data-open-offer aria-haspopup="dialog" aria-controls="rt-first-detail-offer">Get 10% Off</button>
+    <div class="rt-mobile-call-dock" aria-label="Quick phone contact"><button type="button" data-open-offer aria-haspopup="dialog" aria-controls="rt-first-detail-offer">Get 10% Off</button><a href="tel:8588882707"><strong>Call Now</strong><span>(858) 888-2707</span></a></div>
+
+    <dialog class="rt-offer-dialog" id="rt-first-detail-offer" aria-labelledby="rt-offer-title" aria-describedby="rt-offer-terms">
+        <div class="rt-offer-top"><span>RESTORE THEORY</span><button type="button" class="rt-offer-close" aria-label="Close first-detail offer" autofocus>Close <span aria-hidden="true">×</span></button></div>
+        <div class="rt-offer-body">
+            <div id="rt-offer-intro">
+                <p class="rt-section-kicker">A FRESH START FOR YOUR CAR</p>
+                <h2 id="rt-offer-title">10% off your first detail</h2>
+                <p class="rt-offer-copy">Call to book your first detail and mention this offer.</p>
+                <a class="rt-primary rt-offer-call" href="tel:8588882707">Call &amp; Claim 10% Off <svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-phone"></use></svg></a>
+                <button type="button" class="rt-offer-secondary" id="rt-open-callback" hidden>Request a Callback</button>
+            </div>
+            <div id="rt-callback-panel" hidden>
+                <button type="button" class="rt-offer-back" id="rt-offer-back">← Back to offer</button>
+                <h2 id="rt-callback-title" tabindex="-1">Request a Callback</h2>
+                <p class="rt-callback-availability" id="rt-callback-availability">Online callback requests aren’t connected yet. Please call (858) 888-2707 to claim your offer.</p>
+                <form id="rt-callback-form" method="post" aria-describedby="rt-callback-availability rt-callback-use">
+                    <label for="rt-callback-name">Name <span>(required)</span></label><input id="rt-callback-name" name="name" type="text" autocomplete="name" required maxlength="100">
+                    <label for="rt-callback-phone">Phone <span>(required)</span></label><input id="rt-callback-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required minlength="7" maxlength="30">
+                    <label for="rt-callback-email">Email <span>(optional)</span></label><input id="rt-callback-email" name="email" type="email" autocomplete="email" maxlength="254">
+                    <p id="rt-callback-use">These details will only be used to respond to your callback request.</p>
+                    <button type="submit" class="rt-primary" id="rt-callback-submit" disabled>Request Callback</button>
+                    <p id="rt-callback-status" role="status" aria-live="polite"></p>
+                </form>
+                <a class="rt-callback-call" href="tel:8588882707">Call &amp; Claim 10% Off <svg class="rt-contact-icon" aria-hidden="true"><use href="#rt-icon-phone"></use></svg></a>
+            </div>
+            <p class="rt-offer-terms" id="rt-offer-terms">First-time customers only. Cannot be combined with other offers.</p>
+        </div>
+    </dialog>
 
     <script defer src="vendor/leaflet/leaflet.js"></script>
-    <script defer src="script.js"></script>
-    <script defer src="gallery-data.js?v=exterior-20261024"></script>
+    <script defer src="script.js?v=service-first-20261109"></script>
+    <script defer src="gallery-data.js?v=service-first-20261109"></script>
     <script defer src="gallery.js"></script>
+    <script defer src="integrations.js"></script>
+    <script defer src="reviews-offer.js"></script>
 </body>
 </html>
