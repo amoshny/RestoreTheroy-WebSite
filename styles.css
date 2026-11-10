@@ -500,6 +500,9 @@ body.rt-viewer-open .rt-mobile-call-dock, body:has(.rt-lightbox[open]) .rt-mobil
 .rt-reviews .rt-reviews-enhanced .review-text {display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6; overflow: hidden; flex: none;}
 .rt-reviews .rt-review-expanded .review-text {display: block; overflow: visible;}
 .rt-review-read-more {min-height: 44px; align-self: flex-start; margin-top: auto; border: 0; border-bottom: 1px solid #547c59; padding: 4px 0; background: none; color: #b2e8bb; font: 600 14px/1.6 Inter,sans-serif; cursor: pointer;}
+.rt-saved-reviews-track.rt-reviews-enhanced {position: relative; display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; padding: 3px; margin: -3px; align-items: stretch;}
+.rt-saved-reviews-track::-webkit-scrollbar {display: none;}
+.rt-saved-reviews-track.rt-reviews-enhanced .review-card {flex: 0 0 calc((100% - 20px) / 2); scroll-snap-align: start; scroll-margin-inline: 3px; min-width: 0;}
 .rt-saved-reviews-controls {display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px; color: #c6d8c0; font-size: 14px;}
 .rt-saved-reviews-controls button {width: 44px; height: 44px; border-radius: 50%; border: 1px solid #5c8863; color: #a6eab0; background: #19271c; font-size: 23px; cursor: pointer;}
 .rt-saved-reviews-controls button:disabled {opacity: .35; cursor: default;}
@@ -539,9 +542,8 @@ body.rt-viewer-open .rt-mobile-call-dock, body:has(.rt-lightbox[open]) .rt-mobil
 body.rt-offer-open {overflow: hidden;}
 body:has(dialog[open]) .rt-mobile-call-dock, body:has(dialog[open]) .rt-offer-launcher, body:has(.rt-mobile-menu[open]) .rt-offer-launcher {display: none;}
 @media (max-width: 700px) {
-    .rt-saved-reviews-track.rt-reviews-enhanced {display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; padding: 3px; margin: -3px; align-items: flex-start;}
-    .rt-saved-reviews-track::-webkit-scrollbar {display: none;}
-    .rt-saved-reviews-track .review-card {flex: 0 0 100%; scroll-snap-align: start; min-width: 0;}
+    .rt-saved-reviews-track.rt-reviews-enhanced {gap: 16px;}
+    .rt-saved-reviews-track.rt-reviews-enhanced .review-card {flex-basis: 100%;}
     .rt-offer-launcher {display: none;}
     .rt-mobile-call-dock {display: grid; grid-template-columns: auto minmax(0,1fr); gap: 9px; align-items: center;}
     .rt-mobile-call-dock > button {min-height: 44px; padding: 10px 12px; color: #c1edc8; border: 1px solid #62846a; border-radius: 5px; background: #1a2a1f; font: 600 12px/1.5 Inter,sans-serif; cursor: pointer;}
@@ -574,7 +576,8 @@ body:has(dialog[open]) .rt-mobile-call-dock, body:has(dialog[open]) .rt-offer-la
 .rt-hero .rt-rating {margin-top: 14px;}
 .rt-hero-visual::after {display: none;}
 .rt-hero-visual {width: 100%; max-width: 540px; justify-self: end;}
-.rt-hero-photo {aspect-ratio: 1 / 1; object-fit: cover; object-position: center 84%;}
+.rt-hero-image-frame {overflow: hidden;}
+.rt-hero-photo {aspect-ratio: 1 / 1; object-fit: cover; object-position: center 84%; transform: scale(1.07); transform-origin: 43% 55%;}
 .rt-hero-proof {max-width: 1280px; display: flex; align-items: center; gap: 16px; margin: 24px auto 0; padding: 12px 0; border-top: 1px solid #303b30; border-bottom: 1px solid #303b30; color: #e1eadf; font-size: 14px;}
 .rt-proof-photos {display: flex; gap: 6px; flex: 0 0 auto;}
 .rt-proof-photos figure {position: relative; margin: 0;}
@@ -611,4 +614,53 @@ body:has(dialog[open]) .rt-mobile-call-dock, body:has(dialog[open]) .rt-offer-la
     .rt-hero .rt-eyebrow {margin-bottom: 14px;}
     .rt-hero-proof {margin-top: 16px;}
     .rt-hero-visual {justify-self: center;}
+}
+
+/* One continuous dark-green canvas, with the light and depth on the surfaces. */
+html {background: #101712;}
+body {
+    background:
+        radial-gradient(ellipse 82% 730px at 82% 0, #2b493766, transparent 100%),
+        radial-gradient(ellipse 76% 720px at 9% 27%, #26423262, transparent 100%),
+        radial-gradient(ellipse 74% 730px at 94% 58%, #304e3961, transparent 100%),
+        radial-gradient(ellipse 80% 540px at 15% 93%, #2b47345c, transparent 100%),
+        linear-gradient(172deg,#111b14,#101712 48%,#0e1611);
+}
+.rt-hero, .rt-services, .rt-results, .rt-reviews, .rt-how,
+.rt-about, .rt-areas, .rt-faq, .rt-final-call, .rt-footer {background: transparent;}
+.rt-results {border-bottom: 0;}
+.rt-nav {
+    background: #121b15e8;
+    border-bottom-color: #91bc9b26;
+    -webkit-backdrop-filter: blur(18px) saturate(1.14);
+    backdrop-filter: blur(18px) saturate(1.14);
+    box-shadow: 0 8px 25px #070c0840;
+}
+.rt-hero-visual, .rt-services .rt-package, .rt-services .rt-maintenance, .rt-reviews .review-card {
+    background: linear-gradient(145deg,#304637 0%,#1b2a20 47%,#17231b 100%);
+    border: 1px solid #a3d3ad36;
+    border-radius: 13px;
+    box-shadow: inset 0 1px #e6ffe01c, 0 14px 32px #050b0636;
+}
+.rt-primary, .rt-nav-cta {
+    background: linear-gradient(153deg,#a1e8a9,#7bd688 57%,#70c97d);
+    box-shadow: inset 0 1px #edffe363, 0 5px 14px #071b0d55;
+}
+.rt-primary:hover, .rt-nav-cta:hover {background: linear-gradient(153deg,#b3f1ba,#8cde98);}
+.rt-quote-secondary, .rt-saved-reviews-controls button:not(:disabled), .rt-category-controls button:not(:disabled) {
+    background: linear-gradient(150deg,#304738,#1b2c21);
+    box-shadow: inset 0 1px #d8fadd24;
+}
+.rt-saved-reviews-controls button:hover:not(:disabled), .rt-category-controls button:hover:not(:disabled) {background: #8ddc97; color: #132016;}
+.rt-reviews .review-text {max-width: 52ch;}
+@media (min-width: 1101px) {
+    .rt-hero-layout, .rt-hero-proof, .rt-results > .container, .rt-reviews > .container,
+    .rt-services > .container, .rt-how > .container, .rt-about-layout, .rt-areas-layout,
+    .rt-faq > .container, .rt-final-call > .container, .rt-footer > .container {max-width: 1320px;}
+    .rt-nav {padding-inline: max(5%, calc((100% - 1320px) / 2));}
+    .rt-category-panels {--lane-height: 540px; max-width: 886px;}
+}
+@media (prefers-reduced-motion: no-preference) {
+    .rt-primary, .rt-nav-cta, .rt-quote-secondary {transition: box-shadow .2s ease, border-color .2s ease;}
+    .rt-primary:hover, .rt-nav-cta:hover {box-shadow: inset 0 1px #f0ffed91, 0 7px 21px #70c97d3b;}
 }
