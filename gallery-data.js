@@ -5,7 +5,7 @@ window.restoreGalleryData = {
     "photos": [
       {
         "id": "tesla-white-coastal",
-        "label": "Tesla · White",
+        "label": "Tesla — exterior finish",
         "source": "Restore Theory Best Photos/4EEECB28-19FA-4ED5-AA34-7040AD020403.PNG",
         "preview": "images/results/categories/tesla-white-coastal-preview.webp",
         "large": "images/results/categories/tesla-white-coastal-large.webp",
@@ -23,7 +23,7 @@ window.restoreGalleryData = {
       },
       {
         "id": "camry-exterior",
-        "label": "Toyota Camry",
+        "label": "Toyota Camry — exterior finish",
         "source": "Restore Theory Best Photos/72971506-6D6E-4DD0-B09E-686A5A8EBB0D.PNG",
         "preview": "images/results/categories/camry-exterior-preview.webp",
         "large": "images/results/categories/camry-exterior-large.webp",
@@ -41,7 +41,7 @@ window.restoreGalleryData = {
       },
       {
         "id": "cadillac-driveway",
-        "label": "Cadillac",
+        "label": "Cadillac — exterior finish",
         "source": "Restore Theory Best Photos/36D17A55-3A84-4CE1-812E-2EB017E3C793.PNG",
         "preview": "images/results/categories/cadillac-driveway-preview.webp",
         "large": "images/results/categories/cadillac-driveway-large.webp",
@@ -59,7 +59,7 @@ window.restoreGalleryData = {
       },
       {
         "id": "kia-exterior",
-        "label": "Kia",
+        "label": "Kia — exterior finish",
         "source": "Restore Theory Best Photos/CCB4480D-6EE0-4176-ADC8-F9D07CB65032.PNG",
         "preview": "images/results/categories/kia-exterior-preview.webp",
         "large": "images/results/categories/kia-exterior-large.webp",
@@ -77,7 +77,7 @@ window.restoreGalleryData = {
       },
       {
         "id": "honda-exterior",
-        "label": "Honda",
+        "label": "Honda — exterior finish",
         "source": "Restore Theory Best Photos/C6E2C1D4-D55C-4EA4-BC90-652EC1005BCA.PNG",
         "preview": "images/results/categories/honda-exterior-preview.webp",
         "large": "images/results/categories/honda-exterior-large.webp",
@@ -89,7 +89,7 @@ window.restoreGalleryData = {
       },
       {
         "id": "tesla-black-sunlight",
-        "label": "Tesla · Black",
+        "label": "Tesla — exterior finish",
         "source": "Restore Theory Best Photos/7FA99A73-794A-4072-8799-36921256B3DD.PNG",
         "preview": "images/results/categories/tesla-black-sunlight-preview.webp",
         "large": "images/results/categories/tesla-black-sunlight-large.webp",
@@ -143,7 +143,7 @@ window.restoreGalleryData = {
       },
       {
         "id": "tesla-gray",
-        "label": "Tesla",
+        "label": "Tesla — exterior finish",
         "source": "Restore Theory Best Photos/IMG_6481.PNG",
         "preview": "images/results/categories/tesla-gray-preview.webp",
         "large": "images/results/categories/tesla-gray-large.webp",
@@ -155,7 +155,7 @@ window.restoreGalleryData = {
       },
       {
         "id": "tesla-white-side",
-        "label": "Tesla · Side detail",
+        "label": "Tesla — side paint finish",
         "source": "Restore Theory Best Photos/36DD5E09-4522-45B3-9331-D5C975FA9862.PNG",
         "preview": "images/results/categories/tesla-white-side-preview.webp",
         "large": "images/results/categories/tesla-white-side-large.webp",
@@ -178,7 +178,7 @@ window.restoreGalleryData = {
     "photos": [
       {
         "id": "bmw-interior",
-        "label": "BMW",
+        "label": "BMW — cabin finish",
         "source": "Restore Theory Best Photos/95F9D1C7-F471-4C3B-B6E4-94A32D2CFC1B.PNG",
         "preview": "images/results/categories/bmw-interior-preview.webp",
         "large": "images/results/categories/bmw-interior-large.webp",
@@ -208,7 +208,7 @@ window.restoreGalleryData = {
       },
       {
         "id": "tesla-interior",
-        "label": "Tesla",
+        "label": "Tesla — cabin finish",
         "source": "Restore Theory Best Photos/IMG_6483.PNG",
         "preview": "images/results/categories/tesla-interior-preview.webp",
         "large": "images/results/categories/tesla-interior-large.webp",
@@ -220,7 +220,7 @@ window.restoreGalleryData = {
       },
       {
         "id": "lexus-interior",
-        "label": "Lexus",
+        "label": "Lexus — cabin finish",
         "source": "Restore Theory Best Photos/IMG_7110.jpg",
         "preview": "images/results/categories/lexus-interior-preview.webp",
         "large": "images/results/categories/lexus-interior-large.webp",
@@ -232,7 +232,7 @@ window.restoreGalleryData = {
       },
       {
         "id": "ford-interior",
-        "label": "Ford",
+        "label": "Ford — cabin finish",
         "source": "Restore Theory Best Photos/8F472311-16A5-45B2-838B-D22FF02039A0.PNG",
         "preview": "images/results/categories/ford-interior-preview.webp",
         "large": "images/results/categories/ford-interior-large.webp",
@@ -244,7 +244,7 @@ window.restoreGalleryData = {
       },
       {
         "id": "kia-interior",
-        "label": "Kia",
+        "label": "Kia — cabin finish",
         "source": "Restore Theory Best Photos/CD118C35-A7CE-4F77-ADE9-4055CBF67378.PNG",
         "preview": "images/results/categories/kia-interior-preview.webp",
         "large": "images/results/categories/kia-interior-large.webp",
@@ -280,7 +280,7 @@ window.restoreGalleryData = {
       },
       {
         "id": "mini-interior",
-        "label": "MINI",
+        "label": "MINI — cabin finish",
         "source": "Restore Theory Best Photos/IMG_7124.jpg",
         "preview": "images/results/categories/mini-interior-preview.webp",
         "large": "images/results/categories/mini-interior-large.webp",
