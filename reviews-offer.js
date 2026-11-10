@@ -8,29 +8,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const readButtons = cards.map(card => card.querySelector('.rt-review-read-more'));
     track.classList.add('rt-reviews-enhanced');
 
+    const reviewCount = document.getElementById('rt-saved-review-count');
+    const previous = controls.querySelector('[data-review-direction="-1"]');
+    const next = controls.querySelector('[data-review-direction="1"]');
+    const visibleCount = () => mobile.matches ? 1 : 2;
+    const lastIndex = () => Math.max(0, cards.length - visibleCount());
+    const stride = () => cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth;
+    const currentIndex = () => Math.max(0, Math.min(lastIndex(), Math.round(track.scrollLeft / (stride() || 1))));
     function updateReviews() {
-        const stride = cards[1].offsetLeft - cards[0].offsetLeft;
-        const index = mobile.matches ? Math.max(0, Math.min(cards.length - 1, Math.round(track.scrollLeft / stride))) : 0;
-        controls.hidden = !mobile.matches;
-        controls.querySelector('[data-review-direction="-1"]').disabled = index === 0;
-        controls.querySelector('[data-review-direction="1"]').disabled = index === cards.length - 1;
-        document.getElementById('rt-saved-review-count').textContent = `${index + 1} / ${cards.length}`;
-
+        const index = currentIndex();
+        const first = index + 1, last = Math.min(cards.length, index + visibleCount());
+        controls.hidden = lastIndex() === 0;
+        previous.disabled = index === 0;
+        next.disabled = index === lastIndex();
+        const label = `${first === last ? first : `${first}–${last}`} / ${cards.length}`;
+        if (reviewCount.textContent !== label) reviewCount.textContent = label;
     }
     function reviewGo(index) {
-        const stride = cards[1].offsetLeft - cards[0].offsetLeft;
-        track.scrollTo({ left: Math.max(0, Math.min(cards.length - 1, index)) * stride, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+        const position = Math.max(0, Math.min(lastIndex(), index));
+        track.scrollTo({ left: position * stride(), behavior: reducedMotion.matches ? 'instant' : 'smooth' });
     }
-    controls.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
-        const stride = cards[1].offsetLeft - cards[0].offsetLeft;
-        reviewGo(Math.round(track.scrollLeft / stride) + Number(button.dataset.reviewDirection));
-    }));
+    previous.addEventListener('click', () => reviewGo(currentIndex() - 1));
+    next.addEventListener('click', () => reviewGo(currentIndex() + 1));
     track.addEventListener('keydown', event => {
-        if (!mobile.matches || event.target !== track) return;
-        const stride = cards[1].offsetLeft - cards[0].offsetLeft;
-        const index = Math.round(track.scrollLeft / stride);
-        const next = { ArrowRight: index + 1, ArrowLeft: index - 1, Home: 0, End: cards.length - 1 }[event.key];
-        if (next !== undefined) { event.preventDefault(); reviewGo(next); }
+        if (event.target !== track) return;
+        const index = currentIndex();
+        const target = { ArrowRight: index + 1, ArrowLeft: index - 1, Home: 0, End: lastIndex() }[event.key];
+        if (target !== undefined) { event.preventDefault(); reviewGo(target); }
     });
     track.addEventListener('scroll', updateReviews, { passive: true });
     new ResizeObserver(updateReviews).observe(track);
