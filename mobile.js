@@ -6,12 +6,16 @@ const smsSeparator = appleMobile ? '&' : '?';
 const quoteMessage = "Hi Ace, I'd like a quote for my vehicle.\nVehicle model: \nZIP code: \nI’ll attach a few photos.";
 const areaMessage = "Hi Ace, do you serve my ZIP code? ";
 
+function rtSmsHref(message) {
+    return 'sms:8588882707' + smsSeparator + 'body=' + encodeURIComponent(message);
+}
+
 function updateSmsLinks() {
     for (const link of smsLinks) {
         const message = link.classList.contains('rt-area-call') ? areaMessage : quoteMessage;
-        link.href = mobileLayout.matches
-            ? 'sms:8588882707' + smsSeparator + 'body=' + encodeURIComponent(message)
-            : 'sms:8588882707';
+        link.href = link.dataset.smsBody
+            ? rtSmsHref(link.dataset.smsBody)
+            : mobileLayout.matches ? rtSmsHref(message) : 'sms:8588882707';
     }
 }
 
@@ -26,11 +30,13 @@ function updateDock() {
         heroActions.getBoundingClientRect().bottom > header.getBoundingClientRect().bottom;
 }
 
-updateDock();
-window.addEventListener('scroll', updateDock, { passive: true });
-window.addEventListener('resize', updateDock);
-mobileLayout.addEventListener('change', updateDock);
-new ResizeObserver(updateDock).observe(heroActions);
+if (quoteDock && heroActions && header) {
+    updateDock();
+    window.addEventListener('scroll', updateDock, { passive: true });
+    window.addEventListener('resize', updateDock);
+    mobileLayout.addEventListener('change', updateDock);
+    new ResizeObserver(updateDock).observe(heroActions);
+}
 
 document.addEventListener('click', event => {
     if (!mobileLayout.matches || event.defaultPrevented) return;

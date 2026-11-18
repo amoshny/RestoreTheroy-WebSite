@@ -26,26 +26,44 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('service-area-map');
     if (!container) return;
+    const mobile = matchMedia('(max-width: 700px)');
     const status = document.getElementById('map-status');
-    // Approximate representative points only; the full neighborhood list is visible beside the map.
-    const areas = [
-        { name: 'Black Mountain Ranch', location: [33.015, -117.160] },
-        { name: 'Carmel Valley', location: [32.953, -117.231] },
-        { name: 'Del Mar', location: [32.959, -117.265] },
-        { name: 'La Jolla', location: [32.847, -117.274] },
-        { name: 'Mira Mesa', location: [32.918, -117.139] },
-        { name: 'Miramar', location: [32.886, -117.145] },
-        { name: 'Pacific Beach', location: [32.800, -117.240] },
-        { name: 'Point Loma', location: [32.728, -117.235] },
-        { name: 'Poway', location: [32.963, -117.036] },
-        { name: 'Rancho Bernardo', location: [33.023, -117.078] },
-        { name: 'Rancho Peñasquitos', location: [32.971, -117.118] },
-        { name: 'Serra Mesa', location: [32.800, -117.135] },
-        { name: 'Solana Beach', location: [32.991, -117.271] },
-        { name: 'Sorrento Valley', location: [32.902, -117.207] },
-        { name: 'Torrey Highlands', location: [32.967, -117.162] },
-        { name: 'Clairemont', location: [32.824, -117.200] }
-    ];
+    const title = document.getElementById('rt-area-selection-title');
+    const availability = document.querySelector('.rt-area-selection .rt-area-call');
+    let activeArea;
+    const areas = [...document.querySelectorAll('.rt-neighborhoods li[data-location]')].map(item => {
+        const location = item.dataset.location.split(',').map(Number);
+        const name = item.textContent.trim();
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = name;
+        button.setAttribute('aria-pressed', 'false');
+        button.setAttribute('aria-controls', 'rt-area-selection');
+        const area = { name, location, button };
+        button.addEventListener('click', () => selectArea(area));
+        item.replaceChildren(button);
+        return area;
+    });
+
+    function syncSelection() {
+        for (const area of areas) {
+            const active = area === activeArea;
+            area.button.setAttribute('aria-pressed', String(active));
+            const marker = area.marker?.getElement();
+            marker?.classList.toggle('is-selected', active);
+            marker?.setAttribute('aria-pressed', String(active));
+        }
+    }
+
+    function selectArea(area) {
+        activeArea = area;
+        title.textContent = area.name;
+        const message = "Hi Ace, do you have availability for mobile detailing in " + area.name + "? My ZIP code is ";
+        availability.dataset.smsBody = message;
+        availability.href = rtSmsHref(message);
+        syncSelection();
+    }
+
     function initMap() {
         if (!window.L) { status.textContent = 'Map unavailable. All service neighborhoods are listed here.'; return; }
         container.replaceChildren();
@@ -72,32 +90,65 @@ document.addEventListener('DOMContentLoaded', () => {
                 status.textContent = 'Map tiles are unavailable. See the neighborhood list for service coverage.';
             }
         });
-        tiles.addTo(map);
-        areas.forEach(area => L.marker(area.location, {
-            icon: L.divIcon({
-                className: 'rt-service-marker',
-                html: '<span aria-hidden="true"></span>',
-                iconSize: [25, 25], iconAnchor: [12.5, 12.5]
-            }),
-            title: area.name,
-            alt: area.name,
-            interactive: true, keyboard: true, autoPanOnFocus: false
-        }).addTo(map)
-            .bindTooltip(area.name, { direction: 'top', offset: [0, -7] })
-            .bindPopup(area.name, { autoPan: true, autoPanPadding: [20, 20], closeButton: true })
-            .on('popupopen', event => event.target.closeTooltip()));
         const fit = () => map.fitBounds(areas.map(area => area.location), {
             padding: [32, 32], maxZoom: 12, animate: false
         });
         fit();
-        map.on('resize popupclose', fit);
+        tiles.addTo(map);
+        for (const area of areas) {
+            area.marker = L.marker(area.location, {
+                icon: L.divIcon({
+                    className: 'rt-service-marker',
+                    html: '<span aria-hidden="true"></span>',
+                    iconSize: [25, 25], iconAnchor: [12.5, 12.5]
+                }),
+                title: area.name,
+                alt: area.name,
+                interactive: true, keyboard: true, autoPanOnFocus: false
+            }).addTo(map).bindTooltip(area.name, { direction: 'top', offset: [0, -7] });
+            const marker = area.marker.getElement();
+            marker.setAttribute('aria-label', area.name);
+            marker.setAttribute('aria-controls', 'rt-area-selection');
+            area.marker.on('click', () => selectArea(area));
+            marker.addEventListener('keydown', event => {
+                if (event.key !== ' ' && event.key !== 'Enter') return;
+                event.preventDefault();
+                event.stopPropagation();
+                selectArea(area);
+            });
+        }
+        syncSelection();
+        map.on('resize', fit);
         new ResizeObserver(() => map.invalidateSize({ animate: false })).observe(container);
         container.dataset.mapState = 'ready';
     }
+    const toggle = document.querySelector('.rt-map-toggle');
+    const mapFrame = document.getElementById('rt-coverage-map');
+    let initialized = false;
+    const canShowMap = () => !mobile.matches || mapFrame.classList.contains('rt-map-open');
     const observer = new IntersectionObserver(entries => {
-        if (entries.some(entry => entry.isIntersecting)) { observer.disconnect(); initMap(); }
+        if (canShowMap() && entries.some(entry => entry.isIntersecting)) {
+            initialized = true;
+            observer.disconnect();
+            initMap();
+        }
     }, { rootMargin: '250px' });
-    observer.observe(container);
+    function observeMap() {
+        if (initialized) return;
+        if (canShowMap()) observer.observe(container);
+        else observer.unobserve(container);
+    }
+    if (toggle) {
+        toggle.hidden = false;
+        toggle.addEventListener('click', () => {
+            const open = mapFrame.classList.toggle('rt-map-open');
+            toggle.setAttribute('aria-expanded', String(open));
+            toggle.textContent = open ? 'Hide service area map' : 'Show service area map';
+            observeMap();
+        });
+    }
+    mobile.addEventListener('change', observeMap);
+    observeMap();
 });
 
 // Close the mobile header menu after choosing a destination or pressing Escape.
@@ -113,43 +164,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// Tabs reflect the existing package categories; disclosure lists use native details.
-document.addEventListener('DOMContentLoaded', () => {
-    const tabs = Array.from(document.querySelectorAll('.rt-service-tabs [role="tab"]'));
-    const select = tab => tabs.forEach(item => {
-        const active = item === tab;
-        item.setAttribute('aria-selected', String(active));
-        item.tabIndex = active ? 0 : -1;
-        document.getElementById(item.getAttribute('aria-controls')).hidden = !active;
-    });
-    tabs.forEach((tab, index) => {
-        tab.addEventListener('click', () => select(tab));
-        tab.addEventListener('keydown', event => {
-            let next;
-            if (event.key === 'ArrowRight') next = tabs[(index + 1) % tabs.length];
-            if (event.key === 'ArrowLeft') next = tabs[(index + tabs.length - 1) % tabs.length];
-            if (event.key === 'Home') next = tabs[0];
-            if (event.key === 'End') next = tabs[tabs.length - 1];
-            if (next) { event.preventDefault(); select(next); next.focus(); }
-        });
-    });
-});
-
-// Show estimates with the existing vehicle-size adjustments; base prices stay in the HTML.
+// Compare the same starting prices used by the booking form.
 document.addEventListener('DOMContentLoaded', () => {
     const size = document.getElementById('rt-vehicle-size');
-    if (!size) return;
-    const prices = document.querySelectorAll('#auto-detailing [data-base-price]');
+    if (!size || typeof rtPricing === 'undefined') return;
+    const prices = document.querySelectorAll('#auto-detailing [data-starting-price]');
     const status = document.getElementById('rt-vehicle-estimate');
+    rtPopulateVehicleSizes(size);
     const update = () => {
-        const option = size.selectedOptions[0];
-        if (!option) return;
-        const { extra, factor } = option.dataset;
         for (const price of prices) {
-            price.textContent = '$' + (Number(price.dataset.basePrice) * Number(factor) + Number(extra));
+            const amount = rtStartingPrice(price.dataset.startingPrice, size.value);
+            price.textContent = amount === null ? 'Quote required' : '$' + amount;
+            price.closest('.rt-package-price').classList.toggle('rt-individual-price', amount === null);
         }
-        status.textContent = 'Showing starting prices for: ' + option.textContent.split(' (')[0] + '.';
+        status.textContent = Number.isFinite(rtPricing.vehicles[size.value].factor)
+            ? 'Starting prices for ' + rtPricing.vehicles[size.value].name + '.'
+            : 'Text or book online and I’ll confirm pricing for this vehicle size.';
     };
+    size.value = 'sedan';
     size.disabled = false;
     size.addEventListener('change', update);
     window.addEventListener('pageshow', update);
