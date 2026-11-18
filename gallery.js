@@ -189,13 +189,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (next) { event.preventDefault(); selectTab(next); next.focus(); }
         });
     });
-    selectTab(tabs[0]);
+    if (!mobile.matches) selectTab(tabs[0]);
     let resizeFrame;
     window.addEventListener('resize', () => {
         cancelAnimationFrame(resizeFrame);
         resizeFrame = requestAnimationFrame(() => {
+            if (mobile.matches) return;
             const state = states.get(activeKey);
-            goTo(state, state.index, false);
+            if (state) goTo(state, state.index, false);
+            else selectTab(tabs[0]);
         });
     });
     viewerPrev.addEventListener('click', () => showPhoto(viewerIndex - 1));
