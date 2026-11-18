@@ -8,7 +8,9 @@ Planning benchmark for the owner: `(agreed service price − direct service expe
 
 The site is static. Until a delivery endpoint is verified, online submission is disabled with a visible explanation. Customers can call, open a simple SMS draft, or use Text These Details to transfer their entered details to their messaging app. They must tap Send there; opening a draft is not a delivered request.
 
-The prepared FormSubmit AJAX recipient is `arsenij.moshko@gmail.com`. Configuration is in `restoreIntegrations.booking.formsubmit` in `integrations.js`; `verified` intentionally remains `false`. An authorized activation test on November 18 timed out without a response. Do not assume an activation email or request arrived. Complete provider activation and confirm actual inbox receipt from the published origin before setting `verified: true`. Check spam as well. No secret credentials belong in the browser.
+The active FormSubmit AJAX recipient is `arsenij.moshko@gmail.com`. On November 18, 2026 the owner confirmed both clicking Activate Form and receiving the separate test inquiry titled “Restore Theory TEST: verify booking email delivery.” `restoreIntegrations.booking.formsubmit.verified` is now `true`. Tests sometimes timed out in the verification environment even though the owner received the email. Customer-facing success still requires a positive handler response; network errors retain input and do not claim delivery. No secret credentials belong in the browser.
+
+Phone contact is `(858) 888-2707`. Existing `tel:` and `sms:` links initiate customer calls or SMS drafts; they do not send automatic owner notifications. Gmail mobile notifications are distinct from SMS delivery. No automatic SMS provider is configured or paid service activated.
 
 Alternatively, set `restoreIntegrations.booking.endpoint` to an approved public HTTPS endpoint. This takes priority over the prepared FormSubmit adapter.
 
@@ -28,4 +30,4 @@ No new analytics tag is installed. `analytics.js` prepares `click_to_call`, `sms
 
 Run `python3 tools/check-site.py` and the `--check` modes of `tools/sync-pricing.py`, `tools/sync-areas.py` and `tools/sync-metadata.py` before publishing. Area names and representative coordinates are maintained in `service-areas.json`.
 
-Browser tests cover mobile and desktop layouts, package estimates, gallery controls, navigation, form validation, and intercepted delivery success/failure. Mock responses do not establish real email delivery. A real inbox test remains required.
+Browser tests cover mobile and desktop layouts, package estimates, gallery controls, navigation, form validation, and intercepted delivery success/failure. Mock responses do not establish real email delivery. The owner has now confirmed the separate real inbox test.
