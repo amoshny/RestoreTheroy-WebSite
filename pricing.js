@@ -16,10 +16,10 @@ const rtPricing = {
 };
 
 function rtStartingPrice(serviceId, vehicleId) {
+    if (!Object.hasOwn(rtPricing.services, serviceId) || !Object.hasOwn(rtPricing.vehicles, vehicleId)) return null;
     const rate = rtPricing.services[serviceId];
     const vehicle = rtPricing.vehicles[vehicleId];
-    if (!Object.hasOwn(rtPricing.services, serviceId) || !Object.hasOwn(rtPricing.vehicles, vehicleId) ||
-        !Number.isFinite(vehicle.factor)) return null;
+    if (!Number.isFinite(vehicle.factor)) return null;
     return rate.base * vehicle.factor + vehicle.extra;
 }
 

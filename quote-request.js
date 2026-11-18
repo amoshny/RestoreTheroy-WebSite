@@ -3,35 +3,44 @@ const fields = document.getElementById('rt-quote-fields');
 const booking = quoteForm.elements;
 const draftLink = document.getElementById('rt-quote-draft');
 const status = document.getElementById('rt-quote-status');
-const submit = quoteForm.querySelector('button[type="submit"]');
+const submit = document.getElementById('rt-booking-submit');
 const estimateAmount = document.getElementById('rt-estimate-amount');
 const estimateDetail = document.getElementById('rt-estimate-detail');
 const coverageStatus = document.getElementById('rt-zip-status');
-const requestedService = new URLSearchParams(location.search).get('service');
+const bookingConfig = window.restoreIntegrations?.booking || {};
 let endpoint;
+let provider = 'custom';
 try {
-    const address = new URL(window.restoreIntegrations?.booking?.endpoint);
+    let configured = bookingConfig.endpoint;
+    if (!configured && bookingConfig.formsubmit?.verified) {
+        configured = bookingConfig.formsubmit.endpoint;
+        provider = 'formsubmit';
+    }
+    const address = new URL(configured);
     if (address.protocol === 'https:' && !address.username && !address.password) endpoint = address.href;
-} catch { /* Keep the text option when delivery is not configured. */ }
+} catch { /* The visible text option stays available until delivery is configured. */ }
 
 rtPopulateVehicleSizes(booking.size);
 for (const [id, service] of Object.entries(rtPricing.services)) {
     booking.service.add(new Option(service.name + ' · from $' + service.base, id));
 }
+const requestedService = new URLSearchParams(location.search).get('service');
 if (Object.hasOwn(rtPricing.services, requestedService)) booking.service.value = requestedService;
 const localDate = () => new Intl.DateTimeFormat('en-CA', {
     timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit'
 }).format(new Date());
 booking.date.min = localDate();
-submit.textContent = endpoint ? 'Request Booking' : 'Continue to Text';
-document.getElementById('quote-delivery-help').textContent = endpoint
-    ? 'Your date and time are preferences. Ace will follow up to confirm availability and your final quote.'
-    : 'Continue to open a text draft. Tap Send in your messaging app to request your appointment, and attach photos if you like.';
+submit.disabled = !endpoint;
+document.getElementById('rt-delivery-notice').textContent = endpoint
+    ? 'Send your request online. Ace will confirm the final quote and appointment with you.'
+    : 'Online requests are temporarily unavailable. You can send these details by text or call Ace.';
+document.getElementById('quote-delivery-help').textContent =
+    'Photos help with stains and heavy buildup. You can send them directly to Ace in your messaging app.';
 fields.disabled = false;
 
 function showEstimate() {
-    const amount = rtStartingPrice(booking.service.value, booking.size.value);
     const ready = booking.service.value && booking.size.value && booking.condition.value;
+    const amount = rtStartingPrice(booking.service.value, booking.size.value);
     estimateAmount.textContent = !ready ? 'Choose a service, size and condition'
         : amount === null ? 'Individual quote required' : '$' + amount;
     estimateDetail.textContent = Number(booking.condition.value) >= 4
@@ -39,28 +48,42 @@ function showEstimate() {
         : 'Starting estimate. Ace confirms the final price before work begins.';
     const zip = booking.zip.value;
     coverageStatus.textContent = /^[0-9]{5}$/.test(zip)
-        ? (zip === '92131' ? '92131 is listed for Scripps Ranch. Ace will confirm your service location.'
-            : 'Ace will check availability for this ZIP code.') : '';
+        ? (zip === '92131' ? '92131 is listed for Scripps Ranch. Ace will confirm the exact service location.'
+            : 'Ace will check coverage for this ZIP before confirming the appointment.') : '';
 }
 
-let sending = false;
+let phase = 'editing';
 let lastDraft = -Infinity;
 let requestId;
-
+let retryRequest;
+const unlock = () => {
+    phase = 'editing';
+    fields.disabled = false;
+    submit.disabled = !endpoint;
+    quoteForm.removeAttribute('aria-busy');
+    submit.textContent = 'Request Booking';
+};
 quoteForm.addEventListener('input', event => {
-    event.target.setCustomValidity('');
-    if (!sending) {
-        draftLink.hidden = true;
-        draftLink.removeAttribute('href');
-        status.textContent = '';
-    }
+    if (typeof event.target.setCustomValidity === 'function') event.target.setCustomValidity('');
+    if (phase !== 'editing') return;
+    requestId = undefined;
+    retryRequest = undefined;
+    draftLink.hidden = true;
+    draftLink.removeAttribute('href');
+    status.textContent = '';
     showEstimate();
 });
 showEstimate();
 
 quoteForm.addEventListener('submit', async event => {
     event.preventDefault();
-    if (sending || performance.now() - lastDraft < 1200) return;
+    if (phase !== 'editing' || performance.now() - lastDraft < 1200) return;
+    if (booking.website.value) return;
+    const byText = event.submitter?.value === 'sms';
+    if (!byText && !endpoint) {
+        status.textContent = 'Please use Text These Details or call Ace. Online delivery is not connected yet.';
+        return;
+    }
     if (!booking.customerName.value.trim()) booking.customerName.setCustomValidity('Please enter your first name.');
     const phone = booking.phone.value.trim();
     if (!/^\+?[0-9(). -]+$/.test(phone) || !/^1?[0-9]{10}$/.test(phone.replace(/\D/g, ''))) {
@@ -68,50 +91,76 @@ quoteForm.addEventListener('submit', async event => {
     }
     booking.date.min = localDate();
     if (!quoteForm.reportValidity()) return;
-
     const request = Object.fromEntries([...new FormData(quoteForm)].map(([name, value]) => [name, value.trim()]));
-    if (endpoint) {
-        sending = true;
-        fields.disabled = true;
-        status.textContent = 'Sending your booking request…';
-        requestId ??= crypto.randomUUID();
-        try {
-            const response = await fetch(endpoint, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({...request, requestId}),
-                signal: AbortSignal.timeout(12000)
-            });
-            const result = response.ok ? await response.json() : null;
-            if (result?.ok !== true || typeof result.requestId !== 'string' || !result.requestId.trim()) throw Error();
-            status.textContent = 'Booking request received. Ace will contact you to confirm your appointment and final quote.';
-        } catch {
-            status.textContent = 'Delivery could not be confirmed. Your details are still here. Retry or call Ace for help.';
-            sending = false;
-            fields.disabled = false;
-            return;
-        }
-        if (typeof window.gtag === 'function') window.gtag('event', 'booking_request_submitted');
-        else window.dataLayer?.push({event: 'booking_request_submitted'});
+    delete request.website;
+    delete request.delivery;
+    if (!Object.hasOwn(rtPricing.services, request.service) || !Object.hasOwn(rtPricing.vehicles, request.size)) return;
+
+    if (byText) {
+        const message = [
+            "Hi Ace, I’d like to request a mobile detail.",
+            'Name: ' + request.customerName,
+            'Phone: ' + request.phone,
+            'Vehicle size: ' + rtPricing.vehicles[request.size].name,
+            'Service: ' + rtPricing.services[request.service].name,
+            'Condition: ' + request.condition,
+            'ZIP: ' + request.zip,
+            'Preferred appointment: ' + request.date + ' · ' + request.time,
+        ];
+        if (request.vehicle) message.push('Vehicle: ' + request.vehicle);
+        if (request.email) message.push('Email: ' + request.email);
+        if (request.notes) message.push('Notes: ' + request.notes);
+        lastDraft = performance.now();
+        draftLink.href = rtSmsHref(message.join('\n'));
+        draftLink.hidden = false;
+        status.textContent = 'Your text draft is ready. Add photos if you like and tap Send in your messaging app. If it doesn’t open, use Reopen the text draft or call Ace.';
+        draftLink.click();
         return;
     }
 
-    const message = [
-        "Hi Ace, I’d like to book a mobile detail.",
-        'Name: ' + request.customerName,
-        'Phone: ' + request.phone,
-        'Vehicle size: ' + rtPricing.vehicles[request.size].name,
-        'Service: ' + rtPricing.services[request.service].name,
-        'Condition: ' + request.condition,
-        'ZIP: ' + request.zip,
-        'Preferred appointment: ' + request.date + ' · ' + request.time,
-    ];
-    if (request.vehicle) message.push('Vehicle: ' + request.vehicle);
-    if (request.email) message.push('Email: ' + request.email);
-    if (request.notes) message.push('Notes: ' + request.notes);
-    lastDraft = performance.now();
-    draftLink.href = rtSmsHref(message.join('\n'));
-    draftLink.hidden = false;
-    status.textContent = 'Your text draft is ready. Tap Send in your messaging app to send it to Ace.';
-    draftLink.click();
+    phase = 'sending';
+    fields.disabled = true;
+    quoteForm.setAttribute('aria-busy', 'true');
+    submit.textContent = 'Sending…';
+    status.textContent = 'Sending your booking request…';
+    requestId ??= crypto.randomUUID();
+    retryRequest ??= {...request, requestId};
+    const amount = rtStartingPrice(request.service, request.size);
+    let payload = retryRequest;
+    if (provider === 'formsubmit') {
+        payload = {
+            ...retryRequest,
+            service: rtPricing.services[request.service].name,
+            size: rtPricing.vehicles[request.size].name,
+            starting_estimate: amount === null ? 'Individual quote required' : '$' + amount,
+            _subject: 'Restore Theory · Booking request ' + requestId,
+            _template: 'table',
+            _url: 'https://restoretheory.net/request-a-quote/',
+            _honey: '',
+        };
+    }
+    try {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+            body: JSON.stringify(payload),
+            signal: AbortSignal.timeout(15000),
+        });
+        const result = response.ok ? await response.json() : null;
+        const accepted = provider === 'formsubmit'
+            ? (result?.success === true || result?.success === 'true') && !/activat|confirm your email/i.test(result?.message || '')
+            : result?.ok === true && typeof result.requestId === 'string' && result.requestId.trim();
+        if (!accepted) throw Error();
+    } catch {
+        unlock();
+        status.textContent = 'Delivery could not be confirmed. Your details are still here. Retry with the same request reference, text these details, or call Ace.';
+        status.focus({preventScroll: true});
+        return;
+    }
+    phase = 'accepted';
+    quoteForm.removeAttribute('aria-busy');
+    submit.textContent = 'Request Received';
+    status.textContent = 'Booking request received. Ace will contact you to confirm your appointment and final quote.';
+    status.focus({preventScroll: true});
+    window.rtTrack?.('booking_request_submitted', {service: request.service});
 });

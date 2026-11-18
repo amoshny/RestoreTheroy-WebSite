@@ -15,7 +15,7 @@ time = re.compile(r'(<span data-service-time="([^"]+)">)[^<]+(</span>)')
 schema = re.compile(r'(<script type="application/ld\+json" data-service-schema="([^"]+)">).*?(</script>)', re.S)
 changed = []
 pages = ("index.html", "interior-detailing/index.html", "essential-detail/index.html",
-         "deep-clean-protect/index.html", "full-detail-polish/index.html")
+         "deep-clean-protect/index.html", "full-detail-polish/index.html", "service-areas/index.html")
 for filename in pages:
     page = root / filename
     old = page.read_text()
@@ -31,8 +31,11 @@ for filename in pages:
             "name": service["name"],
             "serviceType": "Mobile auto detailing",
             "url": url,
-            "provider": {"@type": "Organization", "name": "Restore Theory", "url": "https://restoretheory.net/"},
-            "areaServed": "San Diego, California service area",
+            "provider": {"@type": "Organization", "@id": "https://restoretheory.net/#business",
+                         "name": "Restore Theory", "url": "https://restoretheory.net/",
+                         "telephone": "+18588882707",
+                         "sameAs": ["https://maps.app.goo.gl/646HvqYnGiE1Yz1LA", "https://instagram.com/restoretheorysd"]},
+            "areaServed": [area["name"] for area in json.loads((root / "service-areas.json").read_text())],
             "offers": {"@type": "Offer", "url": url, "priceSpecification": {
                 "@type": "UnitPriceSpecification", "minPrice": service["base"], "priceCurrency": "USD",
                 "description": "Starting price for a standard sedan. Final quote depends on vehicle size and condition."

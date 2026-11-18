@@ -189,12 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (next) { event.preventDefault(); selectTab(next); next.focus(); }
         });
     });
-    if (!mobile.matches) selectTab(tabs[0]);
+    selectTab(tabs[0]);
     let resizeFrame;
     window.addEventListener('resize', () => {
         cancelAnimationFrame(resizeFrame);
         resizeFrame = requestAnimationFrame(() => {
-            if (mobile.matches) return;
             const state = states.get(activeKey);
             if (state) goTo(state, state.index, false);
             else selectTab(tabs[0]);

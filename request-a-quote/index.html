@@ -21,8 +21,12 @@
     <link rel="stylesheet" href="/mobile.css" media="(max-width: 700px)">
     <link rel="stylesheet" href="/detail-pages.css">
     <link rel="stylesheet" href="/quote-flow.css?v=brand-colors">
+    <script type="application/ld+json" data-site-metadata>
+    {"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://restoretheory.net/"}, {"@type": "ListItem", "position": 2, "name": "Book Mobile Detailing Online", "item": "https://restoretheory.net/request-a-quote/"}]}]}
+    </script>
 </head>
 <body class="rt-detail-page rt-quote-body">
+    <a class="rt-skip-link" href="#main-content">Skip to content</a>
     <svg class="rt-icon-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="0" height="0">
         <symbol id="rt-icon-phone" viewBox="0 0 24 24"><path d="M7 3H4.5A1.5 1.5 0 0 0 3 4.5 16.5 16.5 0 0 0 19.5 21a1.5 1.5 0 0 0 1.5-1.5V17l-4.5-2-2 2a12 12 0 0 1-7.5-7.5l2-2L7 3Z"/></symbol>
         <symbol id="rt-icon-message" viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 3v-3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="M7 9h10M7 13h7"/></symbol>
@@ -30,11 +34,26 @@
     <nav class="navbar rt-nav" aria-label="Main navigation">
         <a class="rt-brand" href="/" aria-label="Restore Theory home"><span>RESTORE THEORY</span><small>MOBILE AUTO DETAILING</small></a>
         <div class="rt-links">
-            <a href="/#auto-detailing">Services</a><a href="/#gallery">Results</a><a href="/#reviews">Reviews</a><a href="/#service-areas">Service Areas</a>
+            <a href="/#auto-detailing">Services</a><a href="/#gallery">Before &amp; After</a><a href="/#reviews">Reviews</a><a href="/service-areas/">Service Areas</a><a href="/#about">About</a>
         </div>
-        <a href="tel:8588882707" class="rt-nav-cta">Call Ace</a>
+        <a href="/request-a-quote/" class="rt-nav-cta">Book Online</a>
+        <details class="rt-mobile-menu">
+            <summary aria-label="Navigation menu"><span aria-hidden="true">☰</span></summary>
+            <nav aria-label="Mobile navigation">
+                <a href="/#auto-detailing">Services &amp; prices</a>
+                <a href="/interior-detailing/">Interior Only</a>
+                <a href="/essential-detail/">Essential Detail</a>
+                <a href="/deep-clean-protect/">Deep Clean &amp; Protect</a>
+                <a href="/#gallery">Before &amp; After</a>
+                <a href="/#reviews">Reviews</a>
+                <a href="/service-areas/">Service Areas</a>
+                <a href="/#about">Meet Ace</a>
+                <a href="/request-a-quote/">Book Online</a>
+                <a href="tel:8588882707">Call Ace · (858) 888-2707</a>
+            </nav>
+        </details>
     </nav>
-    <main class="rt-quote-page">
+    <main class="rt-quote-page" id="main-content">
         <nav class="container rt-detail-path" id="top" aria-label="Breadcrumb">
             <a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Book Online</span>
         </nav>
@@ -42,16 +61,20 @@
             <div class="container rt-detail-reading">
                 <p class="rt-section-kicker">RESTORE THEORY · SAN DIEGO</p>
                 <h1>Book Online</h1>
-                <p class="rt-detail-lead" id="quote-intro">Choose a detail and see its starting estimate. I’ll follow up to confirm your price and appointment.</p>
+                <p class="rt-detail-lead" id="quote-intro">Tell me what your vehicle needs. I’ll review the details and confirm your price and appointment personally.</p>
+                <a class="rt-quote-secondary rt-booking-photo-link" href="sms:+18588882707">Prefer a quick photo quote? Text Ace</a>
             </div>
         </header>
         <div class="container rt-detail-reading">
-            <form id="rt-quote-form" class="rt-quote-form" method="post" autocomplete="on" aria-describedby="quote-intro">
+            <p class="rt-delivery-notice" id="rt-delivery-notice" role="status">Text Ace for current availability.</p>
+            <form id="rt-quote-form" class="rt-quote-form" method="post" autocomplete="on" aria-describedby="quote-intro quote-required-note">
+                <p id="quote-required-note">Fields marked * are required. Appointment times are requests until Ace confirms.</p>
+                <p class="rt-form-trap" aria-hidden="true"><label for="quote-website">Leave this field empty</label><input id="quote-website" name="website" tabindex="-1" autocomplete="off"></p>
                 <fieldset class="rt-quote-fields" id="rt-quote-fields" disabled>
                     <legend class="sr-only">Vehicle, appointment and contact details</legend>
                     <h2 class="rt-quote-wide">Vehicle &amp; service</h2>
                     <div>
-                        <label for="quote-size">Vehicle size</label>
+                        <label for="quote-size">Vehicle size <span aria-hidden="true">*</span></label>
                         <select id="quote-size" name="size" required><option value="">Choose a size</option></select>
                     </div>
                     <div>
@@ -59,11 +82,11 @@
                         <input id="quote-vehicle" name="vehicle" placeholder="e.g. Toyota Camry" maxlength="70">
                     </div>
                     <div>
-                        <label for="quote-service">Service</label>
+                        <label for="quote-service">Service <span aria-hidden="true">*</span></label>
                         <select id="quote-service" name="service" required><option value="">Choose a service</option></select>
                     </div>
                     <div>
-                        <label for="quote-condition">How dirty is your vehicle?</label>
+                        <label for="quote-condition">How dirty is your vehicle? <span aria-hidden="true">*</span></label>
                         <select id="quote-condition" name="condition" required>
                             <option value="">Choose a level</option>
                             <option value="1">1 — Lightly used / Very clean</option>
@@ -80,16 +103,16 @@
                     </div>
                     <h2 class="rt-quote-wide">Location &amp; appointment</h2>
                     <div>
-                        <label for="quote-zip">Service ZIP code</label>
+                        <label for="quote-zip">Service ZIP code <span aria-hidden="true">*</span></label>
                         <input id="quote-zip" name="zip" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" aria-describedby="rt-zip-status" required>
                         <p class="rt-quote-help" id="rt-zip-status" aria-live="polite"></p>
                     </div>
                     <div>
-                        <label for="quote-date">Preferred date</label>
+                        <label for="quote-date">Preferred date <span aria-hidden="true">*</span></label>
                         <input type="date" id="quote-date" name="date" required>
                     </div>
                     <div>
-                        <label for="quote-time">Preferred time window</label>
+                        <label for="quote-time">Preferred time window <span aria-hidden="true">*</span></label>
                         <select id="quote-time" name="time" required>
                             <option value="">Choose a window</option>
                             <option>Morning</option><option>Afternoon</option><option>Flexible</option>
@@ -97,11 +120,11 @@
                     </div>
                     <h2 class="rt-quote-wide">Contact details</h2>
                     <div>
-                        <label for="quote-name">First name</label>
+                        <label for="quote-name">First name <span aria-hidden="true">*</span></label>
                         <input id="quote-name" name="customerName" autocomplete="given-name" maxlength="60" required>
                     </div>
                     <div>
-                        <label for="quote-phone">Phone number</label>
+                        <label for="quote-phone">Phone number <span aria-hidden="true">*</span></label>
                         <input id="quote-phone" name="phone" autocomplete="tel" type="tel" inputmode="tel" maxlength="24" required>
                     </div>
                     <details class="rt-quote-extras rt-quote-wide">
@@ -113,10 +136,14 @@
                     </details>
                     <div class="rt-quote-wide">
                         <p class="rt-quote-help" id="quote-delivery-help"></p>
-                        <button class="rt-primary" type="submit">Continue to Text</button>
+                        <div class="rt-booking-submit-actions">
+                            <button class="rt-primary" type="submit" id="rt-booking-submit" disabled>Request Booking</button>
+                            <button class="rt-quote-secondary" type="submit" name="delivery" value="sms">Text These Details</button>
+                        </div>
+                        <p class="rt-quote-help">By sending this request, you ask Ace to contact you about this detail. <a href="/privacy/">Privacy Policy</a></p>
                     </div>
                 </fieldset>
-                <p class="rt-quote-status" id="rt-quote-status" role="status"></p>
+                <p class="rt-quote-status" id="rt-quote-status" role="status" tabindex="-1"></p>
                 <a class="rt-inline-link" id="rt-quote-draft" hidden>Reopen the text draft</a>
                 <noscript><p>To request a booking, <a href="sms:8588882707">text Ace</a> or <a href="tel:8588882707">call (858) 888-2707</a>.</p></noscript>
             </form>
@@ -125,18 +152,22 @@
     </main>
     <footer class="rt-footer">
         <div class="container">
-            <div class="rt-footer-grid">
-                <div><a class="rt-footer-brand" href="/">RESTORE THEORY</a><p>Mobile auto detailing in San Diego.</p><a class="rt-footer-phone" href="tel:8588882707">(858) 888-2707</a></div>
-                <nav aria-label="Footer navigation"><a href="/#auto-detailing">Services &amp; prices</a><a href="/#service-areas">Service areas</a><a href="/#about">Meet Ace</a></nav>
-                <div class="rt-footer-social"><a href="https://maps.app.goo.gl/gPfNN3g5akdJsh1k9" target="_blank" rel="noopener noreferrer">Google Reviews <span aria-hidden="true">↗</span></a><a href="https://instagram.com/restoretheorysd" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a></div>
+            <a class="rt-footer-brand" href="/">RESTORE THEORY</a>
+            <p>Owner-operated mobile auto detailing in San Diego.</p>
+            <div class="rt-footer-directory">
+                <nav aria-label="Services"><h2>Services</h2><a href="/interior-detailing/">Interior Only</a><a href="/essential-detail/">Essential Detail</a><a href="/deep-clean-protect/">Deep Clean &amp; Protect</a><a href="/full-detail-polish/">Specialty polishing</a></nav>
+                <nav aria-label="Areas We Serve"><h2>Areas We Serve</h2><a href="/service-areas/">All service areas</a><a href="/service-areas/#poway">Poway</a><a href="/service-areas/#mira-mesa">Mira Mesa</a><a href="/service-areas/#scripps-ranch">Scripps Ranch</a></nav>
+                <nav aria-label="About and contact"><h2>About &amp; Contact</h2><a href="/#about">Meet Ace</a><a href="/#gallery">Before &amp; After</a><a href="/#reviews">Customer reviews</a><a href="/request-a-quote/">Request a detail</a><a href="tel:8588882707">(858) 888-2707</a><a href="https://instagram.com/restoretheorysd" target="_blank" rel="noopener noreferrer">Instagram ↗</a></nav>
+                <nav aria-label="Legal"><h2>Legal</h2><a href="/terms/">Terms of Service</a><a href="/privacy/">Privacy Policy</a></nav>
             </div>
-            <div class="rt-footer-bottom"><p>&copy; <span id="year">2026</span> Restore Theory. All rights reserved.</p><p><a href="/terms/">Terms of Service</a> · <a href="/privacy/">Privacy Policy</a></p><a href="#top">Back to top ↑</a></div>
+            <div class="rt-footer-bottom"><p>&copy; <span id="year">2026</span> Restore Theory. All rights reserved.</p><a href="#top">Back to top ↑</a></div>
         </div>
     </footer>
-    <script defer src="/script.js?v=quote-flow-20261117"></script>
-    <script defer src="/mobile.js?v=quote-flow-20261117"></script>
+    <script defer src="/script.js?v=ops-20261118"></script>
+    <script defer src="/mobile.js?v=ops-20261118"></script>
     <script defer src="/pricing.js"></script>
-    <script defer src="/integrations.js"></script>
+    <script defer src="/integrations.js?v=ops-20261118"></script>
     <script defer src="/quote-request.js?v=final-pricing"></script>
+    <script defer src="/analytics.js"></script>
 </body>
 </html>
