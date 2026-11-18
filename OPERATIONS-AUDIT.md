@@ -16,14 +16,14 @@
 - Add /service-areas/ with 13 confirmed areas, practical access guidance and substantive planning sections for the five priority areas. No separate neighborhood pages: the repository contains no confirmed location-specific jobs or testimonial attribution. Original facts and photos are needed before publishing those pages.
 - Keep /full-detail-polish/ and its existing $289 specialty offer unchanged in scope, outside the three main pricing cards.
 - Improve booking state handling, explicit SMS fallback and the prepared FormSubmit adapter. The owner's authorized recipient is arsenij.moshko@gmail.com.
-- A real FormSubmit activation test was attempted. It timed out after 18 seconds with no response. Inbox delivery and activation have not been verified. The provider's verified flag stays false.
-- Keep the online-submit button disabled until a verified endpoint exists. Text/photo contact remains available immediately and entered details can be sent by SMS. No HTTP success message is shown for an SMS draft.
+- Follow-up on November 18: the browser reached the activation endpoint, and the owner confirmed activation and receipt of the separate test inquiry. FormSubmit email delivery is enabled. Direct test requests were intermittently timing out; receipt is confirmed by the owner, not inferred from HTTP status.
+- Enable online requests through the verified FormSubmit adapter. Keep call/SMS fallbacks and acceptance-only confirmation. No success message is shown merely for opening an SMS draft.
 - Restore mobile category gallery and menu. Keep original photos, lightbox, manual controls and touch scrolling.
 
 ## Owner setup
 
-1. Confirm or activate the receiving endpoint for arsenij.moshko@gmail.com using FormSubmit, or provide an existing approved CRM/form endpoint.
-2. Perform an actual test from the published origin and confirm the exact test request arrives in the inbox. Only then set formsubmit.verified=true.
+1. Email setup completed for arsenij.moshko@gmail.com through FormSubmit.
+2. Real test receipt confirmed by the owner; formsubmit.verified=true. Automatic SMS notifications remain unconnected, pending owner-controlled SMS account, approved costs, sender and private runtime.
 3. Supply GA4/GTM ID and the site's consent configuration before enabling analytics delivery. Prepared events contain no customer names, phone numbers, emails, ZIP codes or message text.
 4. Confirm current live scope/price of specialty polishing if changing the preserved page.
 5. Provide real job photographs, work details and permission to identify the service area before adding standalone district pages. Weather/rescheduling rules also need owner confirmation.
@@ -37,7 +37,7 @@ This change is local and does not alter hosting or publish the website. Browser 
 - Local Chrome widths: 320, 375, 390, 768, 1024 and 1440 px. Ten routes checked for horizontal overflow, runtime errors, missing local resources and visible image decoding.
 - Mobile menu, keyboard access, gallery tabs/arrows/lightbox, touch swipe, focus return, area selection and map-independent list navigation.
 - All three sedan prices, +$25 / +$50 / 2× adjustments, package preselection, native required fields, phone validation and SMS draft content.
-- Intercepted custom endpoint and FormSubmit tests: recoverable failure, retained input, retry identifiers, activation guard, repeated-submit prevention and acceptance-only analytics. Real delivery remains unverified.
+- Intercepted custom endpoint and FormSubmit tests: recoverable failure, retained input, retry identifiers, activation guard, repeated-submit prevention and acceptance-only analytics. Real email receipt was subsequently confirmed by the owner. SMS delivery remains unverified.
 - Static check: titles, descriptions, canonical/OG metadata, one H1, local links/fragments, sitemap membership and JSON-LD syntax. This is not a Google rich-results eligibility certification.
 - Local performance sample: three fresh Chrome loads at 390 × 844, DPR 1, no throttling and external fonts blocked. Median observed LCP: 104 ms before / 96 ms after; CLS 0 / 0; DOMContentLoaded 67 / 72 ms. These local observations do not predict production speed or measure INP. Raw observations and screenshots are in the operations preview artifact directory.
 
