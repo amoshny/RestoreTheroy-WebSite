@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.textContent = name;
         button.setAttribute('aria-pressed', 'false');
         button.setAttribute('aria-controls', 'rt-area-selection');
-        const area = { name, location, button };
+        const area = { name, location, button, slug: item.dataset.area };
         button.addEventListener('click', () => selectArea(area));
         item.replaceChildren(button);
         return area;
@@ -58,6 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function selectArea(area) {
         activeArea = area;
         title.textContent = area.name;
+        const guide = document.getElementById('rt-area-guide');
+        if (guide) {
+            guide.href = '/service-areas/#' + area.slug;
+            guide.hidden = false;
+        }
         const message = "Hi Ace, do you have availability for mobile detailing in " + area.name + "? My ZIP code is ";
         availability.dataset.smsBody = message;
         availability.href = rtSmsHref(message);

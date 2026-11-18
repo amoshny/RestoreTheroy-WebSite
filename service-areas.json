@@ -1,0 +1,106 @@
+[
+  {
+    "name": "4S Ranch",
+    "slug": "4s-ranch",
+    "location": [
+      33.019,
+      -117.118
+    ]
+  },
+  {
+    "name": "Black Mountain Ranch",
+    "slug": "black-mountain-ranch",
+    "location": [
+      33.015,
+      -117.16
+    ]
+  },
+  {
+    "name": "Carmel Mountain Ranch",
+    "slug": "carmel-mountain-ranch",
+    "location": [
+      32.982,
+      -117.075
+    ]
+  },
+  {
+    "name": "Carmel Valley",
+    "slug": "carmel-valley",
+    "location": [
+      32.953,
+      -117.231
+    ]
+  },
+  {
+    "name": "Mira Mesa",
+    "slug": "mira-mesa",
+    "location": [
+      32.918,
+      -117.139
+    ]
+  },
+  {
+    "name": "Miramar",
+    "slug": "miramar",
+    "location": [
+      32.886,
+      -117.145
+    ]
+  },
+  {
+    "name": "Poway",
+    "slug": "poway",
+    "location": [
+      32.963,
+      -117.036
+    ]
+  },
+  {
+    "name": "Rancho Bernardo",
+    "slug": "rancho-bernardo",
+    "location": [
+      33.023,
+      -117.078
+    ]
+  },
+  {
+    "name": "Rancho Peñasquitos",
+    "slug": "rancho-penasquitos",
+    "location": [
+      32.971,
+      -117.118
+    ]
+  },
+  {
+    "name": "Sabre Springs",
+    "slug": "sabre-springs",
+    "location": [
+      32.952,
+      -117.092
+    ]
+  },
+  {
+    "name": "Scripps Ranch",
+    "slug": "scripps-ranch",
+    "location": [
+      32.9,
+      -117.102
+    ]
+  },
+  {
+    "name": "Sorrento Valley",
+    "slug": "sorrento-valley",
+    "location": [
+      32.902,
+      -117.207
+    ]
+  },
+  {
+    "name": "Torrey Highlands",
+    "slug": "torrey-highlands",
+    "location": [
+      32.967,
+      -117.162
+    ]
+  }
+]
