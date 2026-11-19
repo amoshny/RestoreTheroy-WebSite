@@ -6,7 +6,7 @@ root=Path(__file__).resolve().parent.parent
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--check',action='store_true')
 args=parser.parse_args()
-pages=[root/'index.html',*sorted(root.glob('*/index.html')),*sorted(root.glob('results/*/index.html'))]
+pages=sorted(root.rglob('index.html'))
 areas=json.loads((root/'service-areas.json').read_text())
 for file in pages:
     old=file.read_text()
@@ -22,10 +22,11 @@ for file in pages:
              'publisher':{'@id':'https://restoretheory.net/#business'}}
         ]
     else:
-        nodes=[{'@type':'BreadcrumbList','itemListElement':[
-            {'@type':'ListItem','position':1,'name':'Home','item':'https://restoretheory.net/'},
-            {'@type':'ListItem','position':2,'name':name,'item':url}
-        ]}]
+        crumbs=[{'@type':'ListItem','position':1,'name':'Home','item':'https://restoretheory.net/'}]
+        if path.startswith('results/') and path!='results/':
+            crumbs.append({'@type':'ListItem','position':2,'name':'Real results','item':'https://restoretheory.net/results/'})
+        crumbs.append({'@type':'ListItem','position':len(crumbs)+1,'name':name,'item':url})
+        nodes=[{'@type':'BreadcrumbList','itemListElement':crumbs}]
     markup='    <script type="application/ld+json" data-site-metadata>\n    '+json.dumps({'@context':'https://schema.org','@graph':nodes},ensure_ascii=False)+'\n    </script>'
     if 'data-site-metadata' in old:
         new=re.sub(r'    <script type="application/ld\+json" data-site-metadata>.*?</script>',lambda m:markup,old,count=1,flags=re.S)

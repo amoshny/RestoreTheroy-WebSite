@@ -14,8 +14,7 @@ price = re.compile(r'(<(?:strong|span) data-starting-price="([^"]+)">)\$\d+(</(?
 time = re.compile(r'(<span data-service-time="([^"]+)">)[^<]+(</span>)')
 schema = re.compile(r'(<script type="application/ld\+json" data-service-schema="([^"]+)">).*?(</script>)', re.S)
 changed = []
-pages = ("index.html", "interior-detailing/index.html", "essential-detail/index.html",
-         "deep-clean-protect/index.html", "full-detail-polish/index.html", "service-areas/index.html")
+pages = [str(p.relative_to(root)) for p in sorted(root.rglob('index.html'))]
 for filename in pages:
     page = root / filename
     old = page.read_text()
@@ -29,7 +28,7 @@ for filename in pages:
             "@context": "https://schema.org",
             "@type": "Service",
             "name": service["name"],
-            "serviceType": "Mobile auto detailing",
+            "serviceType": {"interior-only": "Mobile interior car detailing", "essential": "Interior and exterior mobile car detailing", "deep-clean": "Deep car cleaning with carpet and upholstery extraction"}[match[2]],
             "url": url,
             "provider": {"@type": "Organization", "@id": "https://restoretheory.net/#business",
                          "name": "Restore Theory", "url": "https://restoretheory.net/",

@@ -26,6 +26,20 @@ for (const [id, service] of Object.entries(rtPricing.services)) {
 }
 const requestedService = new URLSearchParams(location.search).get('service');
 if (Object.hasOwn(rtPricing.services, requestedService)) booking.service.value = requestedService;
+// Keep the neighborhood selected in the area hub without adding another required field.
+let requestedAreaName = '';
+const requestedArea = new URLSearchParams(location.search).get('area');
+if (requestedArea && /^[a-z0-9-]{1,50}$/.test(requestedArea)) {
+    fetch('/service-areas.json').then(response => response.ok ? response.json() : [])
+        .then(areas => {
+            const area = Array.isArray(areas) && areas.find(item => item.slug === requestedArea);
+            if (!area) return;
+            requestedAreaName = area.name;
+            const notice = document.getElementById('rt-requested-area');
+            notice.textContent = 'Requested area: ' + area.name + '. Ace will confirm the exact location.';
+            notice.hidden = false;
+        }).catch(() => { /* A ZIP can still be entered if the area lookup is unavailable. */ });
+}
 const localDate = () => new Intl.DateTimeFormat('en-CA', {
     timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit'
 }).format(new Date());
@@ -94,6 +108,7 @@ quoteForm.addEventListener('submit', async event => {
     const request = Object.fromEntries([...new FormData(quoteForm)].map(([name, value]) => [name, value.trim()]));
     delete request.website;
     delete request.delivery;
+    if (requestedAreaName) request.requestedArea = requestedAreaName;
     if (!Object.hasOwn(rtPricing.services, request.service) || !Object.hasOwn(rtPricing.vehicles, request.size)) return;
 
     if (byText) {
@@ -108,6 +123,7 @@ quoteForm.addEventListener('submit', async event => {
             'Preferred appointment: ' + request.date + ' · ' + request.time,
         ];
         if (request.vehicle) message.push('Vehicle: ' + request.vehicle);
+        if (request.requestedArea) message.push('Requested area: ' + request.requestedArea);
         if (request.email) message.push('Email: ' + request.email);
         if (request.notes) message.push('Notes: ' + request.notes);
         lastDraft = performance.now();
