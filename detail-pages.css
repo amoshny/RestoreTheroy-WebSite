@@ -119,6 +119,17 @@
 .rt-detail-link-list a:hover {background: #263b2b; text-decoration: underline;}
 .rt-services .rt-service-resources {margin-top: 20px;}
 
+.rt-case-grid {display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;}
+.rt-case-card {min-width: 0; padding: 16px;}
+.rt-case-card > a {display: block; color: inherit; text-decoration: none;}
+.rt-case-card > a:hover h2 {text-decoration: underline; text-underline-offset: 4px;}
+.rt-case-card img {display: block; width: 100%; height: auto; max-height: 360px; object-fit: cover; object-position: center; border-radius: 8px;}
+.rt-case-card h2 {font-size: clamp(22px, 3vw, 30px); margin: 14px 0 8px;}
+.rt-case-card p {color: var(--rt-detail-muted); line-height: 1.65;}
+.rt-case-card > a:last-child {color: #b4e9bc; margin-top: 10px; text-decoration: underline;}
+.rt-detail-compare a:focus-visible {display: block; outline-offset: -4px;}
+@media (max-width: 700px) {.rt-case-grid {grid-template-columns: 1fr;} .rt-case-card img {max-height: 400px;}}
+
 @media (min-width: 701px) {
     .rt-detail-hero {padding-block: 22px 44px;}
     .rt-detail-intro-photo {grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 36px;}
@@ -133,3 +144,5 @@
     .rt-detail-page .rt-hero-actions > a {font-size: 13px; gap: 6px; padding: 9px 11px;}
     .rt-detail-intro-photo .rt-detail-photo img {aspect-ratio: 6 / 5;}
 }
+
+.rt-local-guides a {color: #b4e9bc; text-underline-offset: 4px;}

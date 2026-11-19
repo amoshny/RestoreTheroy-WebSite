@@ -1,4 +1,4 @@
-// Edit photo arrays to change the order. Cover crops affect previews only; large images remain complete.
+// Real photographs; edit category arrays to change display order.
 window.restoreGalleryData = {
   "exterior": {
     "label": "Exterior",
@@ -207,6 +207,26 @@ window.restoreGalleryData = {
         "previewHeight": 1402
       },
       {
+        "source": "Restore Thery Photos ADS Campaign/unnamed-9.png",
+        "id": "maserati-cognac",
+        "label": "Maserati — cognac interior",
+        "width": 604,
+        "height": 1024,
+        "preview": "images/results/categories/maserati-cognac-preview.webp",
+        "large": "images/results/categories/maserati-cognac-large.webp",
+        "position": "50% 50%"
+      },
+      {
+        "source": "Restore Thery Photos ADS Campaign/unnamed-17.png",
+        "id": "mercedes-cabin",
+        "label": "Mercedes — front cabin",
+        "width": 768,
+        "height": 1024,
+        "preview": "images/results/categories/mercedes-cabin-preview.webp",
+        "large": "images/results/categories/mercedes-cabin-large.webp",
+        "position": "50% 50%"
+      },
+      {
         "id": "tesla-interior",
         "label": "Tesla — cabin finish",
         "source": "Restore Theory Best Photos/IMG_6483.PNG",
@@ -323,7 +343,8 @@ window.restoreGalleryData = {
             "height": 750,
             "state": "After"
           }
-        ]
+        ],
+        "casePath": "/results/lincoln-rear-seat-deep-clean/"
       },
       {
         "id": "comparison-2",
@@ -371,7 +392,8 @@ window.restoreGalleryData = {
             "height": 750,
             "state": "After"
           }
-        ]
+        ],
+        "casePath": "/results/chevrolet-front-cabin-detail/"
       },
       {
         "id": "comparison-4",
@@ -443,7 +465,8 @@ window.restoreGalleryData = {
             "height": 750,
             "state": "After"
           }
-        ]
+        ],
+        "casePath": "/results/range-rover-exterior-detail/"
       },
       {
         "id": "comparison-7",
@@ -467,7 +490,8 @@ window.restoreGalleryData = {
             "height": 750,
             "state": "After"
           }
-        ]
+        ],
+        "casePath": "/results/lexus-tan-interior-detail/"
       },
       {
         "id": "comparison-8",
@@ -491,7 +515,8 @@ window.restoreGalleryData = {
             "height": 750,
             "state": "After"
           }
-        ]
+        ],
+        "casePath": "/results/tesla-rear-cabin-refresh/"
       }
     ]
   }

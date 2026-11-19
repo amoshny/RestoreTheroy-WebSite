@@ -1,0 +1,32 @@
+[
+  {
+    "source": "Restore Thery Photos ADS Campaign/unnamed-9.png",
+    "id": "maserati-cognac",
+    "label": "Maserati \u2014 cognac interior",
+    "width": 604,
+    "height": 1024,
+    "preview": "images/results/categories/maserati-cognac-preview.webp",
+    "large": "images/results/categories/maserati-cognac-large.webp",
+    "position": "50% 50%"
+  },
+  {
+    "source": "Restore Thery Photos ADS Campaign/unnamed-17.png",
+    "id": "mercedes-cabin",
+    "label": "Mercedes \u2014 front cabin",
+    "width": 768,
+    "height": 1024,
+    "preview": "images/results/categories/mercedes-cabin-preview.webp",
+    "large": "images/results/categories/mercedes-cabin-large.webp",
+    "position": "50% 50%"
+  },
+  {
+    "source": "Restore Thery Photos ADS Campaign/unnamed-20.png",
+    "id": "tesla-equipment",
+    "label": "Restore Theory mobile equipment",
+    "width": 768,
+    "height": 1024,
+    "preview": "images/results/categories/tesla-equipment-preview.webp",
+    "large": "images/results/categories/tesla-equipment-large.webp",
+    "position": "50% 50%"
+  }
+]

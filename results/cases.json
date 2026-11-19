@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "lincoln-rear-seat-deep-clean",
+    "title": "Lincoln rear seat and floor deep clean",
+    "photo": "lincoln-rear",
+    "summary": "Loose dirt around the rear floor, seat base and back of the center console.",
+    "before": "Loose dirt and debris are visible on the rear floor and around the back of the center console.",
+    "after": "The rear floor is visibly clearer, with loose debris removed from the photographed footwell. The seat base and floor can be compared from a similar angle.",
+    "focus": "Rear footwell, floor edges and the area behind the front seats. These small spaces are easy to overlook when the main concern is the seats.",
+    "decision": "Loose crumbs and surface dirt may fit Interior Only. Dirt worked into fabric calls for a discussion about Deep Clean & Protect and its carpet and upholstery extraction.",
+    "service": "deep-clean",
+    "servicePath": "deep-clean-protect",
+    "serviceName": "Deep Clean & Protect",
+    "note": "The photos document the visible result. They do not establish the extraction method, treatment time or exact package used on this job."
+  },
+  {
+    "slug": "chevrolet-front-cabin-detail",
+    "title": "Chevrolet front cabin cleanup",
+    "photo": "chevrolet",
+    "summary": "A closer look at the driver’s floor mat, front seat and center console.",
+    "before": "Dirt is visible on the driver’s floor mat, with the front seat, steering wheel and console in view.",
+    "after": "The after image shows a cleaner-looking driver’s footwell and a clearer view of the seat and console surfaces. The open-door perspective makes those areas easy to compare.",
+    "focus": "The floor mat and the spaces around the driver’s seat and console. Surface cleaning and attention to these edges are different from treating a stain embedded in upholstery.",
+    "decision": "Interior Only covers vacuuming and surface cleaning. If your vehicle also needs exterior care, Essential Detail adds the hand wash and basic spray wax.",
+    "service": "interior-only",
+    "servicePath": "interior-detailing",
+    "serviceName": "Interior Only",
+    "note": "Lighting differs between the photographs. This example does not claim stain restoration, leather repair or a particular product."
+  },
+  {
+    "slug": "range-rover-exterior-detail",
+    "title": "Range Rover exterior cleanup",
+    "photo": "range-rover",
+    "summary": "The rear quarter, lower bodywork and wheel before and after exterior cleaning.",
+    "before": "Road dirt is visible along the lower white bodywork and rear area.",
+    "after": "The lower panels look cleaner in the after photograph. Water remains on the driveway, and light and camera position differ between the two views.",
+    "focus": "The rear quarter and lower body panels. Dirt removal is visible here; paint correction, scratch removal and coating durability cannot be judged from this pair.",
+    "decision": "For a regularly maintained vehicle needing care inside and out, Essential Detail includes an exterior hand wash, wheel cleaning and basic spray wax. Deep Clean & Protect adds deeper cabin cleaning, paint decontamination and upgraded sealant.",
+    "service": "essential",
+    "servicePath": "essential-detail",
+    "serviceName": "Essential Detail",
+    "note": "The package links describe currently available services, not a claim about the exact package or protective product used on this Range Rover."
+  },
+  {
+    "slug": "lexus-tan-interior-detail",
+    "title": "Lexus tan interior detail",
+    "photo": "lexus",
+    "summary": "Two views of the tan front seats, dashboard and center console.",
+    "before": "The first photograph looks across the tan front seats toward the console and driver’s side.",
+    "after": "The finished view looks into the cabin from a different position, showing the dashboard, front seats and console together.",
+    "focus": "Light-colored seating and the contact areas around the front console. The photographs are useful for viewing the cabin finish, but the different angles do not establish a precise stain-by-stain comparison.",
+    "decision": "Choose Interior Only for vacuuming and a surface refresh. If fabric needs extraction or the cabin needs standard stain and pet-hair treatment, compare Deep Clean & Protect before requesting a detail.",
+    "service": "interior-only",
+    "servicePath": "interior-detailing",
+    "serviceName": "Interior Only",
+    "note": "No leather restoration, recoloring, odor-removal guarantee or change to the photographed finish is claimed."
+  },
+  {
+    "slug": "tesla-rear-cabin-refresh",
+    "title": "Tesla rear cabin refresh",
+    "photo": "tesla",
+    "summary": "Black rear seating, floor mat and door-entry area in a close before-and-after view.",
+    "before": "The rear bench, floor mat and entry sill are visible, including debris and marks in the floor area.",
+    "after": "The after photograph shows the same rear-cabin layout with a tidier-looking floor mat and entry area. The bench remains in view for context.",
+    "focus": "The rear floor mat and doorway, where shoes and daily use leave visible dirt. This is a modest everyday cleanup example, rather than a claim of heavy stain restoration.",
+    "decision": "A cabin that mainly needs vacuuming and surface cleaning may suit Interior Only. Essential Detail adds exterior care when you also want the body, wheels and tires cleaned.",
+    "service": "interior-only",
+    "servicePath": "interior-detailing",
+    "serviceName": "Interior Only",
+    "note": "The images do not establish odor removal, disinfection or a specific treatment process. Send photos of your own cabin to discuss what it needs."
+  }
+]

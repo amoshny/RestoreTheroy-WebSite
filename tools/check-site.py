@@ -33,9 +33,10 @@ class Document(HTMLParser):
         if tag=='title':self.in_title=False
         if tag=='script' and self.script is not None:self.jsons.append(json.loads(self.script));self.script=None
 pages={}
-for p in [root/'index.html',*root.glob('*/index.html'),*root.glob('results/*/index.html')]:
+for p in sorted(root.rglob('index.html')):
     doc=Document();doc.feed(p.read_text());pages[p]=doc
 titles=set()
+descriptions=set()
 for file,doc in pages.items():
     label=str(file.relative_to(root))
     expected='https://restoretheory.net/'+label.removesuffix('index.html')
@@ -45,6 +46,8 @@ for file,doc in pages.items():
     assert len(doc.ids)==len(set(doc.ids)),(label,'duplicate id')
     assert doc.canonical==[expected],(label,'canonical')
     assert len(doc.description)==1 and doc.description[0],(label,'description')
+    assert doc.description[0] not in descriptions,(label,'duplicate description')
+    descriptions.add(doc.description[0])
     assert doc.og.get('og:url')==expected and all(doc.og.get(x) for x in ('og:title','og:description','og:image')),(label,'Open Graph')
     for item in doc.links+doc.assets:
         parts=urlsplit(item)
@@ -56,7 +59,22 @@ for file,doc in pages.items():
         assert target.exists(),(label,'missing',item)
         if parts.fragment and target in pages:assert unquote(parts.fragment) in pages[target].ids,(label,'broken fragment',item)
     print('OK',label)
+# Follow crawlable links from the homepage so new content cannot silently become orphaned.
+seen=set();pending=[root/'index.html']
+while pending:
+    file=pending.pop()
+    if file in seen:continue
+    seen.add(file)
+    for item in pages[file].links:
+        parts=urlsplit(item)
+        if parts.scheme or parts.netloc:continue
+        target=root/unquote(parts.path).lstrip('/') if parts.path.startswith('/') else file.parent/unquote(parts.path)
+        if not parts.path:target=file
+        if parts.path.endswith('/') or target.is_dir():target=target/'index.html'
+        target=target.resolve()
+        if target in pages and target not in seen:pending.append(target)
+assert seen==set(pages),('Orphan routes',[str(x.relative_to(root)) for x in set(pages)-seen])
 sitemap=ET.parse(root/'sitemap.xml').getroot()
 urls={item.text for item in sitemap.findall('{*}url/{*}loc')}
 assert urls=={doc.canonical[0] for doc in pages.values()},'Sitemap routes differ from indexable pages'
-print(f'{len(pages)} routes: static metadata, JSON-LD, image assets, local links and sitemap verified.')
+print(f'{len(pages)} routes: metadata, JSON-LD, assets, local links, crawlable reachability and sitemap verified.')

@@ -289,3 +289,5 @@
     .rt-gallery-tabs {display: flex;}
     .rt-category-panels {display: block;}
 }
+
+.rt-pair-caption a {color: #b4e9bc; text-underline-offset: 4px;}

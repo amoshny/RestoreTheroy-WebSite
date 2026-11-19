@@ -115,6 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const pairCaption = document.createElement('p');
                 pairCaption.className = 'rt-pair-caption';
                 pairCaption.textContent = entry.label;
+                if (entry.casePath?.startsWith('/results/')) {
+                    const caseLink = document.createElement('a');
+                    caseLink.href = entry.casePath;
+                    caseLink.textContent = entry.label;
+                    caseLink.setAttribute('aria-label', 'Read the ' + entry.label + ' case');
+                    pairCaption.replaceChildren(caseLink);
+                }
                 slide.append(pairCaption);
             } else {
                 const caption = document.createElement('p');
