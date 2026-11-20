@@ -291,3 +291,30 @@
 }
 
 .rt-pair-caption a {color: #b4e9bc; text-underline-offset: 4px;}
+
+/* Targeted CRO copy and reassurance in the existing green/white/dark design. */
+.rt-hero-promise {max-width: 36ch; margin: 12px 0; color: #cdebd2; font-size: clamp(17px, 1.6vw, 21px); font-weight: 600; line-height: 1.4;}
+.rt-response-note {max-width: 54ch; margin: 12px 0 0; color: #c7d4c3; font-size: 14px; line-height: 1.55;}
+.rt-hero .rt-hero-actions {flex-wrap: wrap; gap: 12px 20px;}
+.rt-care-paths {margin-top: 24px;}
+.rt-care-paths h3 {font-size: 19px; margin: 0 0 10px;}
+.rt-care-paths .rt-service-resources {margin-top: 0;}
+.rt-care-paths .rt-detail-link-list a {display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 5px;}
+.rt-care-paths strong {font-size: 16px;}
+.rt-care-paths small {color: #c7d4c3; font-size: 14px; font-weight: 400; line-height: 1.5;}
+.rt-care-paths a > span {font-size: 13px; text-decoration: underline; text-underline-offset: 3px;}
+.rt-equipment-proof {display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; align-items: center; max-width: 450px; margin: 20px 0;}
+.rt-equipment-proof img {display: block; width: 112px; height: 112px; object-fit: cover; object-position: center 65%; border-radius: 8px;}
+.rt-equipment-proof figcaption, .rt-final-inspection {font-size: 14px; line-height: 1.6; color: #c7d4c3;}
+.rt-request-trust {padding: 18px; margin: 0 0 18px; border: 1px solid #3a4b3e; border-radius: 10px; background: #18251c;}
+.rt-request-trust h2 {margin: 0 0 12px; color: #edf2ea; font-size: 21px;}
+.rt-request-trust ul {display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px 24px; margin: 0; padding-left: 18px; color: #d3dfce; font-size: 14px; line-height: 1.5;}
+.rt-request-trust a {color: #b4e9bc; text-underline-offset: 3px;}
+@media (max-width: 700px) {
+    .rt-request-trust ul {grid-template-columns: minmax(0,1fr);}
+    .rt-hero-promise {max-width: 34ch;}
+    .rt-nav-cta .rt-contact-icon {display: none;}
+}
+@media (max-width: 370px) {
+    .rt-nav > .rt-nav-cta {max-width: 96px; white-space: normal; text-align: center; line-height: 1.3;}
+}

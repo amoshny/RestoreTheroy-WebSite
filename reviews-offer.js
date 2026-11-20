@@ -1,14 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const config = window.restoreIntegrations || {};
-    if (config.reviews?.verifiedOn) {
-        for (const label of document.querySelectorAll('[data-review-snapshot]')) {
-            label.textContent = config.reviews.count + ' reviews as of ' + config.reviews.verifiedOn;
-        }
-        for (const label of document.querySelectorAll('[data-review-rating]')) {
-            label.textContent = config.reviews.rating;
-        }
-    }
     const track = document.getElementById('rt-saved-reviews-track');
+    if (!track) return;
     const cards = [...track.querySelectorAll('.review-card')];
     const controls = document.querySelector('.rt-saved-reviews-controls');
     const mobile = matchMedia('(max-width: 700px)');

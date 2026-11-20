@@ -7,11 +7,17 @@ window.rtTrack = function (eventName, parameters = {}) {
 };
 
 document.addEventListener('click', event => {
-    const link = event.target.closest('a[href^="tel:"], a[href^="sms:"]');
+    const link = event.target.closest('a[href]');
     if (!link) return;
-    window.rtTrack(link.protocol === 'tel:' ? 'click_to_call' : 'sms_initiated', {
-        link_placement: link.closest('header, nav, section, footer, .rt-mobile-call-dock')?.id || 'page',
-    });
+    const placement = link.closest('header, nav, section, footer, .rt-mobile-call-dock')?.id || 'page';
+    if (link.protocol === 'tel:' || link.protocol === 'sms:') {
+        window.rtTrack(link.protocol === 'tel:' ? 'click_to_call' : 'sms_initiated', {link_placement: placement});
+    } else if (link.origin === location.origin && link.pathname === '/request-a-quote/') {
+        const service = new URL(link.href).searchParams.get('service');
+        const parameters = {destination: 'detail_request', link_placement: placement};
+        if (['interior-only', 'essential', 'deep-clean', 'full-detail-polish'].includes(service)) parameters.service = service;
+        window.rtTrack('cta_click', parameters);
+    }
 });
 
 const rtBookingForm = document.getElementById('rt-quote-form');

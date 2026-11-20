@@ -2,6 +2,8 @@
 
 Edit the three sedan prices, approximate service times and vehicle rules in `pricing.js`. Run `python3 tools/sync-pricing.py` to refresh the HTML and service structured data. Run the same command with `--check` before publishing. Compact SUVs and pickups require a quote until their rates are approved. Level 4 or 5 flags the need for review. It does not add a charge.
 
+The separate approved Full Detail + Polish specialty is also in `pricing.js`, outside the three primary services. It remains $289 for a standard sedan; the owner confirmed approximately 3.5 hours. Links from its existing page use `?service=full-detail-polish`, which adds and selects that option in the request form without creating a fourth homepage package. Date and time are optional preferences; a custom delivery endpoint must accept them blank and must not treat a request as a confirmed appointment.
+
 Planning benchmark for the owner: `(agreed service price − direct service expenses − customer acquisition cost) ÷ working hours`. Compare against $40 per working hour using actual costs and hours. Do not include tips.
 
 ## Direct booking delivery
@@ -24,10 +26,12 @@ Update the dated review snapshot in `integrations.js` only after checking the Go
 
 Leave promotion fields blank until the exact offer is approved. Set the title, terms in the description, eligible service ID and delay in `integrations.js`. The popup is homepage-only and shows once per browser session.
 
-No new analytics tag is installed. `analytics.js` prepares `click_to_call`, `sms_initiated`, `booking_form_started`, `service_page_view` and `booking_request_submitted`. The last event occurs only after an endpoint acknowledges acceptance. Calls and SMS taps are not completed calls or confirmed bookings. No customer contact details are included in these events. Supply the actual GA4/GTM ID and consent configuration before enabling delivery to analytics.
+No new analytics tag is installed. `analytics.js` prepares `cta_click`, `click_to_call`, `sms_initiated`, `booking_form_started`, `service_page_view` and `booking_request_submitted`. The last event occurs only after an endpoint acknowledges acceptance. Calls and SMS taps are not completed calls or confirmed bookings. No customer contact details are included in these events. Supply the actual GA4/GTM ID and consent configuration before enabling delivery to analytics.
 
 ## Local verification
 
 Run `python3 tools/check-site.py` and the `--check` modes of `tools/sync-pricing.py`, `tools/sync-areas.py` and `tools/sync-metadata.py` before publishing. Area names and representative coordinates are maintained in `service-areas.json`.
+
+Run `python3 tools/sync-reviews.py --check` as well: `integrations.js` supplies the manual public count, rating and snapshot date for static labels and `reviews-snapshot.js`. Keep the owner-confirmed count date separate from assumptions about live synchronization.
 
 Browser tests cover mobile and desktop layouts, package estimates, gallery controls, navigation, form validation, and intercepted delivery success/failure. Mock responses do not establish real email delivery. The owner has now confirmed the separate real inbox test.
