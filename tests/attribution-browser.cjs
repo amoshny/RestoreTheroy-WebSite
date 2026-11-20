@@ -1,6 +1,6 @@
 // Run with NODE_PATH pointing to the installed Playwright package directory; local server required.
 const {chromium}=require('playwright'),assert=require('node:assert/strict');
-(async()=>{const b=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});try{
+(async()=>{const b=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH || undefined});try{
 for(const width of [390,1440]){
 const ctx=await b.newContext({viewport:{width,height:880}}),p=await ctx.newPage(),errors=[],payloads=[];p.on('pageerror',e=>errors.push(e.message));
 await p.route('https://**/*',r=>{if(r.request().url().includes('formsubmit.co/ajax/')){payloads.push(r.request().postDataJSON());return r.fulfill({json:payloads.length===1?{success:false}:{success:true}})}return r.abort()});

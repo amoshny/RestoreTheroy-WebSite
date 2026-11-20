@@ -3,8 +3,8 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),vm=requir
 const source=fs.readFileSync('lead-tracking.js','utf8');
 function setup({url='',local=new Map(),session=new Map(),gpc=false,blocked=false,id='',existing=false}={}) {
  const storage=m=>({getItem:k=>{if(blocked)throw Error();return m.get(k)||null},setItem:(k,v)=>{if(blocked)throw Error();m.set(k,v)},removeItem:k=>m.delete(k)});
- const scripts=[],w={rtTrackingConfig:{gtmId:id},localStorage:storage(local),sessionStorage:storage(session)};
- const c={window:w,navigator:{globalPrivacyControl:gpc},location:{search:url,reload(){}},document:{querySelector:()=>existing?{}:null,createElement:()=>({}),head:{append:s=>scripts.push(s)}},URLSearchParams,TextEncoder,crypto:webcrypto,Date};vm.runInNewContext(source,c);return {api:w.rtLeadTracking,w,scripts,local,session};
+ const scripts=[],w={dispatchEvent:()=>{},rtTrackingConfig:{gtmId:id},localStorage:storage(local),sessionStorage:storage(session)};
+ const c={window:w,navigator:{globalPrivacyControl:gpc},location:{search:url,reload(){}},document:{querySelector:()=>existing?{}:null,createElement:()=>({}),head:{append:s=>s.src?.startsWith('https://') && scripts.push(s)}},URLSearchParams,TextEncoder,crypto:webcrypto,Date,Event};vm.runInNewContext(source,c);return {api:w.rtLeadTracking,w,scripts,local,session};
 }
 test('default denied, GPC override and grant/revoke',async()=>{
  let x=setup({url:'?gclid=TEST_ONLY&unknown=secret'});assert.equal(x.api.canMeasure(),false);assert.equal((await x.api.prepare({name:'Test'})).attribution,null);assert.equal(x.scripts.length,0);
@@ -29,4 +29,17 @@ test('empty/invalid GTM ID no request; valid ID once after consent; existing tag
  for(const id of ['', 'not-a-container']){const a=setup({id});a.api.setConsent(true);assert.equal(a.scripts.length,0)}
  const a=setup({id:'GTM-TESTONLY'});assert.equal(a.scripts.length,0);a.api.setConsent(true);a.api.setConsent(true);assert.equal(a.scripts.length,1);
  const b=setup({id:'GTM-TESTONLY',existing:true});b.api.setConsent(true);assert.equal(b.scripts.length,0);
+});
+
+test('late consent after untagged navigation cannot recover discarded click; no pre-consent storage', async()=>{
+ const a=setup({url:'?gclid=TEST_LATE&utm_source=google'});
+ assert.equal(a.api.consentState(),'unknown');assert.equal(a.local.has('rt.attribution.v1'),false);assert.equal(a.session.has('rt.attribution.v1'),false);
+ const b=setup({local:a.local,session:a.session,url:''});b.api.setConsent(true);
+ assert.equal((await b.api.prepare({test:1})).attribution,null);
+});
+test('grant on arrival preserves click across navigation; decline persists and revoke leaves identity', async()=>{
+ const a=setup({url:'?gclid=TEST_FIRST'});const before=await a.api.prepare({test:1});a.api.setConsent(true);
+ const after=await a.api.prepare({test:1});assert.equal(after.requestId,before.requestId);assert.equal(after.attribution.gclid,'TEST_FIRST');
+ const b=setup({local:a.local,session:a.session});assert.equal((await b.api.prepare({test:1})).attribution.gclid,'TEST_FIRST');
+ b.api.setConsent(false);const c=setup({local:a.local,session:a.session});assert.equal(c.api.consentState(),'denied');assert.equal((await c.api.prepare({test:1})).attribution,null);
 });

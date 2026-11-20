@@ -9,8 +9,10 @@
     const write = (storage, key, value) => { try { window[storage].setItem(key, JSON.stringify(value)); } catch { /* Private browsing must not block requests. */ } };
     const remove = (storage, key) => { try { window[storage].removeItem(key); } catch { /* Storage may be blocked. */ } };
     const gpc = () => navigator.globalPrivacyControl === true;
-    const savedConsent = read('localStorage', consentKey);
-    let allowed = !gpc() && savedConsent?.granted === true && Date.now() - savedConsent.at < 180 * 86400000;
+    let savedConsent = read('localStorage', consentKey);
+    const validConsent = () => typeof savedConsent?.granted === 'boolean' && Number.isFinite(savedConsent.at) && savedConsent.at <= Date.now() && Date.now() - savedConsent.at < 180 * 86400000;
+    let allowed = !gpc() && validConsent() && savedConsent.granted;
+    const consentState = () => gpc() ? 'gpc' : allowed ? 'granted' : validConsent() ? 'denied' : 'unknown';
     let attribution = null;
     let lead = read('sessionStorage', leadKey);
     let loaded = false;
@@ -57,7 +59,8 @@
     }
     function setConsent(granted) {
         allowed = granted === true && !gpc();
-        write('localStorage', consentKey, {granted: allowed, at: Date.now()});
+        savedConsent = {granted: allowed, at: Date.now()};
+        write('localStorage', consentKey, savedConsent);
         googleConsent('update', allowed);
         if (allowed) { capture(); loadTag(); }
         else {
@@ -66,11 +69,16 @@
             if (lead) { lead.attribution = null; write('sessionStorage', leadKey, lead); }
             // Notify an already loaded container; its consent settings must also be configured.
             (window.dataLayer ||= []).push({event: 'rt_consent_revoked'});
-            if (loaded || window.google_tag_manager) location.reload();
+            // Do not reload and erase a partly filled inquiry. GTM tags must require
+            // granted storage consent; our event sender is stopped immediately.
+            // Previously loaded Google code may send consent-state pings.
+            // On the next navigation, no container is loaded while denied.
         }
+        window.dispatchEvent(new Event('rt-consent-change'));
     }
     window.rtLeadTracking = Object.freeze({
         setConsent,
+        consentState,
         canMeasure: () => allowed && !gpc(),
         async prepare(request) {
             const bytes = new TextEncoder().encode(JSON.stringify(Object.keys(request).sort().map(key => [key, request[key]])));
@@ -80,6 +88,7 @@
                 lead = {requestId: crypto.randomUUID(), fingerprint, createdAt: Date.now(), accepted: false, attribution: allowed && valid(attribution) ? {...attribution} : null};
             }
             if (!allowed || gpc()) lead.attribution = null;
+            else if (!lead.accepted && !lead.attribution && valid(attribution)) lead.attribution = {...attribution};
             write('sessionStorage', leadKey, lead);
             return {requestId: lead.requestId, createdAt: new Date(lead.createdAt).toISOString(), accepted: lead.accepted, attribution: lead.attribution};
         },
@@ -95,4 +104,8 @@
         remove('localStorage', attributionKey);
         if (lead) { lead.attribution = null; write('sessionStorage', leadKey, lead); }
     }
+    // Controls are local and independent of any external tag/container.
+    const controls = document.createElement('script');
+    controls.src = '/consent-controls.js?v=pr28-review';
+    document.head.append(controls);
 })();

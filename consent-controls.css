@@ -1,0 +1,13 @@
+/* Isolated privacy controls; existing site layout and tokens are unchanged. */
+#rt-privacy-choices { background: #111c15; color: #f3f5f3; border-bottom: 1px solid #47664e; font: 15px/1.5 system-ui, sans-serif; }
+#rt-privacy-choices[hidden] { display: none; }
+.rt-privacy-inner { max-width: 1120px; margin: auto; padding: 16px 20px; }
+#rt-privacy-choices h2 { font: 600 18px/1.4 system-ui, sans-serif; margin: 0 0 6px; }
+#rt-privacy-choices p { margin: 5px 0; }
+#rt-privacy-choices a { color: #a6d9af; text-decoration: underline; }
+#rt-privacy-choices .rt-privacy-timing { font-size: 13px; color: #c4cec6; }
+.rt-privacy-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.rt-privacy-actions button, .rt-privacy-open { font: inherit; cursor: pointer; color: #f3f5f3; background: #203a29; border: 1px solid #7baa85; border-radius: 6px; padding: 10px 14px; min-height: 44px; }
+.rt-privacy-open { margin: 12px; font: 14px/1.5 system-ui, sans-serif; }
+.rt-privacy-actions button:focus-visible, .rt-privacy-open:focus-visible { outline: 3px solid #b4e5bd; outline-offset: 3px; }
+.rt-privacy-actions button:disabled { opacity: .6; cursor: default; }

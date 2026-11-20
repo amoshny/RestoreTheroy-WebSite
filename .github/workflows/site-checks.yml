@@ -1,0 +1,44 @@
+name: Site and attribution checks
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: site-checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test-only dependencies
+        run: |
+          npm ci --ignore-scripts
+          npx playwright install --with-deps chromium
+      - name: Logic and static checks
+        run: |
+          npm test
+          python3 tools/check-site.py
+          python3 tools/sync-results.py --check
+          python3 tools/sync-pricing.py --check
+          python3 tools/sync-metadata.py --check
+          python3 tools/sync-sitemap.py --check
+      - name: Browser checks (all external requests mocked or blocked)
+        run: |
+          python3 -m http.server 8000 --bind 127.0.0.1 >/tmp/rt-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID"' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8000/ >/dev/null; then break; fi
+            sleep 1
+          done
+          npm run test:browser
