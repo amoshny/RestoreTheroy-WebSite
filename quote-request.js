@@ -25,7 +25,11 @@ for (const [id, service] of Object.entries(rtPricing.services)) {
     booking.service.add(new Option(service.name + ' · from $' + service.base, id));
 }
 const requestedService = new URLSearchParams(location.search).get('service');
-if (Object.hasOwn(rtPricing.services, requestedService)) booking.service.value = requestedService;
+if (Object.hasOwn(rtPricing.specialties, requestedService)) {
+    const specialty = rtPricing.specialties[requestedService];
+    booking.service.add(new Option(specialty.name + ' · from $' + specialty.base, requestedService));
+}
+if (rtGetService(requestedService)) booking.service.value = requestedService;
 // Keep the neighborhood selected in the area hub without adding another required field.
 let requestedAreaName = '';
 const requestedArea = new URLSearchParams(location.search).get('area');
@@ -75,7 +79,7 @@ const unlock = () => {
     fields.disabled = false;
     submit.disabled = !endpoint;
     quoteForm.removeAttribute('aria-busy');
-    submit.textContent = 'Request Booking';
+    submit.textContent = 'Request a Detail';
 };
 quoteForm.addEventListener('input', event => {
     if (typeof event.target.setCustomValidity === 'function') event.target.setCustomValidity('');
@@ -95,7 +99,7 @@ quoteForm.addEventListener('submit', async event => {
     if (booking.website.value) return;
     const byText = event.submitter?.value === 'sms';
     if (!byText && !endpoint) {
-        status.textContent = 'Please use Text These Details or call Ace. Online delivery is not connected yet.';
+        status.textContent = 'Please use Text Details or call Ace. Online delivery is not connected yet.';
         return;
     }
     if (!booking.customerName.value.trim()) booking.customerName.setCustomValidity('Please enter your first name.');
@@ -109,7 +113,8 @@ quoteForm.addEventListener('submit', async event => {
     delete request.website;
     delete request.delivery;
     if (requestedAreaName) request.requestedArea = requestedAreaName;
-    if (!Object.hasOwn(rtPricing.services, request.service) || !Object.hasOwn(rtPricing.vehicles, request.size)) return;
+    const selectedService = rtGetService(request.service);
+    if (!selectedService || !Object.hasOwn(rtPricing.vehicles, request.size)) return;
 
     if (byText) {
         const message = [
@@ -117,10 +122,10 @@ quoteForm.addEventListener('submit', async event => {
             'Name: ' + request.customerName,
             'Phone: ' + request.phone,
             'Vehicle size: ' + rtPricing.vehicles[request.size].name,
-            'Service: ' + rtPricing.services[request.service].name,
+            'Service: ' + selectedService.name,
             'Condition: ' + request.condition,
             'ZIP: ' + request.zip,
-            'Preferred appointment: ' + request.date + ' · ' + request.time,
+            'Preferred appointment: ' + (request.date || 'Date flexible') + ' · ' + (request.time || 'Time flexible'),
         ];
         if (request.vehicle) message.push('Vehicle: ' + request.vehicle);
         if (request.requestedArea) message.push('Requested area: ' + request.requestedArea);
@@ -146,7 +151,7 @@ quoteForm.addEventListener('submit', async event => {
     if (provider === 'formsubmit') {
         payload = {
             ...retryRequest,
-            service: rtPricing.services[request.service].name,
+            service: selectedService.name,
             size: rtPricing.vehicles[request.size].name,
             starting_estimate: amount === null ? 'Individual quote required' : '$' + amount,
             _subject: 'Restore Theory · Booking request ' + requestId,
@@ -160,7 +165,7 @@ quoteForm.addEventListener('submit', async event => {
             method: 'POST',
             headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
             body: JSON.stringify(payload),
-            signal: AbortSignal.timeout(15000),
+            signal: AbortSignal.timeout(30000),
         });
         const result = response.ok ? await response.json() : null;
         const accepted = provider === 'formsubmit'
@@ -176,7 +181,7 @@ quoteForm.addEventListener('submit', async event => {
     phase = 'accepted';
     quoteForm.removeAttribute('aria-busy');
     submit.textContent = 'Request Received';
-    status.textContent = 'Booking request received. Ace will contact you to confirm your appointment and final quote.';
+    status.textContent = 'Request received! Ace will review your details and get back to you as soon as possible.';
     status.focus({preventScroll: true});
     window.rtTrack?.('booking_request_submitted', {service: request.service});
 });
