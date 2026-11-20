@@ -46,7 +46,7 @@ Public references were checked November 18, 2026. Memberships can cost money and
 
 ## Google Maps is a separate workstream
 
-The public review snapshot stays centrally maintained in `integrations.js`: 5.0 / 63, dated November 17. Do not display 100+ until genuinely verified. No Google Business Profile fields or reviews were changed in this task.
+The public review snapshot is centrally maintained in `integrations.js`: 5.0 / 100+, dated November 19. The owner confirmed receiving the hundredth review; the limited public Maps view showed 5.0 but did not expose the count or all review text. The count is an owner-confirmed snapshot, not live synchronization. No Google Business Profile fields or reviews were changed in this task.
 
 Review profile completeness, truthful service areas/category and hours, real work photographs and responses to genuine reviews in the owner's account. Ask actual customers for honest feedback without manufacturing reviews. Relevance, distance and prominence affect local results; a target review count cannot guarantee a Maps position.
 
