@@ -116,9 +116,28 @@ quoteForm.addEventListener('submit', async event => {
     const selectedService = rtGetService(request.service);
     if (!selectedService || !Object.hasOwn(rtPricing.vehicles, request.size)) return;
 
+    phase = 'preparing';
+    fields.disabled = true;
+    let identity;
+    try { identity = await window.rtLeadTracking.prepare(request); }
+    catch {
+        unlock();
+        status.textContent = 'Unable to prepare your request. Please retry or call Ace.';
+        return;
+    }
+    requestId = identity.requestId;
+    if (identity.accepted && !byText) {
+        phase = 'accepted';
+        fields.disabled = true;
+        status.textContent = 'This request has already been received. Please call or text Ace for an update.';
+        return;
+    }
     if (byText) {
+        phase = 'editing';
+        fields.disabled = false;
         const message = [
             "Hi Ace, I’d like to request a mobile detail.",
+            'Reference: ' + requestId,
             'Name: ' + request.customerName,
             'Phone: ' + request.phone,
             'Vehicle size: ' + rtPricing.vehicles[request.size].name,
@@ -145,7 +164,10 @@ quoteForm.addEventListener('submit', async event => {
     submit.textContent = 'Sending…';
     status.textContent = 'Sending your booking request…';
     requestId ??= crypto.randomUUID();
-    retryRequest ??= {...request, requestId};
+    retryRequest = {...request, requestId, createdAt: identity.createdAt};
+    if (identity.attribution) {
+        for (const [key, value] of Object.entries(identity.attribution)) retryRequest['attribution_' + key] = value;
+    }
     const amount = rtStartingPrice(request.service, request.size);
     let payload = retryRequest;
     if (provider === 'formsubmit') {
@@ -170,7 +192,7 @@ quoteForm.addEventListener('submit', async event => {
         const result = response.ok ? await response.json() : null;
         const accepted = provider === 'formsubmit'
             ? (result?.success === true || result?.success === 'true') && !/activat|confirm your email/i.test(result?.message || '')
-            : result?.ok === true && typeof result.requestId === 'string' && result.requestId.trim();
+            : result?.ok === true && result.requestId === requestId;
         if (!accepted) throw Error();
     } catch {
         unlock();
@@ -183,5 +205,7 @@ quoteForm.addEventListener('submit', async event => {
     submit.textContent = 'Request Received';
     status.textContent = 'Request received! Ace will review your details and get back to you as soon as possible.';
     status.focus({preventScroll: true});
-    window.rtTrack?.('booking_request_submitted', {service: request.service});
+    if (window.rtLeadTracking.accept(requestId)) {
+        window.rtTrack?.('booking_request_submitted', {service: request.service, lead_id: requestId});
+    }
 });

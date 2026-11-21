@@ -1,5 +1,6 @@
 // Use the site's configured Google tag. Contact data stays out of events.
 window.rtTrack = function (eventName, parameters = {}) {
+    if (!window.rtLeadTracking?.canMeasure()) return;
     try {
         if (typeof window.gtag === 'function') window.gtag('event', eventName, parameters);
         else (window.dataLayer ||= []).push({event: eventName, ...parameters});
