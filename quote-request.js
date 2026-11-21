@@ -173,6 +173,10 @@ quoteForm.addEventListener('submit', async event => {
     if (provider === 'formsubmit') {
         payload = {
             ...retryRequest,
+            // Versioned transport field for the private mailbox importer. Encoding is NOT encryption.
+            rt_envelope: 'RTP1:' + btoa(Array.from(new TextEncoder().encode(JSON.stringify({
+                ...retryRequest, version: 1, measurementAllowed: window.rtLeadTracking.canMeasure()
+            })), byte => String.fromCharCode(byte)).join('')),
             service: selectedService.name,
             size: rtPricing.vehicles[request.size].name,
             starting_estimate: amount === null ? 'Individual quote required' : '$' + amount,
