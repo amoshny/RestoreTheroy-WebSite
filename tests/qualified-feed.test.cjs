@@ -1,0 +1,31 @@
+const {test}=require('node:test'),a=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs'),path=require('node:path');
+const root=path.join(__dirname,'../tracking/apps-script');
+const source=fs.readFileSync(path.join(root,'lead-core.js'),'utf8')+'\n'+fs.readFileSync(path.join(root,'Code.gs'),'utf8');
+test('export removes newly ineligible feed rows without claiming to retract previous Ads imports',()=>{
+ const c=vm.createContext({console}),feedRows=[['Google Click ID','Conversion Name','Conversion Time','Order ID'],['OLD_ID','RT — Qualified Lead','2026-11-21 12:00:00-08:00','rt-qualified-old']],logs=[];
+ vm.runInContext(source+'\n'+fs.readFileSync(path.join(root,'Export.gs'),'utf8'),c);
+ const feed={getLastRow:()=>feedRows.length,getRange:(r,col,n,w)=>({getValues:()=>feedRows.slice(r-1,r-1+n).map(x=>x.slice(col-1,col-1+w))}),deleteRow:r=>feedRows.splice(r-1,1)};
+ c.PropertiesService={getScriptProperties:()=>({getProperty:k=>({EXPORT_ENABLED:'true',EXPORT_SHEET_ID:'export',LEADS_SHEET_ID:'leads'})[k]})};
+ c.SpreadsheetApp={openById:()=>({getSheets:()=>[feed]})};c.LockService={getScriptLock:()=>({waitLock:()=>{},releaseLock:()=>{}})};
+ c.rtBook_=()=>({getSheetByName:()=>({getLastRow:()=>1})});c.rtLog_=(...x)=>logs.push(x);
+ c.rtPrepareExport();a.equal(feedRows.length,1);a.equal(logs[0][2],'REMOVED_FROM_FEED_REVIEW_PRIOR_ADS_IMPORT');
+});
+test('combined private adapter: one owner qualification, stable export, preserved timestamp and consent withdrawal',()=>{
+ const c=vm.createContext({console});
+ vm.runInContext(source+'\n'+fs.readFileSync(path.join(root,'Export.gs'),'utf8'),c);
+ vm.runInContext("var qaRow=rtLeadRow({requestId:'df674a79-faca-4047-928d-847635d52db2',customerName:'ISOLATED MEMORY FIXTURE',phone:'8585550101',service:'essential',measurementAllowed:true,testLead:false,attribution_gclid:'MEMORY_ONLY_NOT_A_REAL_CLICK'},new Date(Date.now()-60000));",c);
+ const row=c.qaRow,feedRows=[['Google Click ID','Conversion Name','Conversion Time','Order ID']],logs=[];
+ const leads={getLastRow:()=>2,getName:()=> 'Leads',getRange:(r,col,n,w)=>({getValues:()=>[row.slice(col-1,col-1+w)],setValues:values=>values[0].forEach((v,i)=>row[col-1+i]=v),setValue:v=>row[col-1]=v})};
+ const journal={getLastRow:()=>2,getRange:()=>({getValues:()=>[[row[0],'REGISTERED_NEW']]})};
+ const feed={getLastRow:()=>feedRows.length,getRange:(r,col,n,w)=>({getValues:()=>feedRows.slice(r-1,r-1+n).map(x=>x.slice(col-1,col-1+w))}),appendRow:r=>feedRows.push(r),deleteRow:r=>feedRows.splice(r-1,1)};
+ c.PropertiesService={getScriptProperties:()=>({getProperty:k=>({EXPORT_ENABLED:'true',EXPORT_SHEET_ID:'export',LEADS_SHEET_ID:'leads'})[k]})};
+ c.SpreadsheetApp={openById:()=>({getSheets:()=>[feed]})};c.LockService={getScriptLock:()=>({waitLock:()=>{},releaseLock:()=>{}})};
+ c.Utilities={formatDate:()=> '2026-11-22 08:00:00-08:00'};
+ c.rtBook_=()=>({getSheetByName:name=>name==='Leads'?leads:journal});c.rtLog_=(...args)=>logs.push(args);
+ const edit={range:{getSheet:()=>leads,getColumn:()=>16,getLastColumn:()=>16,getRow:()=>2,getLastRow:()=>2}};
+ c.rtPrepareExport();a.equal(feedRows.length,1);
+ row[15]='Qualified';c.rtOnEdit(edit);const qualifiedAt=row[16];a.ok(qualifiedAt);a.equal(row[22],false);
+ c.rtPrepareExport();c.rtPrepareExport();a.equal(feedRows.length,2);a.equal(feedRows[1][1],'RT — Qualified Lead');a.equal(feedRows[1][3],'rt-qualified-'+row[0]);a.equal(row[20],'Prepared — check Ads diagnostics');
+ row[15]='Booked';c.rtOnEdit(edit);a.equal(row[16],qualifiedAt);a.ok(row[17]);a.equal(row[18],'');a.equal(row[19],'');c.rtPrepareExport();a.equal(feedRows.length,2);
+ row[23]=false;c.rtPrepareExport();a.equal(feedRows.length,1);a.ok(logs.some(x=>x[2]==='REMOVED_FROM_FEED_REVIEW_PRIOR_ADS_IMPORT'));
+});

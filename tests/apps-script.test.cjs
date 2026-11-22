@@ -19,3 +19,19 @@ test('runtime register appends New/Test exactly once and never invents quality o
  const c=runtime();vm.runInContext(source,c);const rows=[],logs=[];c.rtLog_=(...x)=>logs.push(x);const s={appendRow:r=>rows.push(r)},ids=new Set();
  a.equal(c.rtRegister_(s,ids,lead,new Date()),true);a.equal(c.rtRegister_(s,ids,lead,new Date()),false);a.equal(rows.length,1);a.equal(logs.length,1);a.equal(rows[0][15],'New');a.equal(rows[0][16],'');a.equal(rows[0][18],'');a.equal(rows[0][23],false);a.equal(rows[0][24],true);
 });
+test('provenance journal accepts authenticated registration, never a qualification edit alone',()=>{
+ const c=runtime();vm.runInContext(source,c);const rows=[['a','REGISTERED_NEW'],['b','AUTHENTICATED_NOTIFICATION'],['c','STATUS_Qualified'],['d','STATUS_Paid']];
+ c.rtBook_=()=>({getSheetByName:()=>({getLastRow:()=>rows.length+1,getRange:()=>({getValues:()=>rows})})});
+ a.deepEqual([...c.rtRegisteredLeadIds_()],['a','b']);
+});
+test('retry repairs missing provenance after an earlier partial registration without duplicating the lead',()=>{
+ const c=runtime();vm.runInContext(source,c);const journal=[],props={IMPORT_ENABLED:'true',VERIFIED_MAIL_SENDER:'submissions@formsubmit.co'};let appends=0;
+ const leads={getLastRow:()=>2,getRange:()=>({getValues:()=>[[id]]}),appendRow:()=>appends++};
+ const j={getLastRow:()=>journal.length+1,getRange:()=>({getValues:()=>journal})};
+ c.PropertiesService={getScriptProperties:()=>({getProperty:k=>props[k],setProperty:(k,v)=>props[k]=v})};
+ c.LockService={getScriptLock:()=>({waitLock:()=>{},releaseLock:()=>{}})};
+ c.rtBook_=()=>({getSheetByName:n=>n==='Leads'?leads:n==='Journal'?j:{getLastRow:()=>1}});
+ c.rtLog_=(tab,ref,code)=>{a.equal(tab,'Journal');journal.push([ref,code]);};
+ c.Gmail={Users:{Messages:{list:()=>({messages:[{id:'private-test-reference'}]}),get:()=>({...mail([...Buffer.from(body)]),internalDate:String(Date.now())})}}};
+ c.rtImportMail();c.rtImportMail();a.equal(appends,0);a.deepEqual(journal,[[id,'AUTHENTICATED_NOTIFICATION']]);a.ok(props.MAIL_SCAN_UNTIL);
+});

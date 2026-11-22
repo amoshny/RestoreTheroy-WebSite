@@ -14,8 +14,20 @@ test('qualification timestamp once; booked/paid cannot fabricate qualification',
  const row=rtLeadRow(sample,new Date('2026-11-21T18:00:00Z')),t=new Date('2026-11-21T18:30:00Z');
  const q=rtStatusDates('Qualified',row,t);const b=rtStatusDates('Booked',q,new Date('2026-11-21T19:00:00Z'));const p=rtStatusDates('Paid',b,new Date());a.equal(p[16],t);a.equal(rtStatusDates('Qualified',p,new Date())[16],t);a.equal(rtStatusDates('Paid',row,t)[16],'');a.throws(()=>rtStatusDates('Fake',row,t));
 });
-test('export requires manual quality, verified origin, measurement, valid time and no tests',()=>{
- let r=rtLeadRow(sample,new Date('2026-11-21T18:00:00Z'));r=rtStatusDates('Qualified',r,new Date('2026-11-21T18:30:00Z'));r[22]=true;a.equal(rtExportCandidate(r).reason,'Test lead');r[24]=false;
- const c=rtExportCandidate(r);a.equal(c.orderId,'rt-qualified-'+id);a.equal(c.gclid,'TEST_ONLY_ID');a.equal(rtExportCandidate(rtStatusDates('Paid',r,new Date())).orderId,c.orderId);
- r[23]=false;a.ok(rtExportCandidate(r).reason);r[23]=true;r[22]=false;a.ok(rtExportCandidate(r).reason);r[22]=true;r[12]='';r[13]='BRAID_ONLY';a.match(rtExportCandidate(r).reason,/BRAID/);
+test('owner only qualifies; importer provenance and consent gate candidates, not UTM or legacy checkbox',()=>{
+ const now=new Date('2026-11-21T20:00:00Z'),evidence={registeredLeadIds:new Set([id]),now};
+ let r=rtLeadRow(sample,new Date('2026-11-21T18:00:00Z'));r=rtStatusDates('Qualified',r,new Date('2026-11-21T18:30:00Z'));
+ a.equal(rtExportCandidate(r,evidence).reason,'Test lead');r[24]=false;
+ const c=rtExportCandidate(r,evidence);a.equal(c.orderId,'rt-qualified-'+id);a.equal(c.gclid,'TEST_ONLY_ID');a.match(c.matchStatus,/pending/);
+ r[22]=false;a.equal(rtExportCandidate(r,evidence).orderId,c.orderId);r[22]=true;a.equal(rtExportCandidate(r,evidence).orderId,c.orderId);
+ a.equal(rtExportCandidate(r).reason,'No authenticated form notification');
+ r[23]=false;a.equal(rtExportCandidate(r,evidence).reason,'Measurement not allowed');r[23]=true;
+ r[12]='';r[9]='google';r[10]='cpc';a.equal(rtExportCandidate(r,evidence).reason,'No usable GCLID');r[13]='BRAID_ONLY';a.match(rtExportCandidate(r,evidence).reason,/BRAID/);
+});
+test('qualification future/expired timestamps and manually added unknown-source rows remain held',()=>{
+ const now=new Date('2026-11-21T20:00:00Z'),evidence={registeredLeadIds:new Set([id]),now};
+ let r=rtLeadRow({...sample,testLead:false},new Date('2026-11-21T18:00:00Z'));r=rtStatusDates('Qualified',r,new Date('2026-11-21T18:30:00Z'));
+ a.ok(rtExportCandidate(r,{...evidence,registeredLeadIds:new Set()}).reason);
+ r[16]=new Date('2026-11-21T21:00:00Z');a.match(rtExportCandidate(r,evidence).reason,/time/);
+ r[1]=new Date('2026-01-01');r[16]=new Date('2026-01-02');a.match(rtExportCandidate(r,evidence).reason,/expired/);
 });
