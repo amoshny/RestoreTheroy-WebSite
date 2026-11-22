@@ -4,7 +4,7 @@ Updated November 22, 2026. No merge, GTM publication, campaign/budget change, pu
 
 ## Decision: NO-GO for paid traffic today
 
-Code and an empty native connection have been checked. A complete production conversion has not. This is not a claim that Google matched a lead. Website release, private-runtime update, final unblocked tag verification and the call plan still need the gates below.
+Publication readiness is currently held by the unfinished real-GTM withdrawal/runtime checks and the need to apply the reviewed private runtime. The absence of a genuine advertising lead is NOT a defect or a pre-publication blocker. Positive Google matching and destination deduplication belong to the first real inquiry after an owner-authorized controlled launch; never fabricate Qualified/Paid records to satisfy that check. The empty native connection has been checked, without claiming a matched conversion.
 
 ## One owner action: Qualified
 
@@ -83,3 +83,14 @@ Sources:
 - Pause private EXPORT_ENABLED and native connection if a mapping/consent issue is found. Restore the last reviewed runtime or GTM version only with publication approval. Preserve emails, private lead data and audit records; never reset/clear live Sheets to fix an import.
 - Already sent events need explicit review/retraction; hiding a row or disabling the loader does not undo them. Recover from the verified prior source/commit rather than a destructive repository reset.
 - A missing click ID, denied consent or unknown call source is a legitimate unmeasurable case. Never invent attribution to make diagnostics green.
+
+
+## Latest preparation check — November 22
+
+PR28 head 1f1bb36f7e10749b08bab03370cf84f4fae82ca7 remains based on main. PR29 head ed19d01d921c5575eda2f6080f3cca0144e8ac81 includes that PR28 parent; PR30 includes the PR29 parent. All three were open, unmerged and mergeable at reinspection. Retargeting after each approved merge still requires inspecting the resulting diff; do not assume the base branch changes itself safely.
+
+The private runtime sources and OAuth manifest were checked byte-for-byte against PR30 runtime-source snapshot 13286d5d9582adb62fadc100d8418f9b64d1fedc. A single combined Code.gs was prepared (core + importer + exporter, no duplicated editor files), syntax checked, with the same three OAuth scopes and LA timezone. Its SHA256 is 099b4fe8e3d4c6d989c525129e9db9b4fd112844551685803a82cd538b0ee134. No account-side replacement of this revision is claimed.
+
+20 isolated tests now pass. The added combined-adapter test executes manual status handling and feed preparation together: New is held; one manual Qualified creates the first timestamp and one stable candidate despite the legacy flag remaining false; repeat preparation stays one row; Booked preserves qualification; withdrawing measurement removes the future feed row. All fixture records are in-memory only; there is no Gmail, Sheets or Ads write from this test. This is not a substitute for the pending Google Apps Script runtime check.
+
+Browser control was still unavailable at this follow-up. No additional live-GTM or Data Manager inspection is claimed beyond the dated observations above. The intended Data Manager action and previous Completed/0/0 run must be rechecked through the account when browser access returns. Do not treat a tool-access limitation as either a broken integration or a passed account check.
