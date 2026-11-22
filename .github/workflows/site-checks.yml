@@ -1,7 +1,7 @@
 name: Site and attribution checks
 on:
   pull_request:
-    branches: [main]
+    branches: [main, 'codex/**']
   workflow_dispatch:
 permissions:
   contents: read
