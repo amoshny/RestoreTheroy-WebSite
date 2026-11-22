@@ -11,9 +11,10 @@ function rtPrepareExport() {
  if(JSON.stringify(feed.getRange(1,1,1,4).getValues()[0])!==JSON.stringify(headers))throw Error('EXPORT_SCHEMA_MISMATCH');
  const ids=new Set(feed.getLastRow()>1?feed.getRange(2,4,feed.getLastRow()-1,1).getValues().flat():[]);
  const s=rtBook_().getSheetByName('Leads');
+ const registeredLeadIds=rtRegisteredLeadIds_();
  const rows=s.getLastRow()>1?s.getRange(2,1,s.getLastRow()-1,RT_HEADERS.length).getValues():[],allowed=new Set();
  rows.forEach((row,i)=>{
- const candidate=rtExportCandidate(row);
+ const candidate=rtExportCandidate(row,{registeredLeadIds});
  if(candidate.reason){
   if(row[20]==='Prepared — check Ads diagnostics')rtLog_('Errors',row[0],'EXPORTED_LEAD_CHANGED_REVIEW_ADS');
   else s.getRange(i+2,21).setValue(candidate.reason);

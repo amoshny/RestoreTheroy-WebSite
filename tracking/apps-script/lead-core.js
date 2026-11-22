@@ -22,12 +22,18 @@ function rtStatusDates(status,row,now) {
  if(target!==undefined&&!result[target])result[target]=now;
  return result;
 }
-function rtExportCandidate(row) {
- if(!['Qualified','Booked','Paid'].includes(row[15]) || !(row[16] instanceof Date) || !Number.isFinite(row[16].getTime()))return {reason:'Not manually qualified'};
+function rtExportCandidate(row,evidence={}) {
+ // Eligibility is not proof of ad origin: Google performs click/account matching.
+ // The legacy Ads Attribution Verified checkbox is deliberately ignored.
  if(row[24]===true)return {reason:'Test lead'};
- if(row[22]!==true||row[23]!==true)return {reason:'Attribution/permission not confirmed'};
- if(!/^[A-Za-z0-9._~-]{5,200}$/.test(row[12]||''))return {reason:row[13]||row[14]?'BRAID mapping needs account verification':'No GCLID'};
- if(!(row[1] instanceof Date)||row[16]<row[1])return {reason:'Invalid qualification time'};
- return {leadId:row[0],gclid:row[12],qualifiedAt:row[16],orderId:'rt-qualified-'+row[0]};
+ if(!['Qualified','Booked','Paid'].includes(row[15]) || !(row[16] instanceof Date) || !Number.isFinite(row[16].getTime()))return {reason:'Not manually qualified'};
+ if(row[23]!==true)return {reason:'Measurement not allowed'};
+ if(!evidence.registeredLeadIds?.has(row[0]))return {reason:'No authenticated form notification'};
+ if(!/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(row[0]||''))return {reason:'Invalid lead reference'};
+ if(!/^[A-Za-z0-9._~-]{5,200}$/.test(row[12]||''))return {reason:row[13]||row[14]?'BRAID held: Count One requires GCLID-only':'No usable GCLID'};
+ const now=evidence.now||new Date();
+ if(!(row[1] instanceof Date)||!Number.isFinite(row[1].getTime())||row[16]<row[1]||row[16]>now||now-row[16]>90*86400000)return {reason:'Invalid or expired qualification time'};
+ return {leadId:row[0],gclid:row[12],qualifiedAt:row[16],orderId:'rt-qualified-'+row[0],matchStatus:'Candidate — Google matching pending'};
 }
+
 if(typeof module!=='undefined')module.exports={RT_HEADERS,rtSafeCell,rtEnvelope,rtLeadRow,rtStatusDates,rtExportCandidate};

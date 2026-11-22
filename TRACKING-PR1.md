@@ -63,3 +63,8 @@ Sources checked November 20, 2026:
 - https://www.oag.ca.gov/privacy/ccpa (scope, opt-out and GPC)
 - https://developers.google.com/tag-platform/security/guides/consent (basic consent, default/update)
 - https://developers.google.com/tag-platform/security/concepts/consent-mode (basic versus advanced behavior)
+
+
+## Release gate — November 22, 2026
+
+`tracking-config.js` now contains the verified container ID and `gtmEnabled: false`. The loader requires explicit `true` AND visitor consent. This prevents merging PR28 from immediately loading an old published GTM version before PR29/30 and the reviewed container are ready. Do not activate it as a side effect of merging another PR. After explicit owner approval, merge PR28 → PR29 → PR30 with CI/smoke checks, update the private runtime, publish the reviewed GTM version, then make a separately reviewed activation commit changing only gtmEnabled to true. Rollback to false stops loading on subsequent navigations; it cannot unload existing tabs or undo sent events. See tracking/RELEASE-CHECKLIST.md for gates and evidence. The local-only Preview server overrides the flag only in its HTTP response; published assets remain off.
