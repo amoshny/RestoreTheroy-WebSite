@@ -1,9 +1,9 @@
 // Dependency-free logic tests; no external tags, email or conversions are sent.
 const {test}=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs'),{webcrypto}=require('node:crypto');
 const source=fs.readFileSync('lead-tracking.js','utf8');
-function setup({url='',local=new Map(),session=new Map(),gpc=false,blocked=false,id='',existing=false}={}) {
+function setup({url='',local=new Map(),session=new Map(),gpc=false,blocked=false,id='',existing=false,enabled=true}={}) {
  const storage=m=>({getItem:k=>{if(blocked)throw Error();return m.get(k)||null},setItem:(k,v)=>{if(blocked)throw Error();m.set(k,v)},removeItem:k=>m.delete(k)});
- const scripts=[],w={dispatchEvent:()=>{},rtTrackingConfig:{gtmId:id},localStorage:storage(local),sessionStorage:storage(session)};
+ const scripts=[],w={dispatchEvent:()=>{},rtTrackingConfig:{gtmId:id,gtmEnabled:enabled},localStorage:storage(local),sessionStorage:storage(session)};
  const c={window:w,navigator:{globalPrivacyControl:gpc},location:{search:url,reload(){}},document:{querySelector:()=>existing?{}:null,createElement:()=>({}),head:{append:s=>s.src?.startsWith('https://') && scripts.push(s)}},URLSearchParams,TextEncoder,crypto:webcrypto,Date,Event};vm.runInNewContext(source,c);return {api:w.rtLeadTracking,w,scripts,local,session};
 }
 test('default denied, GPC override and grant/revoke',async()=>{
@@ -42,4 +42,10 @@ test('grant on arrival preserves click across navigation; decline persists and r
  const after=await a.api.prepare({test:1});assert.equal(after.requestId,before.requestId);assert.equal(after.attribution.gclid,'TEST_FIRST');
  const b=setup({local:a.local,session:a.session});assert.equal((await b.api.prepare({test:1})).attribution.gclid,'TEST_FIRST');
  b.api.setConsent(false);const c=setup({local:a.local,session:a.session});assert.equal(c.api.consentState(),'denied');assert.equal((await c.api.prepare({test:1})).attribution,null);
+});
+
+test('release gate prevents GTM loading even after consent; explicit activation still requires consent',()=>{
+ const off=setup({id:'GTM-TESTONLY',enabled:false});off.api.setConsent(true);assert.equal(off.scripts.length,0);assert.equal(off.api.canMeasure(),true);
+ const missing=setup({id:'GTM-TESTONLY',enabled:undefined});delete missing.w.rtTrackingConfig.gtmEnabled;missing.api.setConsent(true);assert.equal(missing.scripts.length,0);
+ const on=setup({id:'GTM-TESTONLY',enabled:true});assert.equal(on.scripts.length,0);on.api.setConsent(true);assert.equal(on.scripts.length,1);
 });

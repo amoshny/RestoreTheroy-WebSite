@@ -46,7 +46,7 @@
     googleConsent('default', false);
     function loadTag() {
         const id = window.rtTrackingConfig?.gtmId;
-        if (!allowed || gpc() || loaded || !/^GTM-[A-Z0-9]+$/.test(id || '')) return;
+        if (window.rtTrackingConfig?.gtmEnabled !== true || !allowed || gpc() || loaded || !/^GTM-[A-Z0-9]+$/.test(id || '')) return;
         // Never install a second Google tag/container alongside an existing installation.
         if (window.google_tag_manager || typeof window.gtag === 'function' || document.querySelector('script[src*="googletagmanager.com/"], script[src*="google-analytics.com/"]')) return;
         loaded = true;
