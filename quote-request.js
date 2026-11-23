@@ -27,7 +27,7 @@ for (const [id, service] of Object.entries(rtPricing.services)) {
 const requestedService = new URLSearchParams(location.search).get('service');
 if (Object.hasOwn(rtPricing.specialties, requestedService)) {
     const specialty = rtPricing.specialties[requestedService];
-    booking.service.add(new Option(specialty.name + ' · from $' + specialty.base, requestedService));
+    booking.service.add(new Option(specialty.name + (Number.isFinite(specialty.base) ? ' · from $' + specialty.base : ''), requestedService));
 }
 if (rtGetService(requestedService)) booking.service.value = requestedService;
 // Keep the neighborhood selected in the area hub without adding another required field.
