@@ -293,6 +293,7 @@ body.rt-viewer-open {overflow: hidden;}
 .rt-service-pricing-note p + p {margin-top: 6px;}
 .rt-service-pricing-note strong {color: #edf4e9;}
 .rt-package-grid {display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; align-items: start;}
+.rt-package-grid.rt-two-packages {grid-template-columns: repeat(2,minmax(0,1fr)); max-width: 1060px; margin-inline: auto;}
 .rt-package {display: flex; flex-direction: column; min-width: 0; border: 1px solid #3a4b3e; border-radius: 8px; background: #19221b; padding: 25px 23px;}
 .rt-package h3 {min-height: 26px; margin: 0 0 6px; font-size: 21px; line-height: 1.2;}
 .rt-package-price {color: #98e3a3; font-size: 40px; font-weight: 600; line-height: 1.2; letter-spacing: -.035em; margin: 0; white-space: nowrap;}
@@ -667,4 +668,7 @@ body {
 .rt-eyebrow strong {font-weight: inherit;}
 @media not all and (max-width: 700px) {
     .rt-mobile-only {display: none !important;}
+}
+@media (max-width: 700px) {
+    .rt-package-grid.rt-two-packages {grid-template-columns: minmax(0,1fr);}
 }

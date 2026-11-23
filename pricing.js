@@ -1,20 +1,15 @@
-// Source of truth: three primary packages, separate approved specialty and verified size rules.
+// Source of truth: two primary packages, separately quoted specialty work and verified size rules.
 const rtPricing = {
     "services": {
         "interior-only": {
-            "name": "Interior Only",
-            "base": 169,
-            "time": "1.5 hours"
+            "name": "Interior Detail",
+            "base": 179,
+            "time": "about 2 hours"
         },
         "essential": {
-            "name": "Essential Detail",
-            "base": 209,
-            "time": "2.5 hours"
-        },
-        "deep-clean": {
-            "name": "Deep Clean & Protect",
-            "base": 269,
-            "time": "3.5 hours"
+            "name": "Full Detail",
+            "base": 239,
+            "time": "about 3 hours"
         }
     },
     "vehicles": {
@@ -52,6 +47,10 @@ const rtPricing = {
         }
     },
     "specialties": {
+        "deep-clean": {
+            "name": "Deep cleaning / extraction — custom quote",
+            "time": "Quoted after assessment"
+        },
         "full-detail-polish": {
             "name": "Full Detail + Polish",
             "base": 289,
@@ -69,7 +68,7 @@ function rtGetService(serviceId) {
 
 function rtStartingPrice(serviceId, vehicleId) {
     const rate = rtGetService(serviceId);
-    if (!rate || !Object.hasOwn(rtPricing.vehicles, vehicleId)) return null;
+    if (!rate || !Number.isFinite(rate.base) || !Object.hasOwn(rtPricing.vehicles, vehicleId)) return null;
     const vehicle = rtPricing.vehicles[vehicleId];
     if (!Number.isFinite(vehicle.factor)) return null;
     return rate.base * vehicle.factor + vehicle.extra;
