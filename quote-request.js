@@ -26,8 +26,7 @@ for (const [id, service] of Object.entries(rtPricing.services)) {
 }
 const requestedService = new URLSearchParams(location.search).get('service');
 if (Object.hasOwn(rtPricing.services, requestedService)) booking.service.value = requestedService;
-if (requestedService === 'deep-clean') {
-    booking.service.value = 'interior-only';
+if (requestedService === 'deep-clean' || new URLSearchParams(location.search).get('extra') === 'deep-clean') {
     booking.notes.value = 'Please quote deep cleaning or extraction as an extra treatment.';
 }
 // Keep the neighborhood selected in the area hub without adding another required field.

@@ -16,7 +16,7 @@ document.addEventListener('click', event => {
     } else if (link.origin === location.origin && link.pathname === '/request-a-quote/') {
         const service = new URL(link.href).searchParams.get('service');
         const parameters = {destination: 'detail_request', link_placement: placement};
-        if (['interior-only', 'essential', 'deep-clean', 'full-detail-polish'].includes(service)) parameters.service = service;
+        if (['interior-only', 'essential'].includes(service)) parameters.service = service;
         window.rtTrack('cta_click', parameters);
     }
 });

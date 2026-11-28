@@ -1,4 +1,4 @@
-// Source of truth: two primary packages, separately quoted specialty work and verified size rules.
+// Source of truth: the two bookable packages and verified vehicle-size rules.
 const rtPricing = {
     "services": {
         "interior-only": {
@@ -45,20 +45,11 @@ const rtPricing = {
             "factor": 2,
             "adjustment": "2\u00d7 base price"
         }
-    },
-    "specialties": {
-        "deep-clean": {
-            "name": "Deep cleaning / extraction — custom quote",
-            "time": "Quoted after assessment"
-        }
     }
 };
 
 function rtGetService(serviceId) {
-    for (const group of [rtPricing.services, rtPricing.specialties]) {
-        if (Object.hasOwn(group, serviceId)) return group[serviceId];
-    }
-    return null;
+    return Object.hasOwn(rtPricing.services, serviceId) ? rtPricing.services[serviceId] : null;
 }
 
 function rtStartingPrice(serviceId, vehicleId) {
