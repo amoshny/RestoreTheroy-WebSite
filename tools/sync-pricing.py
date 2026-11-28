@@ -10,7 +10,7 @@ parser.add_argument("--check", action="store_true", help="Check for stale prices
 args = parser.parse_args()
 source = (root / "pricing.js").read_text()
 data = json.loads(source.split("const rtPricing = ", 1)[1].split(";\n", 1)[0])
-services = {**data["services"], **data.get("specialties", {})}
+services = data["services"]
 price = re.compile(r'(<(?:strong|span) data-starting-price="([^"]+)">)\$\d+(</(?:strong|span)>)')
 time = re.compile(r'(<span data-service-time="([^"]+)">)[^<]+(</span>)')
 schema = re.compile(r'(<script type="application/ld\+json" data-service-schema="([^"]+)">).*?(</script>)', re.S)
@@ -19,17 +19,19 @@ pages = [str(p.relative_to(root)) for p in sorted(root.rglob('index.html'))]
 for filename in pages:
     page = root / filename
     old = page.read_text()
-    new = price.sub(lambda m: f"{m[1]}${services[m[2]]['base']}{m[3]}" if "base" in services[m[2]] else m[0], old)
-    new = time.sub(lambda m: f"{m[1]}{services[m[2]]['time']}{m[3]}", new)
+    new = price.sub(lambda m: f"{m[1]}${services[m[2]]['base']}{m[3]}" if m[2] in services else m[0], old)
+    new = time.sub(lambda m: f"{m[1]}{services[m[2]]['time']}{m[3]}" if m[2] in services else m[0], new)
 
     def render_schema(match):
+        if match[2] not in services:
+            return match[0]
         service = services[match[2]]
         url = "https://restoretheory.net/" + filename.removesuffix("index.html")
         output = {
             "@context": "https://schema.org",
             "@type": "Service",
             "name": service["name"],
-            "serviceType": {"interior-only": "Mobile interior car detailing", "essential": "Interior and exterior mobile car detailing", "deep-clean": "Deep car cleaning with carpet and upholstery extraction"}[match[2]],
+            "serviceType": {"interior-only": "Mobile interior car detailing", "essential": "Interior and exterior mobile car detailing"}[match[2]],
             "url": url,
             "provider": {"@type": "Organization", "@id": "https://restoretheory.net/#business",
                          "name": "Restore Theory", "url": "https://restoretheory.net/",
