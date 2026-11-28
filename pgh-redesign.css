@@ -56,6 +56,8 @@ body.rt-pgh-site {--pgh-ink:#080b09;--pgh-panel:#0b3d2e;--pgh-line:#004b3b;--pgh
 .rt-pgh-site .rt-pgh-split-after,.rt-pgh-site .rt-pgh-split-before {position:absolute;inset:0;background-image:var(--compare-image);background-repeat:no-repeat;background-size:200% 100%}
 .rt-pgh-site .rt-pgh-split-after {background-position:right center}
 .rt-pgh-site .rt-pgh-split-before {background-position:left center;clip-path:inset(0 calc(100% - var(--compare-position,50%)) 0 0)}
+.rt-pgh-site .rt-pgh-split[data-pair] .rt-pgh-split-after {background-image:var(--compare-after);background-size:cover;background-position:center}
+.rt-pgh-site .rt-pgh-split[data-pair] .rt-pgh-split-before {background-image:var(--compare-before);background-size:cover;background-position:center}
 .rt-pgh-site .rt-pgh-split span {position:absolute;bottom:15px;padding:7px 10px;background:#071008dd;color:#fff;border-radius:999px;letter-spacing:.13em;font-size:10px;font-weight:800;pointer-events:none}
 .rt-pgh-site .rt-pgh-split .rt-pgh-before-label {left:14px}.rt-pgh-site .rt-pgh-split .rt-pgh-after-label {right:14px}
 .rt-pgh-site .rt-pgh-split:focus-visible {outline:3px solid var(--pgh-green);outline-offset:4px}

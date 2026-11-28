@@ -8,15 +8,16 @@ parser.add_argument('--check',action='store_true')
 args=parser.parse_args()
 areas=json.loads((root/'service-areas.json').read_text())
 primary={'poway','mira-mesa','scripps-ranch','rancho-bernardo','rancho-penasquitos'}
+dedicated={'poway':'/mobile-detailing-poway/','mira-mesa':'/mobile-detailing-mira-mesa/'}
 items=[]
 cards=[]
 for area in areas:
     name=escape(area['name'])
     slug=area['slug']
     coordinate=','.join(str(value) for value in area['location'])
-    items.append(f'                    <li data-area="{slug}" data-location="{coordinate}"><a href="/service-areas/#{slug}">{name}</a></li>')
+    items.append(f'                    <li data-area="{slug}" data-location="{coordinate}"><a href="{dedicated.get(slug, "/service-areas/#"+slug)}">{name}</a></li>')
     # Only the five substantive planning guides have their own anchors.
-    target=f'#{slug}' if slug in primary else '/request-a-quote/?area='+slug
+    target=dedicated.get(slug) or (f'#{slug}' if slug in primary else '/request-a-quote/?area='+slug)
     card_id='' if slug in primary else f' id="{slug}"'
     cards.append(f'<a class="rt-area-directory-card"{card_id} href="{target}">{name}<span aria-hidden="true">→</span></a>')
 for path,pattern,replacement in [
