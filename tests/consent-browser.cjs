@@ -9,7 +9,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   await page.goto(base+'/?gclid=TEST_LATE_ONLY&utm_source=google');
   await page.locator('#rt-privacy-choices:not([hidden])').waitFor();
   assert.equal(await page.evaluate(()=>localStorage.getItem('rt.attribution.v1')),null);
-  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width,JSON.stringify(await page.evaluate(()=>[...document.querySelectorAll('body *')].map(e=>({tag:e.tagName,cls:typeof e.className==='string'?e.className.slice(0,70):'',text:e.textContent?.trim().slice(0,30),r:e.getBoundingClientRect()})).filter(x=>x.r.left<320&&x.r.right>320&&x.r.right<700&&x.r.width>0).sort((a,b)=>b.r.right-a.r.right).slice(0,25))));
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width,JSON.stringify(await page.evaluate(()=>({body:{scroll:document.body.scrollWidth,client:document.body.clientWidth},near:[...document.querySelectorAll('body *')].map(e=>({tag:e.tagName,cls:typeof e.className==='string'?e.className.slice(0,70):'',text:e.textContent?.trim().slice(0,30),left:Math.round(e.getBoundingClientRect().left),right:Math.round(e.getBoundingClientRect().right),scroll:e.scrollWidth,client:e.clientWidth,overflow:getComputedStyle(e).overflowX})).filter(x=>(x.right>=390&&x.right<=430)||(x.scroll>=400&&x.client<=320&&x.overflow==='visible')).slice(0,35)}))));
   // Follow an actual ordinary link, without accepting. No link decoration or storage rescue.
   await page.locator('.rt-package a[href="/essential-detail/"]').first().click();
   await page.locator('[data-choice="allow"]').click();
