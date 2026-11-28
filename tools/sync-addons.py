@@ -1,4 +1,4 @@
-"""Render unchanged optional extras inside all four package pages from addons.json."""
+"""Render unchanged optional extras inside all three package pages from addons.json."""
 from pathlib import Path
 from html import escape
 import argparse,json,re
@@ -18,10 +18,10 @@ markup='''<!-- rt:addons:start -->
             </div>
         </section>
 <!-- rt:addons:end -->'''
-for name in ['interior-detailing','essential-detail','deep-clean-protect','full-detail-polish']:
+for name in ['interior-detailing','essential-detail','deep-clean-protect']:
  p=root/name/'index.html';old=p.read_text();new,n=re.subn(r'<!-- rt:addons:start -->.*?<!-- rt:addons:end -->',lambda _:markup,old,flags=re.S)
  assert n==1,name
  if new!=old:
   if args.check:raise SystemExit('Stale optional extras: '+name)
   p.write_text(new)
-print('All four package pages match addons.json; optional extras and prices preserved.')
+print('All three package pages match addons.json; optional extras and prices preserved.')
