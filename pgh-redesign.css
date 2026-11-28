@@ -115,3 +115,19 @@ body.rt-pgh-site {--pgh-ink:#080b09;--pgh-panel:#0b3d2e;--pgh-line:#004b3b;--pgh
 .rt-pgh-site .rt-inline-link:hover,.rt-pgh-site .rt-rating-source:hover,.rt-pgh-site .rt-google-reviews-link:hover,.rt-pgh-site .rt-pgh-compare-caption a:hover {color:#50c878}
 .rt-pgh-site .rt-hero-label,.rt-pgh-site .rt-maintenance-label {color:#fff}
 .rt-pgh-site :is(a,button,summary,[role="slider"]):focus-visible {outline:3px solid #50c878;outline-offset:3px}
+
+/* Owner proof lives with the Tesla hero instead of taking a separate section. */
+.rt-pgh-site .rt-hero-layout {grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+.rt-pgh-site .rt-hero-media {min-width:0;width:100%}
+.rt-pgh-site .rt-hero-visual {max-width:none;width:100%;transform:none}
+.rt-pgh-site .rt-hero-photo {aspect-ratio:4/5;object-fit:cover;object-position:center 66%;transform:scale(1.015)}
+.rt-pgh-site .rt-hero-owner-evidence {margin-top:15px;scroll-margin-top:var(--rt-header-offset,90px)}
+.rt-pgh-site .rt-hero-owner-evidence>p {font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin:0 0 12px;color:#f5f6f3}
+.rt-pgh-site .rt-hero-owner-photos {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rt-pgh-site .rt-hero-owner-photos figure {position:relative;min-width:0;margin:0;overflow:hidden;border-radius:12px;border:1px solid #315948;background:#0b1712}
+.rt-pgh-site .rt-hero-owner-photos img {display:block;width:100%;height:180px;object-fit:cover}
+.rt-pgh-site .rt-hero-owner-photos figure:first-child img {object-position:center 65%}
+.rt-pgh-site .rt-hero-owner-photos figure:last-child img {object-position:center 35%}
+.rt-pgh-site .rt-hero-owner-photos figcaption {position:absolute;inset:auto 0 0;padding:22px 12px 10px;background:linear-gradient(transparent,#071008e8);color:#fff;font-size:11px;font-weight:700}
+@media (max-width:900px){.rt-pgh-site .rt-hero-layout {grid-template-columns:1fr}.rt-pgh-site .rt-hero-owner-photos img {height:clamp(145px,26vw,200px)}}
+@media (max-width:360px){.rt-pgh-site .rt-hero-owner-photos {gap:8px}.rt-pgh-site .rt-hero-owner-photos figcaption {font-size:10px;padding-inline:8px}}
