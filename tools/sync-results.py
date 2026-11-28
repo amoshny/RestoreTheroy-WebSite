@@ -7,7 +7,9 @@ parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--check
 cases=json.loads((root/'results/cases.json').read_text())
 template=(root/'tools/results-template.html').read_text()
 def link(url,label):return f'<a href="{esc(url)}">{esc(label)}</a>'
-def actions(c):return f'<div class="rt-hero-actions"><a class="rt-primary" href="/request-a-quote/?service={c["service"]}">Request a Detail</a><a class="rt-quote-secondary" href="sms:+18588882707">Text Ace</a><a class="rt-quote-secondary" href="tel:8588882707">Call Ace</a></div>'
+def actions(c):
+ query='extra=deep-clean' if c['service']=='deep-clean' else 'service='+c['service']
+ return f'<div class="rt-hero-actions"><a class="rt-primary" href="/request-a-quote/?{query}">Request a Detail</a><a class="rt-quote-secondary" href="sms:+18588882707">Text Ace</a><a class="rt-quote-secondary" href="tel:8588882707">Call Ace</a></div>'
 def render(title,description,path,image,main):
  s=template
  for key,value in {'TITLE':title,'DESCRIPTION':description,'URL':'https://restoretheory.net/'+path,'IMAGE':'https://restoretheory.net'+image}.items():s=s.replace('{{'+key+'}}',esc(value,quote=True))
