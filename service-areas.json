@@ -24,27 +24,11 @@
     ]
   },
   {
-    "name": "Carmel Valley",
-    "slug": "carmel-valley",
-    "location": [
-      32.953,
-      -117.231
-    ]
-  },
-  {
     "name": "Mira Mesa",
     "slug": "mira-mesa",
     "location": [
       32.918,
       -117.139
-    ]
-  },
-  {
-    "name": "Miramar",
-    "slug": "miramar",
-    "location": [
-      32.886,
-      -117.145
     ]
   },
   {
@@ -85,14 +69,6 @@
     "location": [
       32.9,
       -117.102
-    ]
-  },
-  {
-    "name": "Sorrento Valley",
-    "slug": "sorrento-valley",
-    "location": [
-      32.902,
-      -117.207
     ]
   },
   {

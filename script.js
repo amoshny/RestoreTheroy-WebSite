@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         title.textContent = area.name;
         const guide = document.getElementById('rt-area-guide');
         if (guide) {
-            guide.href = '/service-areas/#' + area.slug;
+            guide.href = area.slug === 'poway' ? '/mobile-detailing-poway/' : area.slug === 'mira-mesa' ? '/mobile-detailing-mira-mesa/' : '/service-areas/#' + area.slug;
             guide.hidden = false;
         }
         const message = "Hi Ace, do you have availability for mobile detailing in " + area.name + "? My ZIP code is ";

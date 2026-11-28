@@ -25,11 +25,11 @@ for (const [id, service] of Object.entries(rtPricing.services)) {
     booking.service.add(new Option(service.name + ' · from $' + service.base, id));
 }
 const requestedService = new URLSearchParams(location.search).get('service');
-if (Object.hasOwn(rtPricing.specialties, requestedService)) {
-    const specialty = rtPricing.specialties[requestedService];
-    booking.service.add(new Option(specialty.name + (Number.isFinite(specialty.base) ? ' · from $' + specialty.base : ''), requestedService));
+if (Object.hasOwn(rtPricing.services, requestedService)) booking.service.value = requestedService;
+if (requestedService === 'deep-clean') {
+    booking.service.value = 'interior-only';
+    booking.notes.value = 'Please quote deep cleaning or extraction as an extra treatment.';
 }
-if (rtGetService(requestedService)) booking.service.value = requestedService;
 // Keep the neighborhood selected in the area hub without adding another required field.
 let requestedAreaName = '';
 const requestedArea = new URLSearchParams(location.search).get('area');

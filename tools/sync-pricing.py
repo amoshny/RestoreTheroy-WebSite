@@ -29,7 +29,7 @@ for filename in pages:
             "@context": "https://schema.org",
             "@type": "Service",
             "name": service["name"],
-            "serviceType": {"interior-only": "Mobile interior car detailing", "essential": "Interior and exterior mobile car detailing", "deep-clean": "Deep car cleaning with carpet and upholstery extraction", "full-detail-polish": "Full interior and exterior detail with one-step machine polish"}[match[2]],
+            "serviceType": {"interior-only": "Mobile interior car detailing", "essential": "Interior and exterior mobile car detailing", "deep-clean": "Deep car cleaning with carpet and upholstery extraction"}[match[2]],
             "url": url,
             "provider": {"@type": "Organization", "@id": "https://restoretheory.net/#business",
                          "name": "Restore Theory", "url": "https://restoretheory.net/",

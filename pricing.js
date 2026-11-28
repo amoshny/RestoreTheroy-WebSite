@@ -50,11 +50,6 @@ const rtPricing = {
         "deep-clean": {
             "name": "Deep cleaning / extraction — custom quote",
             "time": "Quoted after assessment"
-        },
-        "full-detail-polish": {
-            "name": "Full Detail + Polish",
-            "base": 289,
-            "time": "3.5 hours"
         }
     }
 };

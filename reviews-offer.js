@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards = [...track.querySelectorAll('.review-card')];
     const controls = document.querySelector('.rt-saved-reviews-controls');
     const mobile = matchMedia('(max-width: 700px)');
+    const tablet = matchMedia('(max-width: 900px)');
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
     const readButtons = cards.map(card => card.querySelector('.rt-review-read-more'));
     track.classList.add('rt-reviews-enhanced');
@@ -12,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const reviewCount = document.getElementById('rt-saved-review-count');
     const previous = controls.querySelector('[data-review-direction="-1"]');
     const next = controls.querySelector('[data-review-direction="1"]');
-    const visibleCount = () => mobile.matches ? 1 : 2;
+    const visibleCount = () => mobile.matches ? 1 : tablet.matches ? 2 : 3;
     const lastIndex = () => Math.max(0, cards.length - visibleCount());
     const stride = () => cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth;
     const currentIndex = () => Math.max(0, Math.min(lastIndex(), Math.round(track.scrollLeft / (stride() || 1))));
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateReviews();
     }
     mobile.addEventListener('change', syncReviewLayout);
+    tablet.addEventListener('change', syncReviewLayout);
     readButtons.forEach((button, i) => {
         const excerpt = cards[i].querySelector('.rt-review-excerpt');
         const original = cards[i].querySelector('.rt-review-original');
@@ -69,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const fallback = document.getElementById('rt-reviews-fallback');
         const savedRating = document.getElementById('rt-saved-review-rating');
         const syncWidgetLayout = () => {
-            const showWidget = !mobile.matches && slot.dataset.state === 'ready';
+            const showWidget = slot.dataset.state === 'ready';
             slot.hidden = !showWidget;
             fallback.hidden = showWidget;
             savedRating.hidden = showWidget;
@@ -78,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (slot.dataset.state !== 'loading') syncWidgetLayout();
         });
         new IntersectionObserver((entries, observer) => {
-            if (mobile.matches || !entries.some(entry => entry.isIntersecting)) return;
+            if (!entries.some(entry => entry.isIntersecting)) return;
             observer.disconnect();
             slot.hidden = false;
             slot.dataset.state = 'loading';
