@@ -11,7 +11,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict');
   assert.equal(await page.evaluate(()=>localStorage.getItem('rt.attribution.v1')),null);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
   // Follow an actual ordinary link, without accepting. No link decoration or storage rescue.
-  await page.locator('.rt-care-paths a[href="/essential-detail/"]').click();
+  await page.locator('.rt-package a[href="/essential-detail/"]').first().click();
   await page.locator('[data-choice="allow"]').click();
   assert.equal(await page.evaluate(()=>rtLeadTracking.canMeasure()),true);
   assert.equal(await page.evaluate(()=>localStorage.getItem('rt.attribution.v1')),null);
